@@ -49,39 +49,64 @@ class Plot:
         plt.ioff()
 
         # Extract axis labels
-        self.axes_labels = args.get("axes_labels", self.set_defaults("axes_labels"))
+        self.axes_labels = {
+            **self.set_defaults("axes_labels"),
+            **args.get("axes_labels", {}),
+        }
 
         # Extract Export Args
-        self.export_args = args.get("export_args", self.set_defaults("export"))
+        self.export_args = {**self.set_defaults("export"), **args.get("export_args", {})}
 
         # Extract Generic Plot Args
-        self.gen_plot_args = args.get("gen_plot_args", self.set_defaults("gen_plot"))
+        self.gen_plot_args = {
+            **self.set_defaults("gen_plot"),
+            **args.get("gen_plot_args", {}),
+        }
 
         # Extract boxplot Args
-        self.boxplot_args = args.get("boxplot_args", self.set_defaults("boxplots"))
+        self.boxplot_args = {
+            **self.set_defaults("boxplots"),
+            **args.get("boxplot_args", {}),
+        }
 
         # Extract CDF Args
-        self.cdf_args = args.get("cdf_args", self.set_defaults("cdf"))
+        self.cdf_args = {**self.set_defaults("cdf"), **args.get("cdf_args", {})}
 
         # Extract Density Plot Args
-        self.density_args = args.get("density_args", self.set_defaults("density"))
+        self.density_args = {
+            **self.set_defaults("density"),
+            **args.get("density_args", {}),
+        }
+        args.get("density_args", self.set_defaults("density"))
 
         # Extract Histogram Args
-        self.hist_args = args.get("hist_args", self.set_defaults("histogram"))
+        self.hist_args = {
+            **self.set_defaults("histogram"),
+            **args.get("histogram_args", {}),
+        }
 
         # Extract Timeseries Args
-        self.timeseries_args = args.get(
-            "timeseries_args", self.set_defaults("timeseries")
-        )
-
+        self.timeseries_args = {
+            **self.set_defaults("timeseries"),
+            **args.get("timeseries_args", {}),
+        }
         # Extract Probability Plot Args
-        self.prob_plot_args = args.get("prob_plot_args", self.set_defaults("prob_plot"))
+        self.prob_plot_args = {
+            **self.set_defaults("prob_plot"),
+            **args.get("prob_plot_args", {}),
+        }
 
         # Extract Normal CDF Args
-        self.norm_cdf_args = args.get("norm_cdf_args", self.set_defaults("norm_cdf"))
+        self.norm_cdf_args = {
+            **self.set_defaults("norm_cdf"),
+            **args.get("norm_cdf_args", {}),
+        }
 
         # Extract Contour Plot Args
-        self.contour_args = args.get("contour_args", self.set_defaults("contour"))
+        self.contour_args = {
+            **self.set_defaults("contour"),
+            **args.get("contour_args", {}),
+        }
 
     def set_defaults(self, field):
         """Set Plot Class optional fields defaults

@@ -107,6 +107,25 @@ class TestPlotting(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.plot.plot_contour_plot()
 
+    def test_default(self):
+        """Test that the default plot is created correctly."""
+        # Test that the default plot is created correctly
+        gen_args = {"color": "pink"}
+        args = {
+            "ax": self.ax,
+            "fig": self.fig,
+            "data": self.data,
+            "gen_plot_args": gen_args,
+        }
+        plot_two = Plot(args)
+        expect = {"color": "pink", "linestyle": "solid"}
+        self.assertEqual(plot_two.gen_plot_args, expect)
+
+        # Test that the customs are updated correctly
+        plot_two.update_defaults("gen_plot", {"color": "blue"})
+        expect = {"color": "blue", "linestyle": "solid"}
+        self.assertEqual(plot_two.gen_plot_args, expect)
+
 
 if __name__ == "__main__":
     unittest.main()
