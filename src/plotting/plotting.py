@@ -43,7 +43,7 @@ class Plot:
         self.ax = args.get("ax")
         self.fig = args.get("fig")
 
-        self.util = PlottingUtilities()
+        self.util = PlotUtilities()
 
         # Turn off interactive mode
         plt.ioff()
@@ -169,7 +169,12 @@ class Plot:
 
     def generic_plot(self) -> None:
         """Generic Plot"""
+        # Check if the data is 1D or 2D
         if isinstance(self.data[0], (list, np.ndarray)):
+            # Check that both x and y data are present and of equal length
+            assert len(self.data) == 2, "Data must contain both x and y list"
+            assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
+
             self.ax.plot(
                 self.data[0],
                 self.data[1],
@@ -354,6 +359,11 @@ class Plot:
         """Plot a contour plot"""
         func = self.ax.contourf if self.contour_args["filled"] else self.ax.contour
 
+        assert len(self.data) == 3, "Contour plot requires 3 datasets"
+
+        for data_ in self.data:
+            assert data_.ndim == 2, "Data must be a 2D numpy array"
+
         CS = func(
             self.data[0],
             self.data[1],
@@ -478,7 +488,11 @@ class Multiplots(Plot):
                 self.update_defaults(plot_name, overlay[3])
 
                 # Plot the graph
-                self.graphs[plot_name]()
+                try:
+                    self.graphs[plot_name]()
+                except Exception:
+                    self.clear_axis()
+                    raise
 
         # Add super titles
         self.fig.suptitle(self.super_title)
@@ -513,7 +527,7 @@ class Multiplots(Plot):
                 return row, col
 
 
-class PlottingUtilities:
+class PlotUtilities:
     """Class containing auxillary utility functions for plotting.
 
     **Usage**
