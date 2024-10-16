@@ -1,4 +1,17 @@
-"""Test the plotting module."""
+"""Test plotting module.
+
+:author: C.O. Mbengue [#]_,
+    A.M.E. Popo [#]_
+
+:organization: Elizabeth Consulting International Inc. [#]_
+
+.. [#] Cheikh Oumar Mbengue, Research Scientist, cmbengue@ec-intl.com
+.. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
+.. [#] Elizabeth Consulting International Inc. (ECI) is a private company that
+    specializes in the development of decision support systems for the
+    private sector. ECI is based in St. Lucia, West Indies.
+
+"""
 
 import unittest
 
