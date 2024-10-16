@@ -14,7 +14,7 @@ setup(
     ),
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/ec-intl/plotting,
+    url="https://github.com/ec-intl/plotting",
     project_urls={
         "Homepage": "https://github.com/ec-intl/plotting",
         "Issues": "https://github.com/ec-intl/plotting/issues",
