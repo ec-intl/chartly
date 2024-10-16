@@ -9,9 +9,7 @@ setup(
     version=version,
     author="Elizabeth Consulting International Inc.",
     author_email="info@ec-intl.com",
-    description=(
-        "A Python package for plotting multiple plots."
-    ),
+    description=("A Python package for plotting multiple plots."),
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/ec-intl/plotting",

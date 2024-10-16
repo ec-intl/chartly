@@ -55,7 +55,10 @@ class Plot:
         }
 
         # Extract Export Args
-        self.export_args = {**self.set_defaults("export"), **args.get("export_args", {})}
+        self.export_args = {
+            **self.set_defaults("export"),
+            **args.get("export_args", {}),
+        }
 
         # Extract Generic Plot Args
         self.gen_plot_args = {
