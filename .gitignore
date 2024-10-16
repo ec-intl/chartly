@@ -148,6 +148,15 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+docs/.buildinfo
+docs/.doctrees/api.doctree
+docs/.doctrees/environment.pickle
+docs/.doctrees/generated/compute.doctree
+docs/.doctrees/generated/data_formatter.doctree
+docs/.doctrees/generated/downloader.doctree
+docs/.doctrees/generated/wedapp_utilities.doctree
+docs/.doctrees/index.doctree
+docs/.doctrees/usage.doctree
 
 # pytype static type analyzer
 .pytype/

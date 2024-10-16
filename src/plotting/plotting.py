@@ -35,25 +35,26 @@ class Plot:
     :param dict args: the master dictionary containing both optional
         and required fields
 
-    *Required Keys*
-    - ax: an axis to plot the data
-    - fig: the figure that the axis is on
-    - data: a data list, or a list of data lists
+    Required Keys
+        - ax: an axis to plot the data
+        - fig: the figure that the axis is on
+        - data: a data list, or a list of data lists
 
-    *Optional Keys*
-    - axes_labels: the axes labels
-    - boxplot_args: the optional customizations for a boxplot
-    - cdf_args: the optional customizations for a cdf plot
-    - hist_args: the optional customizations for a histogram
-    - timeseries_args: the optional customizations for a timeseries plot
-    - prob_plot_args: the optional customizations for a probability plot
-    - gen_plot_args: the optional customizations for a generic plot
-    - norm_cdf_args: the optional customizations for a normal cdf plot
-    - contour_args: the optional customizations for a contour plot
-    - density_args: the optional customizations for a density plot
-    - export_args: the optional customizations for exporting the plot to a file
+    Optional Keys
+        - axes_labels: the axes labels
+        - boxplot_args: the optional customizations for a boxplot
+        - cdf_args: the optional customizations for a cdf plot
+        - hist_args: the optional customizations for a histogram
+        - timeseries_args: the optional customizations for a timeseries plot
+        - prob_plot_args: the optional customizations for a probability plot
+        - gen_plot_args: the optional customizations for a generic plot
+        - norm_cdf_args: the optional customizations for a normal cdf plot
+        - contour_args: the optional customizations for a contour plot
+        - density_args: the optional customizations for a density plot
+        - export_args: the optional customizations for exporting the plot to a file
 
     **Examples**
+
     >>> fig, ax = plt.subplots()
     >>> data = [1, 2, 3, 4, 5]
     >>> args = {"ax": ax, "fig": fig, "data": data}
@@ -205,14 +206,14 @@ class Plot:
         """Label the axes of a graph. This method uses the axes_labels dict.
         There are no required keys for this dict.
 
-        *Optional Keys*
-        - xlabel: the x-axis label, default is " "
-        - ylabel: the y-axis label, default is " "
-        - title: the title of the graph, default is " "
-        - linelabel: the label for the line, default is " "
-        - show_legend: whether to show the legend or not, default is True
-        - scale: the scale of the axes, default is "linear"
-        - base: the base of the axes, default is 10
+        Optional Keys
+            - xlabel: the x-axis label, default is " "
+            - ylabel: the y-axis label, default is " "
+            - title: the title of the graph, default is " "
+            - linelabel: the label for the line, default is " "
+            - show_legend: whether to show the legend or not, default is True
+            - scale: the scale of the axes, default is "linear"
+            - base: the base of the axes, default is 10
 
         """
         self.ax.set_title(self.axes_labels["title"])
@@ -232,9 +233,9 @@ class Plot:
         """Plot a generic plot using y and/or x. This method uses the
         gen_plot_args dict. There are no required keys for this dict.
 
-        *Optional Keys*
-        - color: the color of the line, default is "navy"
-        - linestyle: the style of the line, default is "solid"
+        Optional Keys
+            - color: the color of the line, default is "navy"
+            - linestyle: the style of the line, default is "solid"
         """
         # Check if the data is 1D or 2D
         if isinstance(self.data[0], (list, np.ndarray)):
@@ -264,9 +265,9 @@ class Plot:
         """Export the current figure to a file. This method uses the export_args dict.
         There are no required keys for this dict.
 
-        *Optional Keys*
-        - format: the format of the exported file, default is "eps"
-        - fname: the name of the exported file, default is "plot.eps"
+        Optional Keys
+            - format: the format of the exported file, default is "eps"
+            - fname: the name of the exported file, default is "plot.eps"
         """
 
         self.fig.savefig(
@@ -296,10 +297,10 @@ class Plot:
         """Plot the density plot of a dataset using kernel density estimation. This
         method uses the density_args dict. There are no required keys for this dict.
 
-        *Optional Keys*
-        - color: the color of the density plot, default is "red"
-        - fill: whether to fill the density plot, default is False
-        - label: the label of the density plot, default is " "
+        Optional Keys:
+            - color: the color of the density plot, default is "red"
+            - fill: whether to fill the density plot, default is False
+            - label: the label of the density plot, default is " "
         """
         # Plot a density plot
         sns.kdeplot(
@@ -315,8 +316,8 @@ class Plot:
         """Plot Box Plots. This method uses the boxplot_args dict. There are no
         required keys for this dict.
 
-        *Optional Keys*
-        - showfliers: whether to show the outliers, default is True
+        Optional Keys:
+            - showfliers: whether to show the outliers, default is True
         """
 
         self.ax.boxplot(
@@ -336,10 +337,10 @@ class Plot:
         """Plot a histogram. This method uses the hist_args dict. There are no
         required keys for this dict.
 
-        *Optional Keys*
-        - num_bins: the number of bins in the histogram, default is 20
-        - color: the color of the histogram, default is "plum"
-        - ran: the range of the histogram, default is None
+        Optional Keys:
+            - num_bins: the number of bins in the histogram, default is 20
+            - color: the color of the histogram, default is "plum"
+            - ran: the range of the histogram, default is None
         """
         self.ax.hist(
             self.data,
@@ -356,9 +357,9 @@ class Plot:
         """Plot a timeseries. This method uses the timeseries_args dict. There are no
         required keys for this dict.
 
-        *Optional Keys*
-        - linestyle: the style of the line, default is "solid"
-        - color: the color of the line, default is "black"
+        Optional Keys:
+            - linestyle: the style of the line, default is "solid"
+            - color: the color of the line, default is "black"
         """
         self.ax.plot(
             self.data,
@@ -373,8 +374,8 @@ class Plot:
         """Plot a probability plot. This method uses the prob_plot_args dict. There are no
         required keys for this dict.
 
-        *Optional Keys*
-        - color: the color of the plot, default is "orangered"
+        Optional Keys:
+            - color: the color of the plot, default is "orangered"
         """
         # Extract Fields
         sample_data = self.data
@@ -467,11 +468,11 @@ class Plot:
         required keys for this dict. Please note that the data must be a list of
         2D numpy arrays.
 
-        *Optional Keys*
-        - filled: whether to fill the contour plot, default is False
-        - colors: the color of the contour plot, default is "k"
-        - inline: whether to show the inline labels, default is True
-        - fsize: the font size of the labels, default is 9
+        Optional Keys:
+            - filled: whether to fill the contour plot, default is False
+            - colors: the color of the contour plot, default is "k"
+            - inline: whether to show the inline labels, default is True
+            - fsize: the font size of the labels, default is 9
         """
         func = self.ax.contourf if self.contour_args["filled"] else self.ax.contour
 
@@ -498,13 +499,14 @@ class Multiplots(Plot):
 
     :param dict args: the master dictionary containing the required fields.
 
-    *Required Keys*
-    - super_title: the title of the main figure
-    - super_xlabel: the x-axis label of the main figure
-    - super_ylabel: the y-axis label of the main figure
-    - share_axes: whether to share the axes of the subplots
+    Required Keys:
+        - super_title: the title of the main figure
+        - super_xlabel: the x-axis label of the main figure
+        - super_ylabel: the y-axis label of the main figure
+        - share_axes: whether to share the axes of the subplots
 
     **Example**
+
     >>> args = {
     ...     "super_title": "Test Title",
     ...     "super_xlabel": "Test X Label",
@@ -553,12 +555,12 @@ class Multiplots(Plot):
 
         :param dict overlay_args: Master dictionary of all inputs
 
-        *Required Keys*
-        - plot: The graph name.
-        - data: The data to plot onto the graph
-        - axes_labels: The axes labels
+        Required Keys:
+            - plot: The graph name.
+            - data: The data to plot onto the graph
+            - axes_labels: The axes labels
 
-        *Optional Keys*
+        *Optional Keys*:
         customs: The plot's customization.
         """
         plot = overlay_args.get("plot")
@@ -581,8 +583,9 @@ class Multiplots(Plot):
 
     def __call__(self):
         """Build the main figure, label its axes and display the result.
-  
+
         **Usage**
+
         >>> args = {
         ...     "super_title": "Test Title",
         ...     "super_xlabel": "Test X Label",
@@ -675,6 +678,7 @@ class PlotUtilities:
     """Class containing auxillary utility functions for plotting.
 
     **Usage**
+
     >>> util = PlottingUtilities()
     """
 
