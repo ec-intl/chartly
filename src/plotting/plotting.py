@@ -7,8 +7,6 @@ import numpy as np
 import seaborn as sns
 from scipy.stats import norm
 
-from ..datafiller import utilities as util
-
 color_list = ["slateblue", "lightpink", "skyblue", "plum", "mediumvioletred"]
 
 
@@ -45,6 +43,8 @@ class Plot:
         self.ax = args.get("ax")
         self.fig = args.get("fig")
 
+        self.util = PlottingUtilities()
+
         # Turn off interactive mode
         plt.ioff()
 
@@ -53,6 +53,9 @@ class Plot:
 
         # Extract Export Args
         self.export_args = args.get("export_args", self.set_defaults("export"))
+
+        # Extract Generic Plot Args
+        self.gen_plot_args = args.get("gen_plot_args", self.set_defaults("gen_plot"))
 
         # Extract boxplot Args
         self.boxplot_args = args.get("boxplot_args", self.set_defaults("boxplots"))
@@ -77,6 +80,9 @@ class Plot:
         # Extract Normal CDF Args
         self.norm_cdf_args = args.get("norm_cdf_args", self.set_defaults("norm_cdf"))
 
+        # Extract Contour Plot Args
+        self.contour_args = args.get("contour_args", self.set_defaults("contour"))
+
     def set_defaults(self, field):
         """Set Plot Class optional fields defaults
 
@@ -91,6 +97,14 @@ class Plot:
             "linelabel": " ",
             "boxlabel": " ",
             "show_legend": True,
+            "scale": "linear",
+            "base": 10,
+        }
+        def_contour = {
+            "filled": False,
+            "colors": "k",
+            "inline": True,
+            "fsize": 9,
         }
 
         defaults = {
@@ -102,7 +116,9 @@ class Plot:
             "timeseries": {"linestyle": "solid", "color": "black"},
             "boxplots": {"showfliers": True},
             "prob_plot": {"color": "orangered"},
+            "gen_plot": {"color": "navy", "linestyle": "solid"},
             "norm_cdf": {"add_datasets": []},
+            "contour": def_contour,
         }
         return defaults[field]
 
@@ -123,7 +139,9 @@ class Plot:
             "timeseries": self.timeseries_args,
             "boxplots": self.boxplot_args,
             "prob_plot": self.prob_plot_args,
+            "gen_plot": self.gen_plot_args,
             "norm_cdf": self.norm_cdf_args,
+            "contour": self.contour_args,
         }
 
         defaults[field].update(new_values)
@@ -139,8 +157,36 @@ class Plot:
         self.ax.set_title(self.axes_labels["title"])
         self.ax.set_xlabel(self.axes_labels["xlabel"])
         self.ax.set_ylabel(self.axes_labels["ylabel"])
+
+        if self.axes_labels["scale"] in "semilogy loglog":
+            plt.yscale("log", base=self.axes_labels["base"])
+
+        if self.axes_labels["scale"] in "semilogx loglog":
+            plt.xscale("log", base=self.axes_labels["base"])
+
         if self.axes_labels["show_legend"]:
             self.ax.legend()
+
+    def generic_plot(self) -> None:
+        """Generic Plot"""
+        if isinstance(self.data[0], (list, np.ndarray)):
+            self.ax.plot(
+                self.data[0],
+                self.data[1],
+                color=self.gen_plot_args["color"],
+                linewidth=1.5,
+                linestyle=self.gen_plot_args["linestyle"],
+                label=self.axes_labels["linelabel"],
+            )
+        else:
+            self.ax.plot(
+                self.data,
+                color=self.gen_plot_args["color"],
+                linewidth=1.5,
+                linestyle=self.gen_plot_args["linestyle"],
+                label=self.axes_labels["linelabel"],
+            )
+        self.label_axes()
 
     def export_plot_to_file(self):
         """Export the current figure to a file."""
@@ -159,8 +205,6 @@ class Plot:
         x = np.sort(self.data)
         y = np.cumsum(x) / np.sum(x)
 
-        if self.cdf_args["logxscale"]:
-            plt.xscale("log")
         self.ax.plot(x, y, linewidth=1.5, label=self.axes_labels["linelabel"])
 
         for hline in (0.1, 0.5, 0.9):
@@ -266,11 +310,13 @@ class Plot:
     def plot_normal_cdf(self):
         """Plot a standard normal distribution CDF against the CDF
         of other datasets."""
+        data_list = (
+            self.data if isinstance(self.data[0], (list, np.ndarray)) else [self.data]
+        )
 
-        data_list = [self.data] + self.norm_cdf_args["add_datasets"]
         for idx, data in enumerate(data_list):
             # Standardize the data
-            x = np.sort(util.standardize_dataset(data))
+            x = np.sort(self.util.standardize_dataset(data))
             n = len(x)
 
             # Find the percentiles
@@ -281,7 +327,7 @@ class Plot:
                 x,
                 pctls,
                 linewidth=1.5,
-                linestyle="dashed",
+                linestyle="solid",
                 label=f"Sample Dataset {idx + 1} CDF",
             )
 
@@ -292,9 +338,32 @@ class Plot:
         p_vals = [norm.cdf(z_) for z_ in z]
 
         # Plot Stanfard Normal CDF
-        self.ax.plot(z, p_vals, linewidth=1.5, label="Standard Normal CDF", color="red")
+        self.ax.plot(
+            z,
+            p_vals,
+            linewidth=1.5,
+            linestyle="dashed",
+            label="Standard Normal CDF",
+            color="red",
+        )
 
         # label the axes
+        self.label_axes()
+
+    def plot_contour_plot(self):
+        """Plot a contour plot"""
+        func = self.ax.contourf if self.contour_args["filled"] else self.ax.contour
+
+        CS = func(
+            self.data[0],
+            self.data[1],
+            self.data[2],
+            colors=self.contour_args["colors"],
+        )
+        self.ax.clabel(
+            CS, fontsize=self.contour_args["fsize"], inline=self.contour_args["inline"]
+        )
+        self.axes_labels["show_legend"] = False
         self.label_axes()
 
 
@@ -305,11 +374,17 @@ class Multiplots(Plot):
     >>> multiplot = Multiplots()
     """
 
-    def __init__(self):
+    def __init__(self, args):
         """Initialize multiplot class."""
         # Initialize the Plot Class
-        self.fig, ax = plt.subplots()
-        super().__init__({"ax": "ax", "data": [], "fig": self.fig})
+        super().__init__({"ax": "ax", "data": [], "fig": "fig"})
+
+        # Extract Graph labels
+        self.super_title = args.get("super_title", " ")
+        self.super_xlabel = args.get("super_xlabel", " ")
+        self.super_ylabel = args.get("super_ylabel", " ")
+
+        self.share_axes = args.get("share_axes", True)
 
         # Turn off interactive mode
         plt.ioff()
@@ -320,53 +395,50 @@ class Multiplots(Plot):
         # Define the various graphing functions
         self.graphs = {
             "cdf": self.plot_cdf,
+            "density": self.plot_density,
             "histogram": self.plot_histogram,
             "timeseries": self.plot_timeseries,
             "boxplots": self.plot_box_plots,
+            "prob_plot": self.plot_probability_plot,
+            "gen_plot": self.generic_plot,
+            "contour": self.plot_contour_plot,
         }
 
         self.subplots = []
+        self.current_subplot = []
 
-    def overlay(self, plot: str, data: list, axes_labels: dict, kwargs: dict = {}):
-        """Create new subplot and overlay many data sets
+    def overlay(self, overlay_args):
+        """Overlay new plot onto subplot.
 
-        :param str plot: The graph name. Either histogram, timeseries, boxplot or cdf
-        :param list data: A list of all datasets
-        :praam dict axes_labels: a dictionary containing all the axis labels
-        :param dict kwargs: Optional. The kwargs for the plots. Defaults to empty dict.
+        :param dict overlay_args: Master dictionary of all inputs
 
-        **Examples**
+        **Required Keys**
+        - plot: The graph name.
+        - data: The data to plot onto the graph
+        - axes_labels: The axes labels
 
-        >>> dataset_one = [83, 72, 75, 88, 81, 89, 74, 87, 76, 80]
-        >>> dataset_two = [71, 78, 82, 86, 79, 90, 85, 73, 77, 84]
-        >>> data = [dataset_one, dataset_two]
-        >>> axes_labels = {
-        ...     "xlabel": "xlabel",
-        ...     "ylabel":  "ylabel",
-        ...     "title": "Box Plot Title",
-        ...     "boxlabel": ["boxlabel1", "boxlabel2"],
-        ... }
-        >>> overlay("boxplot", data, axes_labels)
+        **Optional Keys**
+        customs: The plot's customization.
         """
-        subplots = []
-        # If plot is box plot, pass all the data
-        if plot == "boxplots":
-            subplots.append([plot, data, axes_labels, kwargs])
-        # If plot is not box plot, pass overlays one by one
-        else:
-            for idx, dta in enumerate(data):
-                axislabels = {
-                    axes_label: axes_labels[axes_label][idx]
-                    for axes_label in axes_labels
-                }
-                kwargs_ = {kwarg: kwargs[kwarg][idx] for kwarg in kwargs}
-                subplots.append([plot, dta, axislabels, kwargs_])
-        self.subplots.append(subplots)
+        plot = overlay_args.get("plot")
+        data = overlay_args.get("data")
+        axes_labels = overlay_args.get("axes_labels")
+        customs = overlay_args.get("customs", {})
 
+        self.current_subplot.append([plot, data, axes_labels, customs])
+
+    def new_subplot(self):
+        """Create new subplot with current overlays"""
         # Increment the number of subplots already plotted
         self.subplot_count += 1
+        if len(self.current_subplot) > 0:
+            # Add all current overlays to a subplot
+            self.subplots.append(self.current_subplot)
 
-    def build(self, super_axes_labels):
+        # Reset current subplot
+        self.current_subplot = []
+
+    def __call__(self):
         """Build the main figure, label its axes and display the result.
 
         :param dict super_axes_labels: dict of all the main figure's labels
@@ -375,6 +447,11 @@ class Multiplots(Plot):
         - xlabel
         - ylabel
         """
+        # Collect and Store remaining overlays
+        self.subplots.append(self.current_subplot)
+        # reset current overlay
+        self.current_subplot = []
+
         # Set Up the Figure and Num of Rows and Columns
         self.fig = plt.figure(figsize=(20, 8))
         rows, cols = self.tiling(self.subplot_count)
@@ -386,7 +463,10 @@ class Multiplots(Plot):
                 ax = self.fig.add_subplot(rows, cols, idx + 1)
                 ax1 = ax
             else:
-                ax = self.fig.add_subplot(rows, cols, idx + 1, sharey=ax1)
+                if self.share_axes:
+                    ax = self.fig.add_subplot(rows, cols, idx + 1, sharey=ax1)
+                else:
+                    ax = self.fig.add_subplot(rows, cols, idx + 1)
             for overlay in subplot:
                 plot_name = overlay[0]
                 self.ax, self.data = ax, overlay[1]
@@ -401,9 +481,9 @@ class Multiplots(Plot):
                 self.graphs[plot_name]()
 
         # Add super titles
-        self.fig.suptitle(super_axes_labels["title"])
-        self.fig.supxlabel(super_axes_labels["xlabel"])
-        self.fig.supylabel(super_axes_labels["ylabel"])
+        self.fig.suptitle(self.super_title)
+        self.fig.supxlabel(self.super_xlabel)
+        self.fig.supylabel(self.super_ylabel)
         self.fig.tight_layout()
         plt.show()
 
@@ -431,3 +511,28 @@ class Multiplots(Plot):
                 del_row = (col**2 - num) // col
                 row = col - del_row
                 return row, col
+
+
+class PlottingUtilities:
+    """Class containing auxillary utility functions for plotting.
+
+    **Usage**
+    >>> util = PlottingUtilities()
+    """
+
+    def standardize_dataset(self, data: list) -> np.ndarray:
+        """Standardize a dataset.
+
+        :param list data: the data list
+        :return: standardized data
+        :rtype: ndarray
+        """
+        # Convert the Data Into an array
+        data = np.array(data)
+
+        # Find the stats on the data
+        mu = np.mean(data)
+        sigma = np.std(data)
+
+        # Return the standardized data
+        return (data - mu) / sigma
