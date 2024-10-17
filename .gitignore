@@ -71,6 +71,9 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/_sources/
+docs/_static/
+docs/autoapi/
 
 # PyBuilder
 .pybuilder/
@@ -149,6 +152,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 docs/.buildinfo
+docs/.doctrees/autoapi
 docs/.doctrees/api.doctree
 docs/.doctrees/environment.pickle
 docs/.doctrees/generated/compute.doctree

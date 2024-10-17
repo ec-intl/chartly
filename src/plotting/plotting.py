@@ -166,7 +166,7 @@ class Plot:
         defaults = {
             "axes_labels": def_axes_labels,
             "export": {"format": "eps", "fname": "plot.eps"},
-            "cdf": {},
+            "cdf": {"color": "dogerblue"},
             "density": {"color": "red", "fill": False, "label": " "},
             "histogram": {"num_bins": 20, "color": "plum", "ran": None},
             "timeseries": {"linestyle": "solid", "color": "black"},
@@ -229,6 +229,23 @@ class Plot:
         if self.axes_labels["show_legend"]:
             self.ax.legend()
 
+    def export_plot_to_file(self):
+        """Export the current figure to a file. This method uses the export_args dict.
+        There are no required keys for this dict.
+
+        Optional Keys
+            - format: the format of the exported file, default is "eps"
+            - fname: the name of the exported file, default is "plot.eps"
+        """
+
+        self.fig.savefig(
+            self.export_args["fname"],
+            format=self.export_args["format"],
+            bbox_inches="tight",
+            pad_inches=1,
+            orientation="portrait",
+        )
+
     def generic_plot(self) -> None:
         """Plot a generic plot using y and/or x. This method uses the
         gen_plot_args dict. There are no required keys for this dict.
@@ -261,23 +278,6 @@ class Plot:
             )
         self.label_axes()
 
-    def export_plot_to_file(self):
-        """Export the current figure to a file. This method uses the export_args dict.
-        There are no required keys for this dict.
-
-        Optional Keys
-            - format: the format of the exported file, default is "eps"
-            - fname: the name of the exported file, default is "plot.eps"
-        """
-
-        self.fig.savefig(
-            self.export_args["fname"],
-            format=self.export_args["format"],
-            bbox_inches="tight",
-            pad_inches=1,
-            orientation="portrait",
-        )
-
     def plot_cdf(self) -> None:
         """Plot CDF of a dataset. This method uses the cdf_args dict. There are
         no required keys for this dict.
@@ -286,7 +286,7 @@ class Plot:
         x = np.sort(self.data)
         y = np.cumsum(x) / np.sum(x)
 
-        self.ax.plot(x, y, linewidth=1.5, label=self.axes_labels["linelabel"])
+        self.ax.plot(x, y, linewidth=1.5, label=self.axes_labels["linelabel"], color=self.cdf_args["color"])
 
         for hline in (0.1, 0.5, 0.9):
             self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
@@ -404,15 +404,17 @@ class Plot:
         )
 
         # Plot Solid Line
-        plt.axline((0, mu), slope=sigma, color="black", linewidth=1)
+        plt.axline(
+            (0, mu),
+            slope=sigma,
+            color="black",
+            linewidth=1, 
+            label=f"slope={mu:.2f}, y-intercept={sigma:.2f}",
+        )
 
         # Create Axes Labels
         self.axes_labels.update(
-            {
-                "xlabel": "z percentile",
-                "ylabel": "Observations",
-                "show_legend": False,
-            }
+            {"xlabel": "z percentile", "ylabel": "Observations"}
         )
 
         # label the axes
@@ -463,7 +465,7 @@ class Plot:
         # label the axes
         self.label_axes()
 
-    def plot_contour_plot(self):
+    def plot_contour(self):
         """Plot a contour plot. This method uses the contour_args dict. There are no
         required keys for this dict. Please note that the data must be a list of
         2D numpy arrays.
@@ -544,7 +546,8 @@ class Multiplots(Plot):
             "boxplots": self.plot_box_plots,
             "prob_plot": self.plot_probability_plot,
             "gen_plot": self.generic_plot,
-            "contour": self.plot_contour_plot,
+            "contour": self.plot_contour,
+            "norm_cdf": self.plot_normal_cdf,
         }
 
         self.subplots = []
@@ -644,6 +647,7 @@ class Multiplots(Plot):
         self.fig.supxlabel(self.super_xlabel)
         self.fig.supylabel(self.super_ylabel)
         self.fig.tight_layout()
+        plt.savefig("same_overlay_eg.jpg")
         plt.show()
 
         # Reset Canvas

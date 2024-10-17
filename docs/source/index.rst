@@ -3,15 +3,77 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-plotting documentation
-======================
+Plotting
+========
 
-**plotting** is a simple tool that allows you to create plots from data.
+Overview
+--------
+
+**Plotting** is a simple tool that allows you to create plots using minimal lines of code.
+
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+Requirements
+------------
+
+The plotting package requires the following packages:
+
+- `matplotlib` >= 3.9.1
+- `numpy` >= 1.26.4
+- `scipy` >= 1.14.0
+- `seaborn` >= 0.11.0
+
+Installation
+------------
+To install the plotting package, run the following command:
+
+.. code-block:: shell
+
+    pip install plotting
+
+
+Usage
+-----
+To use the plotting package, you need to import the package and create a plot object.
+There are two main methods that you can use to create a plot:
+
+- `Plot`: This method plots a single plot at a time on a specified axis.
+- `Multiplots`: This method plots multiple plots and overlays on a single figure.
+
+Here is an example of how to use the plotting package:
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    import plotting
+
+    fig, ax = plt.subplots()
+    data = np.random.randn(100)
+    args = {"data": data, "ax": ax, "fig": fig}
+    plot = plotting.Plot(args)
+
+    plot.generic_plot()
+
+    plt.show()
+
+.. image:: https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg
+    :alt: SimpleExampleResult
+    :align: center
+
+.. toctree::
+   :maxdepth: 2
+
+   Plot
+
+.. toctree::
+   :maxdepth: 2
+
+   Multiplots
+
 
 Indices and tables
 ==================
