@@ -17,7 +17,7 @@ import unittest
 
 import matplotlib.pyplot as plt
 import numpy as np
-from plotting.plotting import Multiplots, Plot, PlotUtilities
+from chartly.chartly import Multiplots, Plot, PlotUtilities
 
 
 class TestPlotting(unittest.TestCase):

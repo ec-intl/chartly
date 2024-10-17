@@ -1,15 +1,15 @@
-.. plotting documentation master file, created by
+.. chartly documentation master file, created by
    sphinx-quickstart on Wed Oct 16 16:05:42 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Plotting
+Chartly
 ========
 
 Overview
 --------
 
-**Plotting** is a simple tool that allows you to create plots using minimal lines of code.
+**Chartly** is a simple tool that allows you to create plots using minimal lines of code.
 
 
 
@@ -20,7 +20,7 @@ Overview
 Requirements
 ------------
 
-The plotting package requires the following packages:
+The chartly package requires the following packages:
 
 - `matplotlib` >= 3.9.1
 - `numpy` >= 1.26.4
@@ -29,32 +29,32 @@ The plotting package requires the following packages:
 
 Installation
 ------------
-To install the plotting package, run the following command:
+To install the chartly package, run the following command:
 
 .. code-block:: shell
 
-    pip install plotting
+    pip install chartly
 
 
 Usage
 -----
-To use the plotting package, you need to import the package and create a plot object.
+To use the chartly package, you need to import the package and create a plot object.
 There are two main methods that you can use to create a plot:
 
 - `Plot`: This method plots a single plot at a time on a specified axis.
 - `Multiplots`: This method plots multiple plots and overlays on a single figure.
 
-Here is an example of how to use the plotting package:
+Here is an example of how to use the chartly package:
 
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
     data = np.random.randn(100)
     args = {"data": data, "ax": ax, "fig": fig}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.generic_plot()
 

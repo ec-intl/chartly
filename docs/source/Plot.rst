@@ -1,4 +1,4 @@
-Plotting.Plot Usage Guide
+Chartly.Plot Usage Guide
 =========================
 
 The Plot Class allows users to plot a single plot at a time on a specified axis. The Plot Class requires a dictionary of arguments to be passed to the class. The following keys are required in the dictionary:
@@ -32,7 +32,7 @@ The Generic Plot is a simple plot that can be used to plot any type of data. The
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
 
@@ -46,7 +46,7 @@ The Generic Plot is a simple plot that can be used to plot any type of data. The
 
     # set the arguments
     args = {"data": data, "ax": ax, "fig": fig, "gen_plot_args": gen_plot_args, "axes_labels": axes_labels}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.generic_plot()
 
@@ -60,7 +60,7 @@ The Generic Plot is a simple plot that can be used to plot any type of data. The
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
 
@@ -75,7 +75,7 @@ The Generic Plot is a simple plot that can be used to plot any type of data. The
     axes_labels = {"ylabel": "Y", "xlabel": "X", "title": "Generic Plot Example with X & Y"}
 
     args = {"data": [x, y], "ax": ax, "fig": fig, "gen_plot_args": gen_plot_args, "axes_labels": axes_labels}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.generic_plot()
 
@@ -95,7 +95,7 @@ A histogram plot can be created using the `plot_histogram` method.
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
 
@@ -109,7 +109,7 @@ A histogram plot can be created using the `plot_histogram` method.
     axes_labels = {"ylabel": "Frequency", "xlabel": "Value", "title": "Histogram Plot Example"}
 
     args = {"data": data, "ax": ax, "fig": fig, "histogram_args": histogram_args, "axes_labels": axes_labels}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.plot_histogram()
 
@@ -128,7 +128,7 @@ Contour plots can be created using the `plot_contour` method. The contour plot r
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
 
@@ -141,7 +141,7 @@ Contour plots can be created using the `plot_contour` method. The contour plot r
     axes_labels = {"xlabel": "X", "ylabel": "Y", "title": "Contour Plot Example"}
 
     args = {"data": [X, Y, Z], "ax": ax, "fig": fig, "axes_labels": axes_labels}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.plot_contour()
 
@@ -160,7 +160,7 @@ The normal probability plot is used to determine if a dataset is approximately n
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
 
@@ -173,7 +173,7 @@ The normal probability plot is used to determine if a dataset is approximately n
     axes_labels = {"title": "Normal Probability Plot Example"}
 
     args = {"data": data, "ax": ax, "fig": fig, "axes_labels": axes_labels, "prob_plot_args": prob_plot_args}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.plot_probability_plot()
 
@@ -192,7 +192,7 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    import plotting
+    import chartly
 
     fig, ax = plt.subplots()
 
@@ -206,7 +206,7 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
     axes_labels = {"title": "Normal Cumulative Distribution Function Plot Example"}
 
     args = {"data": data, "ax": ax, "fig": fig, "axes_labels": axes_labels}
-    plot = plotting.Plot(args)
+    plot = chartly.Plot(args)
 
     plot.plot_normal_cdf()
 

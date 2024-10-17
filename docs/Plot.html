@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting.Plot Usage Guide &#8212; plotting  documentation</title>
+    <title>chartly.Plot Usage Guide &#8212; plotting  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -36,8 +36,8 @@
 
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plotting.Multiplots Usage Guide" href="Multiplots.html" />
-    <link rel="prev" title="Plotting" href="index.html" /> 
+    <link rel="next" title="Chartly.Multiplots Usage Guide" href="Multiplots.html" />
+    <link rel="prev" title="Chartly" href="index.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
     <div class="relbar-top">
@@ -52,14 +52,14 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="Multiplots.html" title="Plotting.Multiplots Usage Guide"
+          <a href="Multiplots.html" title="Chartly.Multiplots Usage Guide"
              accesskey="N">next</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="index.html" title="Plotting"
+          <a href="index.html" title="Chartly"
              accesskey="P">previous</a> &nbsp; &nbsp;</li>
     <li><a href="index.html">plotting  documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Plotting.Plot Usage Guide</a></li> 
+        <li class="nav-item nav-item-this"><a href="">chartly.Plot Usage Guide</a></li> 
       </ul>
     </div>
     </div>
@@ -70,8 +70,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="plotting-plot-usage-guide">
-<h1>Plotting.Plot Usage Guide<a class="headerlink" href="#plotting-plot-usage-guide" title="Link to this heading">¶</a></h1>
+  <section id="chartly-plot-usage-guide">
+<h1>chartly.Plot Usage Guide<a class="headerlink" href="#chartly-plot-usage-guide" title="Link to this heading">¶</a></h1>
 <p>The Plot Class allows users to plot a single plot at a time on a specified axis. The Plot Class requires a dictionary of arguments to be passed to the class. The following keys are required in the dictionary:</p>
 <ul class="simple">
 <li><p><cite>data</cite>: The data that will be plotted.</p></li>
@@ -97,7 +97,7 @@
 <h3>Generic Plot<a class="headerlink" href="#generic-plot" title="Link to this heading">¶</a></h3>
 <p>The Generic Plot is a simple plot that can be used to plot any type of data. The plot is created using the <cite>generic_plot</cite> method. Users can pass both x and y data or just y data to the plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
@@ -111,7 +111,7 @@
 
 <span class="c1"># set the arguments</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;gen_plot_args&quot;</span><span class="p">:</span> <span class="n">gen_plot_args</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">generic_plot</span><span class="p">()</span>
 
@@ -120,7 +120,7 @@
 </div>
 <img alt="GenericPlotOnlyY" class="align-center" src="https://clidapp.s3.amazonaws.com/static/server/img/gen_plot_only_y.jpg" />
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
@@ -135,7 +135,7 @@
 <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Generic Plot Example with X &amp; Y&quot;</span><span class="p">}</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;gen_plot_args&quot;</span><span class="p">:</span> <span class="n">gen_plot_args</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">generic_plot</span><span class="p">()</span>
 
@@ -148,7 +148,7 @@
 <h3>Histogram<a class="headerlink" href="#histogram" title="Link to this heading">¶</a></h3>
 <p>A histogram plot can be created using the <cite>plot_histogram</cite> method.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
@@ -162,7 +162,7 @@
 <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Frequency&quot;</span><span class="p">,</span> <span class="s2">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Histogram Plot Example&quot;</span><span class="p">}</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;histogram_args&quot;</span><span class="p">:</span> <span class="n">histogram_args</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">plot_histogram</span><span class="p">()</span>
 
@@ -175,7 +175,7 @@
 <h3>Contour Plot<a class="headerlink" href="#contour-plot" title="Link to this heading">¶</a></h3>
 <p>Contour plots can be created using the <cite>plot_contour</cite> method. The contour plot requires 2D arrays of X, Y and Z data to be passed to the plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
@@ -188,7 +188,7 @@
 <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Contour Plot Example&quot;</span><span class="p">}</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">],</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">()</span>
 
@@ -201,7 +201,7 @@
 <h3>Normal Probability Plot<a class="headerlink" href="#normal-probability-plot" title="Link to this heading">¶</a></h3>
 <p>The normal probability plot is used to determine if a dataset is approximately normally distributed. A normal probability plot can be created using the <cite>plot_probability_plot</cite> method. The normal probability plot requires a 1D array of data to be passed to the plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
@@ -214,7 +214,7 @@
 <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Normal Probability Plot Example&quot;</span><span class="p">}</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">,</span> <span class="s2">&quot;prob_plot_args&quot;</span><span class="p">:</span> <span class="n">prob_plot_args</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">plot_probability_plot</span><span class="p">()</span>
 
@@ -227,7 +227,7 @@
 <h3>Normal Cumulative Distribution Function Plot<a class="headerlink" href="#normal-cumulative-distribution-function-plot" title="Link to this heading">¶</a></h3>
 <p>The CDF of a dataset can be compared to the CDF of a normal distribution using the normal CDF plot. The normal CDF plot can be created using the <cite>plot_normal_cdf</cite> method. Users can pass multiple datasets to the plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
@@ -241,7 +241,7 @@
 <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Normal Cumulative Distribution Function Plot Example&quot;</span><span class="p">}</span>
 
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">plot_normal_cdf</span><span class="p">()</span>
 
@@ -262,7 +262,7 @@
         <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
     <h3><a href="index.html">Page contents</a></h3>
     <ul>
-<li><a class="reference internal" href="#">Plotting.Plot Usage Guide</a><ul>
+<li><a class="reference internal" href="#">chartly.Plot Usage Guide</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
 <li><a class="reference internal" href="#generic-plot">Generic Plot</a></li>
 <li><a class="reference internal" href="#histogram">Histogram</a></li>
@@ -279,12 +279,12 @@
   <div class="sphinxprev">
     <h4>Previous page</h4>
     <p class="topless"><a href="index.html"
-                          title="Previous page">&larr; Plotting</a></p>
+                          title="Previous page">&larr; Chartly</a></p>
   </div>
   <div class="sphinxnext">
     <h4>Next page</h4>
     <p class="topless"><a href="Multiplots.html"
-                          title="Next page">&rarr; Plotting.Multiplots Usage Guide</a></p>
+                          title="Next page">&rarr; Chartly.Multiplots Usage Guide</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -336,14 +336,14 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="Multiplots.html" title="Plotting.Multiplots Usage Guide"
+          <a href="Multiplots.html" title="Chartly.Multiplots Usage Guide"
              >next</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="index.html" title="Plotting"
+          <a href="index.html" title="Chartly"
              >previous</a> &nbsp; &nbsp;</li>
     <li><a href="index.html">plotting  documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Plotting.Plot Usage Guide</a></li> 
+        <li class="nav-item nav-item-this"><a href="">chartly.Plot Usage Guide</a></li> 
       </ul>
     </div>
     </div>

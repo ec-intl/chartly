@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting &#8212; plotting  documentation</title>
+    <title>Chartly &#8212; plotting  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -36,7 +36,7 @@
 
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plotting.Plot Usage Guide" href="Plot.html" /> 
+    <link rel="next" title="chartly.Plot Usage Guide" href="Plot.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
     <div class="relbar-top">
@@ -51,11 +51,11 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="Plot.html" title="Plotting.Plot Usage Guide"
+          <a href="Plot.html" title="chartly.Plot Usage Guide"
              accesskey="N">next</a> &nbsp; &nbsp;</li>
     <li><a href="#">plotting  documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Plotting</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Chartly</a></li> 
       </ul>
     </div>
     </div>
@@ -66,17 +66,17 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="plotting">
-<h1>Plotting<a class="headerlink" href="#plotting" title="Link to this heading">¶</a></h1>
+  <section id="chartly">
+<h1>Chartly<a class="headerlink" href="#chartly" title="Link to this heading">¶</a></h1>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
-<p><strong>Plotting</strong> is a simple tool that allows you to create plots using minimal lines of code.</p>
+<p><strong>Chartly</strong> is a simple tool that allows you to create plots using minimal lines of code.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
-<p>The plotting package requires the following packages:</p>
+<p>The chartly package requires the following packages:</p>
 <ul class="simple">
 <li><p><cite>matplotlib</cite> &gt;= 3.9.1</p></li>
 <li><p><cite>numpy</cite> &gt;= 1.26.4</p></li>
@@ -86,27 +86,27 @@
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
-<p>To install the plotting package, run the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>plotting
+<p>To install the chartly package, run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>chartly
 </pre></div>
 </div>
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
-<p>To use the plotting package, you need to import the package and create a plot object.
+<p>To use the chartly package, you need to import the package and create a plot object.
 There are two main methods that you can use to create a plot:</p>
 <ul class="simple">
 <li><p><cite>Plot</cite>: This method plots a single plot at a time on a specified axis.</p></li>
 <li><p><cite>Multiplots</cite>: This method plots multiple plots and overlays on a single figure.</p></li>
 </ul>
-<p>Here is an example of how to use the plotting package:</p>
+<p>Here is an example of how to use the chartly package:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">plotting</span>
+<span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span> <span class="s2">&quot;fig&quot;</span><span class="p">:</span> <span class="n">fig</span><span class="p">}</span>
-<span class="n">plot</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="n">plot</span><span class="o">.</span><span class="n">generic_plot</span><span class="p">()</span>
 
@@ -116,7 +116,7 @@ There are two main methods that you can use to create a plot:</p>
 <img alt="SimpleExampleResult" class="align-center" src="https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg" />
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plot.html">Plotting.Plot Usage Guide</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="Plot.html">chartly.Plot Usage Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Plot.html#examples">Examples</a></li>
 </ul>
 </li>
@@ -124,13 +124,13 @@ There are two main methods that you can use to create a plot:</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Multiplots.html">Plotting.Multiplots Usage Guide</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="Multiplots.html">Chartly.Multiplots Usage Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Multiplots.html#examples">Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="autoapi/tests/index.html">tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="autoapi/plotting/index.html">plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/chartly/index.html">chartly</a></li>
 </ul>
 </li>
 </ul>
@@ -155,7 +155,7 @@ There are two main methods that you can use to create a plot:</p>
         <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
     <h3><a href="#">Page contents</a></h3>
     <ul>
-<li><a class="reference internal" href="#">Plotting</a><ul>
+<li><a class="reference internal" href="#">Chartly</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
@@ -171,7 +171,7 @@ There are two main methods that you can use to create a plot:</p>
   <div class="sphinxnext">
     <h4>Next page</h4>
     <p class="topless"><a href="Plot.html"
-                          title="Next page">&rarr; Plotting.Plot Usage Guide</a></p>
+                          title="Next page">&rarr; chartly.Plot Usage Guide</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -223,11 +223,11 @@ There are two main methods that you can use to create a plot:</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="Plot.html" title="Plotting.Plot Usage Guide"
+          <a href="Plot.html" title="chartly.Plot Usage Guide"
              >next</a> &nbsp; &nbsp;</li>
     <li><a href="#">plotting  documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Plotting</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Chartly</a></li> 
       </ul>
     </div>
     </div>

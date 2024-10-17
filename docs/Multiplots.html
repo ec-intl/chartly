@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting.Multiplots Usage Guide &#8212; plotting  documentation</title>
+    <title>Chartly.Multiplots Usage Guide &#8212; plotting  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Reference" href="autoapi/index.html" />
-    <link rel="prev" title="Plotting.Plot Usage Guide" href="Plot.html" /> 
+    <link rel="prev" title="chartly.Plot Usage Guide" href="Plot.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
     <div class="relbar-top">
@@ -55,11 +55,11 @@
           <a href="autoapi/index.html" title="API Reference"
              accesskey="N">next</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="Plot.html" title="Plotting.Plot Usage Guide"
+          <a href="Plot.html" title="chartly.Plot Usage Guide"
              accesskey="P">previous</a> &nbsp; &nbsp;</li>
     <li><a href="index.html">plotting  documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Plotting.Multiplots Usage Guide</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Chartly.Multiplots Usage Guide</a></li> 
       </ul>
     </div>
     </div>
@@ -70,8 +70,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="plotting-multiplots-usage-guide">
-<h1>Plotting.Multiplots Usage Guide<a class="headerlink" href="#plotting-multiplots-usage-guide" title="Link to this heading">¶</a></h1>
+  <section id="chartly-multiplots-usage-guide">
+<h1>Chartly.Multiplots Usage Guide<a class="headerlink" href="#chartly-multiplots-usage-guide" title="Link to this heading">¶</a></h1>
 <p>The Multiplots Class allows users to plot multiple plots and overlay them on a single figure. The Multiplots Class requires a dictionary of arguments to be passed to the class:</p>
 <ul class="simple">
 <li><p><cite>super_title</cite> (str): The title of the figure.</p></li>
@@ -88,12 +88,12 @@
 <li><p><cite>plot</cite></p></li>
 <li><p><cite>data</cite> (list): A list of data that will be plotted.</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotting</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="c1"># define main figure labels</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Overlay Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
 
-<span class="n">multi</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Multiplots</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">multi</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Multiplots</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="c1"># Define Some Data</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
@@ -122,12 +122,12 @@
 <section id="subplots">
 <h3>Subplots<a class="headerlink" href="#subplots" title="Link to this heading">¶</a></h3>
 <p>The <cite>new_subplot</cite> method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Multiplots object to render the figure.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotting</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
 
 <span class="c1"># define main figure labels</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Subplots Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
 
-<span class="n">multi</span> <span class="o">=</span> <span class="n">plotting</span><span class="o">.</span><span class="n">Multiplots</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">multi</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Multiplots</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="c1"># Define Some Data</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
@@ -162,7 +162,7 @@
         <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
     <h3><a href="index.html">Page contents</a></h3>
     <ul>
-<li><a class="reference internal" href="#">Plotting.Multiplots Usage Guide</a><ul>
+<li><a class="reference internal" href="#">Chartly.Multiplots Usage Guide</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
 <li><a class="reference internal" href="#overlay-plots">Overlay Plots</a></li>
 <li><a class="reference internal" href="#subplots">Subplots</a></li>
@@ -176,7 +176,7 @@
   <div class="sphinxprev">
     <h4>Previous page</h4>
     <p class="topless"><a href="Plot.html"
-                          title="Previous page">&larr; Plotting.Plot Usage Guide</a></p>
+                          title="Previous page">&larr; chartly.Plot Usage Guide</a></p>
   </div>
   <div class="sphinxnext">
     <h4>Next page</h4>
@@ -236,11 +236,11 @@
           <a href="autoapi/index.html" title="API Reference"
              >next</a> &nbsp; &nbsp;</li>
         <li class="right" >
-          <a href="Plot.html" title="Plotting.Plot Usage Guide"
+          <a href="Plot.html" title="chartly.Plot Usage Guide"
              >previous</a> &nbsp; &nbsp;</li>
     <li><a href="index.html">plotting  documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Plotting.Multiplots Usage Guide</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Chartly.Multiplots Usage Guide</a></li> 
       </ul>
     </div>
     </div>
