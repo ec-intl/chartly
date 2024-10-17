@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'plotting'
-copyright = '2024, Elizabeth Consulting International Inc'
-author = 'Elizabeth Consulting International Inc'
+project = "plotting"
+copyright = "2024, Elizabeth Consulting International Inc"
+author = "Elizabeth Consulting International Inc"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -24,11 +24,11 @@ extensions = [
     "autoapi.extension",
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
-autoapi_dirs = ['../../src']
+autoapi_dirs = ["../../src"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'cloud'
-html_static_path = ['_static']
+html_theme = "cloud"
+html_static_path = ["_static"]
