@@ -1,4 +1,5 @@
-name: Sphinx-docs
+---
+name: Docs
 
 on:
   pull_request:
