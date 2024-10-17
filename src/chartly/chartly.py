@@ -286,7 +286,13 @@ class Plot:
         x = np.sort(self.data)
         y = np.cumsum(x) / np.sum(x)
 
-        self.ax.plot(x, y, linewidth=1.5, label=self.axes_labels["linelabel"], color=self.cdf_args["color"])
+        self.ax.plot(
+            x,
+            y,
+            linewidth=1.5,
+            label=self.axes_labels["linelabel"],
+            color=self.cdf_args["color"],
+        )
 
         for hline in (0.1, 0.5, 0.9):
             self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
@@ -408,14 +414,12 @@ class Plot:
             (0, mu),
             slope=sigma,
             color="black",
-            linewidth=1, 
+            linewidth=1,
             label=f"slope={mu:.2f}, y-intercept={sigma:.2f}",
         )
 
         # Create Axes Labels
-        self.axes_labels.update(
-            {"xlabel": "z percentile", "ylabel": "Observations"}
-        )
+        self.axes_labels.update({"xlabel": "z percentile", "ylabel": "Observations"})
 
         # label the axes
         self.label_axes()
@@ -687,7 +691,7 @@ class PlotUtilities:
     """
 
     def standardize_dataset(self, data: list) -> np.ndarray:
-        """Standardize a dataset by subtracting the mean and dividing the std 
+        """Standardize a dataset by subtracting the mean and dividing the std
         of the dataset from each value.
 
         :param list data: the data list
