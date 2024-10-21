@@ -746,24 +746,36 @@ class HatchArea:
         self.ax = self.args.get("ax")
         self.pattern = self.args.get("pattern", "...")
         self.color = self.args.get("color", "black")
-        self.alpha = self.args.get("alpha", 0.5)
+        self.alpha = self.args.get("alpha", 0.2)
         self.fill = self.args.get("fill", True)
+        self.data = self.args.get("data", None)
 
-    def __call__(self):
+    def __call__(self, func):
         """Hatch the area between two points."""
-        x = self.xy1[0]
-        y = self.xy1[1]
-        width = self.xy2[0] - self.xy1[0]
-        height = self.xy2[1] - self.xy1[1]
+        if func == "grid":
+            x = self.xy1[0]
+            y = self.xy1[1]
+            width = self.xy2[0] - self.xy1[0]
+            height = self.xy2[1] - self.xy1[1]
 
-        self.ax.add_patch(
-            Rectangle(
-                (x, y),
-                width,
-                height,
-                fill=self.fill,
-                color=self.color,
-                alpha=self.alpha,
-                hatch=self.pattern,
+            self.ax.add_patch(
+                Rectangle(
+                    (x, y),
+                    width,
+                    height,
+                    fill=self.fill,
+                    color=self.color,
+                    alpha=self.alpha,
+                    hatch=self.pattern,
+                )
             )
-        )
+        if func == "mask":
+            assert self.data is not None, "Data must be provided"
+            self.ax.contourf(
+                self.data[0],
+                self.data[1],
+                self.data[2],
+                [0.5, 1],
+                hatches=[self.pattern],
+                alpha=self.alpha,
+            )
