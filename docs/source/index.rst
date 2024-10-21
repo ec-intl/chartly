@@ -61,17 +61,6 @@ Here is an example of how to use the chartly package:
     :alt: SimpleExampleResult
     :align: center
 
-.. toctree::
-   :maxdepth: 2
-
-   Plot
-
-.. toctree::
-   :maxdepth: 2
-
-   Multiplots
-
-
 Indices and tables
 ==================
 * :ref:`genindex`
