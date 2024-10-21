@@ -1,10 +1,23 @@
-"""Test the plotting module."""
+"""Test plotting module.
+
+:author: C.O. Mbengue [#]_,
+    A.M.E. Popo [#]_
+
+:organization: Elizabeth Consulting International Inc. [#]_
+
+.. [#] Cheikh Oumar Mbengue, Research Scientist, cmbengue@ec-intl.com
+.. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
+.. [#] Elizabeth Consulting International Inc. (ECI) is a private company that
+    specializes in the development of decision support systems for the
+    private sector. ECI is based in St. Lucia, West Indies.
+
+"""
 
 import unittest
 
 import matplotlib.pyplot as plt
 import numpy as np
-from plotting.plotting import Multiplots, Plot, PlotUtilities
+from chartly.chartly import Multiplots, Plot, PlotUtilities
 
 
 class TestPlotting(unittest.TestCase):
@@ -93,18 +106,18 @@ class TestPlotting(unittest.TestCase):
         # Test that the contour plot throws an error when a user does not send 3 datasets
         self.plot.data = [self.dataset_one, self.dataset_two]
         with self.assertRaises(AssertionError):
-            self.plot.plot_contour_plot()
+            self.plot.plot_contour()
 
         # test that the contour plot does not throw an error when a user sends 3 datasets
         X, Y = np.meshgrid(np.linspace(-5, 5, 100), np.linspace(-5, 5, 100))
         Z = np.sin(X) * np.cos(Y)
         self.plot.data = [X, Y, Z]
-        self.assertIsNone(self.plot.plot_contour_plot())
+        self.assertIsNone(self.plot.plot_contour())
 
         # Test that the contour plot throws an error when the data sets are not 2D
         self.plot.data = [X, Y, Z[0]]
         with self.assertRaises(AssertionError):
-            self.plot.plot_contour_plot()
+            self.plot.plot_contour()
 
     def test_default(self):
         """Test that the default plot is created correctly."""
