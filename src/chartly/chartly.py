@@ -36,8 +36,6 @@ class Plot:
         and required fields
 
     Required Keys
-        - ax: an axis to plot the data
-        - fig: the figure that the axis is on
         - data: a data list, or a list of data lists
 
     Optional Keys
@@ -53,9 +51,8 @@ class Plot:
 
     **Examples**
 
-    >>> fig, ax = plt.subplots()
     >>> data = [1, 2, 3, 4, 5]
-    >>> args = {"ax": ax, "fig": fig, "data": data}
+    >>> args = {"data": data}
     >>> plot = Plot(args)
     >>> plot.data
     [1, 2, 3, 4, 5]
@@ -83,9 +80,20 @@ class Plot:
         # Initialize the Plot Utilities
         self.util = PlotUtilities()
 
+        def_axes_labels = {
+            "title": " ",
+            "xlabel": " ",
+            "ylabel": " ",
+            "linelabel": " ",
+            "boxlabel": " ",
+            "show_legend": True,
+            "scale": "linear",
+            "base": 10,
+        }
+
         # Extract axis labels
         self.axes_labels = {
-            **self.set_defaults("axes_labels"),
+            **def_axes_labels,
             **args.get("axes_labels", {}),
         }
 
@@ -442,17 +450,17 @@ class Multiplots(Plot):
 
     def __init__(self, args):
         """Initialize the Multiplot Class."""
+        # Turn off interactive mode
+        plt.ioff()
+
         # Initialize the Plot Class
-        super().__init__({"data": []})
+        super().__init__({"data": [], "display": False})
 
         # Extract Graph labels
         self.super_title = args.get("super_title", " ")
         self.super_xlabel = args.get("super_xlabel", " ")
         self.super_ylabel = args.get("super_ylabel", " ")
         self.share_axes = args.get("share_axes", True)
-
-        # Turn off interactive mode
-        plt.ioff()
 
         # Set the subplot count
         self.subplot_count = 0
@@ -646,39 +654,47 @@ class CustomizePlot:
     @property
     def line_plot(self):
         """Customize the line plot."""
-        return self._line_plot.update(self.customs.get("line_plot", {}))
+        self._line_plot.update(self.customs.get("line_plot", {}))
+        return self._line_plot
 
     @property
     def cdf(self):
         """Customize the cdf plot."""
-        return self._cdf.update(self.customs.get("cdf", {}))
+        self._cdf.update(self.customs.get("cdf", {}))
+        return self._cdf
 
     @property
     def density(self):
         """Customize the density plot."""
-        return self._density.update(self.customs.get("density", {}))
+        self._density.update(self.customs.get("density", {}))
+        return self._density
 
     @property
     def boxplot(self):
         """Customize the boxplot."""
-        return self._boxplot.update(self.customs.get("boxplot", {}))
+        self._boxplot.update(self.customs.get("boxplot", {}))
+        return self._boxplot
 
     @property
     def histogram(self):
         """Customize the histogram."""
-        return self._histogram.update(self.customs.get("histogram", {}))
+        self._histogram.update(self.customs.get("histogram", {}))
+        return self._histogram
 
     @property
     def probability_plot(self):
         """Customize the probability plot."""
-        return self._probability_plot.update(self.customs.get("probability_plot", {}))
+        self._probability_plot.update(self.customs.get("probability_plot", {}))
+        return self._probability_plot
 
     @property
     def normal_cdf(self):
         """Customize the normal cdf plot."""
-        return self._normal_cdf.update(self.customs.get("normal_cdf", {}))
+        self._normal_cdf.update(self.customs.get("normal_cdf", {}))
+        return self._normal_cdf
 
     @property
     def contour(self):
         """Customize the contour plot."""
-        return self._contour.update(self.customs.get("contour", {}))
+        self._contour.update(self.customs.get("contour", {}))
+        return self._contour

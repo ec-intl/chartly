@@ -48,17 +48,14 @@ Here is an example of how to use the chartly package:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
     import chartly
 
-    fig, ax = plt.subplots()
     data = np.random.randn(100)
-    args = {"data": data, "ax": ax, "fig": fig}
+    args = {"data": data}
     plot = chartly.Plot(args)
 
     plot.generic_plot()
 
-    plt.show()
 
 .. image:: https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg
     :alt: SimpleExampleResult
