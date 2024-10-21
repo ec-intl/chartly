@@ -430,7 +430,7 @@ class Plot:
             inline=self.customs.contour["inline"],
         )
 
-        if self.customs.contour["hatch"]:
+        if self.customs.contour["hatch_grid"]:
             payload = {
                 "ax": self.ax,
                 "xy1": self.customs.contour["xy1"],
@@ -441,7 +441,18 @@ class Plot:
                 "fill": self.customs.contour["hatch_fill"],
             }
             hatch = HatchArea(payload)
-            hatch()
+            hatch("grid")
+        if self.customs.contour["hatch_mask"]:
+            payload = {
+                "ax": self.ax,
+                "data": [self.data[0], self.data[1], self.customs.contour["mask"]],
+                "pattern": self.customs.contour["pattern"],
+                "color": self.customs.contour["hatch_color"],
+                "alpha": self.customs.contour["hatch_alpha"],
+                "fill": self.customs.contour["hatch_fill"],
+            }
+            hatch = HatchArea(payload)
+            hatch("mask")
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
@@ -679,11 +690,14 @@ class CustomizePlot:
             "cmap": "viridis",
             "hatch": False,
             "hatch_color": "black",
-            "hatch_alpha": 0.5,
+            "hatch_alpha": 0,
             "hatch_fill": True,
-            "pattern": "...",
+            "pattern": "..",
             "xy1": (0, 0),
             "xy2": (1, 1),
+            "hatch_grid": False,
+            "hatch_mask": False,
+            "mask": None,
         }
 
     @property
@@ -741,10 +755,10 @@ class HatchArea:
     def __init__(self, args):
         """Initialize the HatchArea Class."""
         self.args = args
-        self.xy1 = self.args.get("xy1")
-        self.xy2 = self.args.get("xy2")
+        self.xy1 = self.args.get("xy1", (0, 0))
+        self.xy2 = self.args.get("xy2", (1, 1))
         self.ax = self.args.get("ax")
-        self.pattern = self.args.get("pattern", "...")
+        self.pattern = self.args.get("pattern", "..")
         self.color = self.args.get("color", "black")
         self.alpha = self.args.get("alpha", 0.2)
         self.fill = self.args.get("fill", True)
