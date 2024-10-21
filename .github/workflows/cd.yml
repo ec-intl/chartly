@@ -1,28 +1,50 @@
 ---
-name: Continuous-Deployment
+  name: Continuous-Deployment
+  permissions:
+    contents: write
+    id-token: write
+    packages: write
+    actions: write
+    checks: write
+  concurrency:
+    group: production
+    cancel-in-progress: true
+  on:
+    push:
+      branches: [main]
 
-env:
-  TMPDIR: "/tmp/deployment"
+  jobs:
+    deployment:
+      runs-on: ubuntu-latest
+      environment: production
+      steps:
+        - name: Check out the code
+          uses: actions/checkout@v4
 
-permissions:
-  contents: write
-  checks: write
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.12'
 
-concurrency:
-  group: production
-  cancel-in-progress: true
+        - name: Install dependencies
+          run: |
+            echo "📦 Installing Python dependencies."
+            python -m pip install --upgrade pip
+            if [ -f requirements/production.txt ]; then
+              pip install -r requirements/production.txt;
+            fi
 
-on:
-  push:
-    branches: [main]
+        - name: Upgrade build tools
+          run: python -m pip install --upgrade build
 
-jobs:
-  deployment-tasks:
-    uses: ec-intl/workflow-templates/.github/workflows/cd_template.yml@v1
-    with:
-      other-files: "notebooks,src,environments"
-    secrets: inherit
+        - name: Build the package
+          run: python -m build
 
-  release-tasks:
-    uses: ec-intl/workflow-templates/.github/workflows/make-release_template.yml@v1
-    secrets: inherit
+        - name: Upload to PyPI
+          if: ${{ vars.DEPLOY_TO_PYPI == 'yes' }}
+          env:
+            TWINE_PASSWORD: ${{ secrets.PYPI_KEY }}
+          run: python -m twine upload dist/*
+
+        - name: Done
+          run: echo "🎉 Deployment complete!"
