@@ -23,6 +23,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from matplotlib.patches import Rectangle
 from scipy.stats import norm
 
 color_list = ["slateblue", "lightpink", "skyblue", "plum", "mediumvioletred"]
@@ -698,3 +699,37 @@ class CustomizePlot:
         """Customize the contour plot."""
         self._contour.update(self.customs.get("contour", {}))
         return self._contour
+
+
+class HatchArea:
+    """Class to hatch the area between two points."""
+
+    def __init__(self, args):
+        """Initialize the HatchArea Class."""
+        self.args = args
+        self.xy1 = self.args.get("xy1")
+        self.xy2 = self.args.get("xy2")
+        self.ax = self.args.get("ax")
+        self.hatch = self.args.get("hatch", "...")
+        self.color = self.args.get("color", "black")
+        self.alpha = self.args.get("alpha", 0.5)
+        self.fill = self.args.get("fill", True)
+
+    def hatch_area(self):
+        """Hatch the area between two points."""
+        x = self.xy1[0]
+        y = self.xy1[1]
+        width = self.xy2[0] - self.xy1[0]
+        height = self.xy2[1] - self.xy1[1]
+
+        self.ax.add_patch(
+            Rectangle(
+                (x, y),
+                width,
+                height,
+                fill=self.fill,
+                color=self.color,
+                alpha=self.alpha,
+                hatch=self.hatch
+            )
+        )
