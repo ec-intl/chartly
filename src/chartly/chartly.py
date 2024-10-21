@@ -406,6 +406,11 @@ class Plot:
             - fsize: the font size of the labels, default is 9
         """
         func = self.ax.contourf if self.customs.contour["filled"] else self.ax.contour
+        color = (
+            self.customs.contour["colors"]
+            if not self.customs.contour["filled"]
+            else None
+        )
 
         assert len(self.data) == 3, "Contour plot requires 3 datasets"
 
@@ -416,11 +421,27 @@ class Plot:
             self.data[0],
             self.data[1],
             self.data[2],
-            colors=self.customs.contour["colors"],
+            colors=color,
+            cmap=self.customs.contour["cmap"],
         )
         self.ax.clabel(
-            CS, fontsize=self.customs.contour["fsize"], inline=self.customs.contour["inline"]
+            CS,
+            fontsize=self.customs.contour["fsize"],
+            inline=self.customs.contour["inline"],
         )
+
+        if self.customs.contour["hatch"]:
+            payload = {
+                "ax": self.ax,
+                "xy1": self.customs.contour["xy1"],
+                "xy2": self.customs.contour["xy2"],
+                "pattern": self.customs.contour["pattern"],
+                "color": self.customs.contour["hatch_color"],
+                "alpha": self.customs.contour["hatch_alpha"],
+                "fill": self.customs.contour["hatch_fill"],
+            }
+            hatch = HatchArea(payload)
+            hatch()
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
@@ -650,7 +671,20 @@ class CustomizePlot:
         self._histogram = {"num_bins": 20, "color": "plum", "ran": None}
         self._probability_plot = {"color": "orangered"}
         self._normal_cdf = {}
-        self._contour = {"filled": False, "colors": "k", "inline": True, "fsize": 9}
+        self._contour = {
+            "filled": False,
+            "colors": None,
+            "inline": True,
+            "fsize": 9,
+            "cmap": "viridis",
+            "hatch": False,
+            "hatch_color": "black",
+            "hatch_alpha": 0.5,
+            "hatch_fill": True,
+            "pattern": "...",
+            "xy1": (0, 0),
+            "xy2": (1, 1),
+        }
 
     @property
     def line_plot(self):
@@ -710,12 +744,12 @@ class HatchArea:
         self.xy1 = self.args.get("xy1")
         self.xy2 = self.args.get("xy2")
         self.ax = self.args.get("ax")
-        self.hatch = self.args.get("hatch", "...")
+        self.pattern = self.args.get("pattern", "...")
         self.color = self.args.get("color", "black")
         self.alpha = self.args.get("alpha", 0.5)
         self.fill = self.args.get("fill", True)
 
-    def hatch_area(self):
+    def __call__(self):
         """Hatch the area between two points."""
         x = self.xy1[0]
         y = self.xy1[1]
@@ -730,6 +764,6 @@ class HatchArea:
                 fill=self.fill,
                 color=self.color,
                 alpha=self.alpha,
-                hatch=self.hatch
+                hatch=self.pattern,
             )
         )
