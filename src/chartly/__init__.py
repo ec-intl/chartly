@@ -1,5 +1,16 @@
 """Initialize the chartly package."""
 
-from .chartly import Multiplots, Plot, LinePlot, CDF, BoxPlot, Density, Histogram, ProbabilityPlot, Contour, NormalCDF, BaseMap
+from .chartly import (
+    BoxPlot,
+    CDF,
+    Contour,
+    Density,
+    Histogram,
+    LinePlot,
+    Multiplots,
+    NormalCDF,
+    Plot,
+    ProbabilityPlot,
+)
 from .charts import CustomizePlot, HatchArea
 from .utilities import PlotUtilities

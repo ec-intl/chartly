@@ -1,4 +1,3 @@
-
 from abc import ABC, abstractmethod
 from matplotlib.patches import Rectangle
 

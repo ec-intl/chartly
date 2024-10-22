@@ -23,10 +23,9 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from mpl_toolkits.basemap import Basemap
 from scipy.stats import norm
 
-from .charts import CustomizePlot, HatchArea, Plot
+from .charts import CustomizePlot, Plot
 
 
 class Multiplots(Plot):
@@ -80,7 +79,6 @@ class Multiplots(Plot):
             "line_plot": LinePlot,
             "contour": Contour,
             "normal_cdf": NormalCDF,
-            "basemap": BaseMap,
         }
 
         self.subplots = []
@@ -232,7 +230,6 @@ class LinePlot(Plot, CustomizePlot):
         """Plot the line plot."""
         # Check if the data is 1D or 2D
         if isinstance(self.data[0], (list, np.ndarray)):
-
             # Check that both x and y data are present and of equal length
             assert len(self.data) == 2, "Data must contain both x and y list"
             assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
@@ -554,16 +551,6 @@ class Contour(Plot, CustomizePlot):
             "inline": True,
             "fsize": 9,
             "cmap": "viridis",
-            "hatch": False,
-            "hatch_color": "black",
-            "hatch_alpha": 0,
-            "hatch_fill": True,
-            "pattern": "..",
-            "xy1": (0, 0),
-            "xy2": (1, 1),
-            "hatch_grid": False,
-            "hatch_mask": False,
-            "mask": None,
         }
         return def_dict
 
@@ -579,11 +566,7 @@ class Contour(Plot, CustomizePlot):
             - fsize: the font size of the labels, default is 9
         """
         func = self.ax.contourf if self.customs["filled"] else self.ax.contour
-        color = (
-            self.customs["colors"]
-            if not self.customs["filled"]
-            else None
-        )
+        color = self.customs["colors"] if not self.customs["filled"] else None
 
         assert len(self.data) == 3, "Contour plot requires 3 datasets"
 
@@ -602,101 +585,3 @@ class Contour(Plot, CustomizePlot):
             fontsize=self.customs["fsize"],
             inline=self.customs["inline"],
         )
-
-        if self.customs["hatch_grid"] or self.customs["hatch_mask"]:
-            payload = {
-                "ax": self.ax,
-                "pattern": self.customs["pattern"],
-                "color": self.customs["hatch_color"],
-                "alpha": self.customs["hatch_alpha"],
-                "fill": self.customs["hatch_fill"],
-            }
-            if self.customs["hatch_grid"]:
-                payload.update(
-                    {
-                        "ax": self.ax,
-                        "xy1": self.customs["xy1"],
-                        "xy2": self.customs["xy2"],
-                    }
-                )
-                hatch = HatchArea(payload)
-                hatch("grid")
-            if self.customs["hatch_mask"]:
-                payload.update(
-                    {
-                        "data": [
-                            self.data[0],
-                            self.data[1],
-                            self.customs["mask"],
-                        ],
-                    }
-                )
-                hatch = HatchArea(payload)
-                hatch("mask")
-        self.axes_labels["show_legend"] = False
-        self.label_axes()
-
-
-class BaseMap(Plot, CustomizePlot):
-    """Class to plot a basemap plot."""
-
-    def __init__(self, args):
-        """Initialize the BasemapPlot Class."""
-        # Get the arguments
-        self.args = args
-
-        # Extract the customs
-        customs_ = self.args.get("customs", {})
-        super().__init__(self.args)
-        CustomizePlot.__init__(self, customs_)
-
-    def defaults(self):
-        """Set the default plot."""
-        return {
-            "proj": "ortho",
-            "draw_coastlines": True,
-            "fillcontinents": False,
-            "draw_countries": False,
-            "draw_states": False,
-            "draw_rivers": False,
-            "bluemarble": False,
-            "shaderelief": False,
-            "draw_parallels": False,
-            "draw_meridians": False,
-        }
-
-    def plot(self):
-        """plot a basemap plot
-
-        Customs:
-            - proj: the projection of the map, default is "ortho"
-            - draw_coastlines: whether to draw coastlines, default is True
-            - fillcontinents: whether to fill continents, default is False
-            - draw_countries: whether to draw countries, default is False
-            - draw_states: whether to draw states, default is False
-            - draw_rivers: whether to draw rivers, default is False
-            - bluemarble: whether to use the bluemarble map, default is False
-            - shaderelief: whether to use the shaded relief map, default is False
-            - draw_parallels: whether to draw parallels, default is False
-            - draw_meridians: whether to draw meridians, default is False
-        """
-        map_ = Basemap(projection=self.customs["proj"], lat_0=0, lon_0=0)
-
-        basemap_methods = {
-            "draw_coastlines": map_.drawcoastlines,
-            "fillcontinents": map_.fillcontinents,
-            "draw_countries": map_.drawcountries,
-            "draw_states": map_.drawstates,
-            "draw_rivers": map_.drawrivers,
-            "bluemarble": map_.bluemarble,
-            "shaderelief": map_.shadedrelief,
-            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
-            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
-        }
-
-        for key, method in basemap_methods.items():
-            if self.customs.get(key):
-                method()
-
-        self.axes_labels["show_legend"] = False
-        self.label_axes()
