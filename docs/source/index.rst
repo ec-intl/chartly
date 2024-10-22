@@ -27,6 +27,7 @@ The chartly package requires the following packages:
 
 Installation
 ------------
+
 To install the chartly package, run the following command:
 
 .. code-block:: shell
