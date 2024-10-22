@@ -35,6 +35,7 @@ To install the chartly package, run the following command:
 
 Usage
 -----
+
 To use the chartly package, you need to import the package and create a plot object.
 There are two main methods that you can use to create a plot:
 
