@@ -15,8 +15,8 @@
 
 import unittest
 
-import matplotlib.pyplot as plt
 import numpy as np
+
 from chartly.chartly import Multiplots, Plot, PlotUtilities
 
 
@@ -27,16 +27,13 @@ class TestPlotting(unittest.TestCase):
         """Set up the test class."""
         self.util = PlotUtilities()
 
-        # Create a figure and axis
-        self.fig, self.ax = plt.subplots()
-
         # Create a data list
         self.dataset_one = np.random.randint(50, size=(20))
         self.dataset_two = np.random.randint(50, size=(20))
         self.data = [self.dataset_one, self.dataset_two]
 
         # Create a dictionary of arguments
-        args = {"ax": self.ax, "fig": self.fig, "data": self.data}
+        args = {"display": False, "data": self.data}
 
         # Create a plot object
         self.plot = Plot(args)
@@ -54,17 +51,17 @@ class TestPlotting(unittest.TestCase):
         """Test that the generic plot can use both a 1D and 2D list of data."""
         # Test 1D data
         self.plot.data = self.dataset_one
-        self.assertIsNone(self.plot.generic_plot())
+        self.assertIsNone(self.plot.line_plot())
 
         # Test 2D data
         self.plot.data = self.data
-        self.assertIsNone(self.plot.generic_plot())
+        self.assertIsNone(self.plot.line_plot())
 
     def test_gen_plot_data_length(self):
         """Test that the generic plot throws an error if the data lengths are unequal."""
         self.plot.data = [self.dataset_one, self.dataset_two[:-1]]
         with self.assertRaises(AssertionError):
-            self.plot.generic_plot()
+            self.plot.line_plot()
 
     def test_standardize_data(self):
         """Test that the data is standardized correctly."""
@@ -106,37 +103,36 @@ class TestPlotting(unittest.TestCase):
         # Test that the contour plot throws an error when a user does not send 3 datasets
         self.plot.data = [self.dataset_one, self.dataset_two]
         with self.assertRaises(AssertionError):
-            self.plot.plot_contour()
+            self.plot.contour()
 
         # test that the contour plot does not throw an error when a user sends 3 datasets
         X, Y = np.meshgrid(np.linspace(-5, 5, 100), np.linspace(-5, 5, 100))
         Z = np.sin(X) * np.cos(Y)
         self.plot.data = [X, Y, Z]
-        self.assertIsNone(self.plot.plot_contour())
+        self.assertIsNone(self.plot.contour())
 
         # Test that the contour plot throws an error when the data sets are not 2D
         self.plot.data = [X, Y, Z[0]]
         with self.assertRaises(AssertionError):
-            self.plot.plot_contour()
+            self.plot.contour()
 
     def test_default(self):
         """Test that the default plot is created correctly."""
         # Test that the default plot is created correctly
         gen_args = {"color": "pink"}
         args = {
-            "ax": self.ax,
-            "fig": self.fig,
             "data": self.data,
-            "gen_plot_args": gen_args,
+            "line_plot": gen_args,
+            "display": False,
         }
         plot_two = Plot(args)
         expect = {"color": "pink", "linestyle": "solid"}
-        self.assertEqual(plot_two.gen_plot_args, expect)
+        self.assertEqual(plot_two.customs.line_plot, expect)
 
         # Test that the customs are updated correctly
-        plot_two.update_defaults("gen_plot", {"color": "blue"})
+        plot_two.update_defaults("line_plot", {"color": "blue"})
         expect = {"color": "blue", "linestyle": "solid"}
-        self.assertEqual(plot_two.gen_plot_args, expect)
+        self.assertEqual(plot_two.customs.line_plot, expect)
 
 
 if __name__ == "__main__":
