@@ -430,29 +430,6 @@ class Plot:
             inline=self.customs.contour["inline"],
         )
 
-        if self.customs.contour["hatch_grid"]:
-            payload = {
-                "ax": self.ax,
-                "xy1": self.customs.contour["xy1"],
-                "xy2": self.customs.contour["xy2"],
-                "pattern": self.customs.contour["pattern"],
-                "color": self.customs.contour["hatch_color"],
-                "alpha": self.customs.contour["hatch_alpha"],
-                "fill": self.customs.contour["hatch_fill"],
-            }
-            hatch = HatchArea(payload)
-            hatch("grid")
-        if self.customs.contour["hatch_mask"]:
-            payload = {
-                "ax": self.ax,
-                "data": [self.data[0], self.data[1], self.customs.contour["mask"]],
-                "pattern": self.customs.contour["pattern"],
-                "color": self.customs.contour["hatch_color"],
-                "alpha": self.customs.contour["hatch_alpha"],
-                "fill": self.customs.contour["hatch_fill"],
-            }
-            hatch = HatchArea(payload)
-            hatch("mask")
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
@@ -688,16 +665,6 @@ class CustomizePlot:
             "inline": True,
             "fsize": 9,
             "cmap": "viridis",
-            "hatch": False,
-            "hatch_color": "black",
-            "hatch_alpha": 0,
-            "hatch_fill": True,
-            "pattern": "..",
-            "xy1": (0, 0),
-            "xy2": (1, 1),
-            "hatch_grid": False,
-            "hatch_mask": False,
-            "mask": None,
         }
 
     @property
@@ -747,49 +714,3 @@ class CustomizePlot:
         """Customize the contour plot."""
         self._contour.update(self.customs.get("contour", {}))
         return self._contour
-
-
-class HatchArea:
-    """Class to hatch the area between two points."""
-
-    def __init__(self, args):
-        """Initialize the HatchArea Class."""
-        self.args = args
-        self.xy1 = self.args.get("xy1", (0, 0))
-        self.xy2 = self.args.get("xy2", (1, 1))
-        self.ax = self.args.get("ax")
-        self.pattern = self.args.get("pattern", "..")
-        self.color = self.args.get("color", "black")
-        self.alpha = self.args.get("alpha", 0.2)
-        self.fill = self.args.get("fill", True)
-        self.data = self.args.get("data", None)
-
-    def __call__(self, func):
-        """Hatch the area between two points."""
-        if func == "grid":
-            x = self.xy1[0]
-            y = self.xy1[1]
-            width = self.xy2[0] - self.xy1[0]
-            height = self.xy2[1] - self.xy1[1]
-
-            self.ax.add_patch(
-                Rectangle(
-                    (x, y),
-                    width,
-                    height,
-                    fill=self.fill,
-                    color=self.color,
-                    alpha=self.alpha,
-                    hatch=self.pattern,
-                )
-            )
-        if func == "mask":
-            assert self.data is not None, "Data must be provided"
-            self.ax.contourf(
-                self.data[0],
-                self.data[1],
-                self.data[2],
-                [0.5, 1],
-                hatches=[self.pattern],
-                alpha=self.alpha,
-            )
