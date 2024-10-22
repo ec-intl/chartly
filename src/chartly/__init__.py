@@ -1,6 +1,6 @@
 """Initialize the chartly package."""
 
-from .chartly import (
+from .chartly import (  # noqa: F401
     CDF,
     BoxPlot,
     Contour,
@@ -12,5 +12,5 @@ from .chartly import (
     Plot,
     ProbabilityPlot,
 )
-from .charts import CustomizePlot, HatchArea
-from .utilities import PlotUtilities
+from .charts import CustomizePlot, HatchArea  # noqa: F401
+from .utilities import PlotUtilities  # noqa: F401
