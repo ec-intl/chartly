@@ -16,7 +16,6 @@
 import unittest
 
 import numpy as np
-
 from chartly.chartly import Multiplots, Plot, PlotUtilities
 
 

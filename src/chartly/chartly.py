@@ -23,7 +23,6 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from matplotlib.patches import Rectangle
 from scipy.stats import norm
 
 color_list = ["slateblue", "lightpink", "skyblue", "plum", "mediumvioletred"]
