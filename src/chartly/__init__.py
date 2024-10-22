@@ -1,8 +1,8 @@
 """Initialize the chartly package."""
 
 from .chartly import (
-    BoxPlot,
     CDF,
+    BoxPlot,
     Contour,
     Density,
     Histogram,

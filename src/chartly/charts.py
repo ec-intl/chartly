@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from matplotlib.patches import Rectangle
 
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+
 from .utilities import PlotUtilities
 
 
