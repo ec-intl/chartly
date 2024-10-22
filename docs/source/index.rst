@@ -61,6 +61,7 @@ Here is an example of how to use the chartly package:
 
 Indices and tables
 ==================
+
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
