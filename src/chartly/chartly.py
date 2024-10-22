@@ -23,414 +23,10 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from mpl_toolkits.basemap import Basemap
 from scipy.stats import norm
 
-color_list = ["slateblue", "lightpink", "skyblue", "plum", "mediumvioletred"]
-
-
-class Plot:
-    """
-    Class that holds various methods used to plot graphs.
-
-    :param dict args: the master dictionary containing both optional
-        and required fields
-
-    Required Keys
-        - data: a data list, or a list of data lists
-
-    Optional Keys
-        - axes_labels: the axes labels
-        - boxplot: the optional customizations for a boxplot
-        - cdf: the optional customizations for a cdf plot
-        - histogram: the optional customizations for a histogram
-        - probability_plot: the optional customizations for a probability plot
-        - line_plot: the optional customizations for a generic plot
-        - normal_cdf: the optional customizations for a normal cdf plot
-        - contour: the optional customizations for a contour plot
-        - density: the optional customizations for a density plot
-
-    **Examples**
-
-    >>> data = [1, 2, 3, 4, 5]
-    >>> args = {"data": data}
-    >>> plot = Plot(args)
-    >>> plot.data
-    [1, 2, 3, 4, 5]
-    """
-
-    def __init__(self, args):
-        """Initialize the Plot Class"""
-        # Turn off interactive mode
-        plt.ioff()
-
-        self.args = args
-
-        # initialize the figure and axis
-        self._fig, self._ax = plt.subplots()
-
-        self.display = args.get("display", True)
-
-        # Extract the data
-        self.data = args.get("data")
-
-        # Set the filename and format
-        self._fname = "plot"
-        self._format = "eps"
-
-        # Initialize the Plot Utilities
-        self.util = PlotUtilities()
-
-        def_axes_labels = {
-            "title": " ",
-            "xlabel": " ",
-            "ylabel": " ",
-            "linelabel": " ",
-            "boxlabel": " ",
-            "show_legend": True,
-            "scale": "linear",
-            "base": 10,
-        }
-
-        # Extract axis labels
-        self.axes_labels = {
-            **def_axes_labels,
-            **args.get("axes_labels", {}),
-        }
-
-        # Set Customizations
-        self.customs = CustomizePlot(self.args)
-
-    @property
-    def fig(self):
-        """Get the figure."""
-        return self._fig
-
-    @fig.setter
-    def fig(self, value):
-        self._fig = value
-
-    @property
-    def ax(self):
-        """Get the figure."""
-        return self._ax
-
-    @ax.setter
-    def ax(self, value):
-        self._ax = value
-
-    @property
-    def fname(self):
-        """Get the figure."""
-        return self._fname
-
-    @fname.setter
-    def fname(self, value):
-        self._fname = value
-
-    @property
-    def format(self):
-        """Get the figure."""
-        return self._format
-
-    @format.setter
-    def format(self, value):
-        self._format = value
-
-    def update_defaults(self, field, new_values):
-        """Update the optional fields default values.
-
-        :param str field: the optional field to be updated
-        :param dict values: the updated optional fields dict
-        :rtype: None
-        """
-        self.args[field].update(new_values)
-        self.customs = CustomizePlot(self.args)
-
-    def label_axes(self):
-        """Label the axes of a graph. This method uses the axes_labels dict.
-        There are no required keys for this dict.
-
-        Optional Keys
-            - xlabel: the x-axis label, default is " "
-            - ylabel: the y-axis label, default is " "
-            - title: the title of the graph, default is " "
-            - linelabel: the label for the line, default is " "
-            - show_legend: whether to show the legend or not, default is True
-            - scale: the scale of the axes, default is "linear"
-            - base: the base of the axes, default is 10
-
-        """
-        self.ax.set_title(self.axes_labels["title"])
-        self.ax.set_xlabel(self.axes_labels["xlabel"])
-        self.ax.set_ylabel(self.axes_labels["ylabel"])
-
-        if self.axes_labels["scale"] in "semilogy loglog":
-            plt.yscale("log", base=self.axes_labels["base"])
-
-        if self.axes_labels["scale"] in "semilogx loglog":
-            plt.xscale("log", base=self.axes_labels["base"])
-
-        if self.axes_labels["show_legend"]:
-            self.ax.legend()
-
-        if self.display:
-            plt.show()
-
-    def save(self):
-        """Export the current figure to a file."""
-
-        self.fig.savefig(
-            f"{self.fname}.{self.format}",
-            format=self.format,
-            bbox_inches="tight",
-            pad_inches=1,
-            orientation="portrait",
-        )
-
-    def line_plot(self) -> None:
-        """Plot a generic plot using y and/or x. This method uses the
-        line_plot_args dict. There are no required keys for this dict.
-
-        Optional Keys
-            - color: the color of the line, default is "navy"
-            - linestyle: the style of the line, default is "solid"
-        """
-        # Check if the data is 1D or 2D
-        if isinstance(self.data[0], (list, np.ndarray)):
-            # Check that both x and y data are present and of equal length
-            assert len(self.data) == 2, "Data must contain both x and y list"
-            assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
-
-            self.ax.plot(
-                self.data[0],
-                self.data[1],
-                color=self.customs.line_plot["color"],
-                linewidth=1.5,
-                linestyle=self.customs.line_plot["linestyle"],
-                label=self.axes_labels["linelabel"],
-            )
-        else:
-            self.ax.plot(
-                self.data,
-                color=self.customs.line_plot["color"],
-                linewidth=1.5,
-                linestyle=self.customs.line_plot["linestyle"],
-                label=self.axes_labels["linelabel"],
-            )
-        self.label_axes()
-
-    def cdf(self) -> None:
-        """Plot CDF of a dataset. This method uses the cdf_args dict. There are
-        no required keys for this dict.
-        """
-
-        x = np.sort(self.data)
-        y = np.cumsum(x) / np.sum(x)
-
-        self.ax.plot(
-            x,
-            y,
-            linewidth=1.5,
-            label=self.axes_labels["linelabel"],
-            color=self.customs.cdf["color"],
-        )
-
-        for hline in (0.1, 0.5, 0.9):
-            self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
-
-        self.label_axes()
-
-    def density(self) -> None:
-        """Plot the density plot of a dataset using kernel density estimation. This
-        method uses the density_args dict. There are no required keys for this dict.
-
-        Optional Keys:
-            - color: the color of the density plot, default is "red"
-            - fill: whether to fill the density plot, default is False
-            - label: the label of the density plot, default is " "
-        """
-        # Plot a density plot
-        sns.kdeplot(
-            self.data,
-            color=self.customs.density["color"],
-            ax=self.ax,
-            fill=self.customs.density["fill"],
-            label=self.customs.density["label"],
-        )
-        self.label_axes()
-
-    def boxplot(self) -> None:
-        """Plot Box Plots. This method uses the boxplot_args dict. There are no
-        required keys for this dict.
-
-        Optional Keys:
-            - showfliers: whether to show the outliers, default is True
-        """
-
-        self.ax.boxplot(
-            self.data,
-            flierprops=dict(marker="o", markersize=1),
-            medianprops=dict(color="red"),
-            boxprops=dict(color="navy"),
-            whiskerprops=dict(color="blue"),
-            capprops=dict(color="red"),
-            tick_labels=self.axes_labels["boxlabel"],
-            showfliers=self.customs.boxplot["showfliers"],
-        )
-        self.axes_labels["show_legend"] = False
-        self.label_axes()
-
-    def histogram(self):
-        """Plot a histogram. This method uses the hist_args dict. There are no
-        required keys for this dict.
-
-        Optional Keys:
-            - num_bins: the number of bins in the histogram, default is 20
-            - color: the color of the histogram, default is "plum"
-            - ran: the range of the histogram, default is None
-        """
-        self.ax.hist(
-            self.data,
-            bins=self.customs.histogram["num_bins"],
-            color=self.customs.histogram["color"],
-            edgecolor="black",
-            weights=np.ones_like(self.data) / len(self.data),
-            range=self.customs.histogram["ran"],
-        )
-        self.axes_labels["show_legend"] = False
-        self.label_axes()
-
-    def probability_plot(self):
-        """Plot a probability plot. This method uses the prob_plot_args dict. There are no
-        required keys for this dict.
-
-        Optional Keys:
-            - color: the color of the plot, default is "orangered"
-        """
-        # Extract Fields
-        sample_data = self.data
-
-        # Data Stats
-        n = len(sample_data)
-        sigma = np.std(sample_data)
-        mu = np.mean(sample_data)
-
-        # Sort the data
-        sample_data.sort()
-
-        # Find percentiles
-        pctls = [(i - 0.5) / n for i in range(1, n + 1)]
-
-        # Find z percentiles
-        z = [norm.ppf(pctl) for pctl in pctls]
-
-        # Plot (z pctl, obs) ordered pairs
-        self.ax.scatter(
-            z,
-            sample_data,
-            color=self.customs.probability_plot["color"],
-            s=30,
-            marker="x",
-        )
-
-        # Plot Solid Line
-        plt.axline(
-            (0, mu),
-            slope=sigma,
-            color="black",
-            linewidth=1,
-            label=f"slope={mu:.2f}, y-intercept={sigma:.2f}",
-        )
-
-        # Create Axes Labels
-        self.axes_labels.update({"xlabel": "z percentile", "ylabel": "Observations"})
-
-        # label the axes
-        self.label_axes()
-
-    def normal_cdf(self):
-        """Plot a standard normal distribution CDF against the CDF
-        of other datasets. This method uses the norm_cdf_args dict. There are no
-        required keys for this dict.
-        """
-        data_list = (
-            self.data if isinstance(self.data[0], (list, np.ndarray)) else [self.data]
-        )
-
-        for idx, data in enumerate(data_list):
-            # Standardize the data
-            x = np.sort(self.util.standardize_dataset(data))
-            n = len(x)
-
-            # Find the percentiles
-            pctls = [(i - 0.5) / n for i in range(1, n + 1)]
-
-            # Plot Sample CDF
-            self.ax.plot(
-                x,
-                pctls,
-                linewidth=1.5,
-                linestyle="solid",
-                label=f"Sample Dataset {idx + 1} CDF",
-            )
-
-        # Find the z values
-        z = np.linspace(-3.4, 3.4)
-
-        # Find the p values
-        p_vals = [norm.cdf(z_) for z_ in z]
-
-        # Plot Stanfard Normal CDF
-        self.ax.plot(
-            z,
-            p_vals,
-            linewidth=1.5,
-            linestyle="dashed",
-            label="Standard Normal CDF",
-            color="red",
-        )
-
-        # label the axes
-        self.label_axes()
-
-    def contour(self):
-        """Plot a contour plot. This method uses the contour_args dict. There are no
-        required keys for this dict. Please note that the data must be a list of
-        2D numpy arrays.
-
-        Optional Keys:
-            - filled: whether to fill the contour plot, default is False
-            - colors: the color of the contour plot, default is "k"
-            - inline: whether to show the inline labels, default is True
-            - fsize: the font size of the labels, default is 9
-        """
-        func = self.ax.contourf if self.customs.contour["filled"] else self.ax.contour
-        color = (
-            self.customs.contour["colors"]
-            if not self.customs.contour["filled"]
-            else None
-        )
-
-        assert len(self.data) == 3, "Contour plot requires 3 datasets"
-
-        for data_ in self.data:
-            assert data_.ndim == 2, "Data must be a 2D numpy array"
-
-        CS = func(
-            self.data[0],
-            self.data[1],
-            self.data[2],
-            colors=color,
-            cmap=self.customs.contour["cmap"],
-        )
-        self.ax.clabel(
-            CS,
-            fontsize=self.customs.contour["fsize"],
-            inline=self.customs.contour["inline"],
-        )
-
-        self.axes_labels["show_legend"] = False
-        self.label_axes()
+from .charts import CustomizePlot, HatchArea, Plot
 
 
 class Multiplots(Plot):
@@ -463,7 +59,7 @@ class Multiplots(Plot):
         plt.ioff()
 
         # Initialize the Plot Class
-        super().__init__({"data": [], "display": False})
+        super().__init__({"data": [], "display": False, "create_fig": False})
 
         # Extract Graph labels
         self.super_title = args.get("super_title", " ")
@@ -476,14 +72,15 @@ class Multiplots(Plot):
 
         # Define the various graphing functions
         self.graphs = {
-            "cdf": self.cdf,
-            "density": self.density,
-            "histogram": self.histogram,
-            "boxplot": self.boxplot,
-            "probability_plot": self.probability_plot,
-            "line_plot": self.line_plot,
-            "contour": self.contour,
-            "normal_cdf": self.normal_cdf,
+            "cdf": CDF,
+            "density": Density,
+            "histogram": Histogram,
+            "boxplot": BoxPlot,
+            "probability_plot": ProbabilityPlot,
+            "line_plot": LinePlot,
+            "contour": Contour,
+            "normal_cdf": NormalCDF,
+            "basemap": BaseMap,
         }
 
         self.subplots = []
@@ -563,17 +160,22 @@ class Multiplots(Plot):
                     ax = self.fig.add_subplot(rows, cols, idx + 1)
             for overlay in subplot:
                 plot_name = overlay[0]
-                self.ax, self.data = ax, overlay[1]
+                self.ax = ax
 
-                # Update the axes labels
-                self.update_defaults("axes_labels", overlay[2])
-
-                # Update the plot's defaults
-                self.update_defaults(plot_name, overlay[3])
+                # Prepare payload
+                payload = {
+                    "data": overlay[1],
+                    "axes_labels": overlay[2],
+                    "customs": overlay[3],
+                    "display": False,
+                    "create_fig": False,
+                }
 
                 # Plot the graph
                 try:
-                    self.graphs[plot_name]()
+                    plot = self.graphs[plot_name](payload)
+                    plot.ax = self.ax
+                    plot.plot()
                 except Exception:
                     self.clear_axis()
                     raise
@@ -613,103 +215,488 @@ class Multiplots(Plot):
                 return row, col
 
 
-class PlotUtilities:
-    """Class containing auxillary utility functions for plotting.
+class LinePlot(Plot, CustomizePlot):
+    """Class to plot a line plot."""
 
-    **Usage**
+    def __init__(self, args):
+        """Initialize the LinePlot Class."""
+        # Get the arguments
+        self.args = args
 
-    >>> util = PlottingUtilities()
-    """
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
 
-    def standardize_dataset(self, data: list) -> np.ndarray:
-        """Standardize a dataset by subtracting the mean and dividing the std
-        of the dataset from each value.
+    def plot(self):
+        """Plot the line plot."""
+        # Check if the data is 1D or 2D
+        if isinstance(self.data[0], (list, np.ndarray)):
 
-        :param list data: the data list
-        :return: standardized data
-        :rtype: ndarray
+            # Check that both x and y data are present and of equal length
+            assert len(self.data) == 2, "Data must contain both x and y list"
+            assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
+
+            self.ax.plot(
+                self.data[0],
+                self.data[1],
+                color=self.customs["color"],
+                linewidth=1.5,
+                linestyle=self.customs["linestyle"],
+                label=self.axes_labels["linelabel"],
+            )
+        else:
+            self.ax.plot(
+                self.data,
+                color=self.customs["color"],
+                linewidth=1.5,
+                linestyle=self.customs["linestyle"],
+                label=self.axes_labels["linelabel"],
+            )
+        self.label_axes()
+
+    def defaults(self):
+        """Set the default plot."""
+        return {"color": "navy", "linestyle": "solid"}
+
+
+class CDF(Plot, CustomizePlot):
+    """Class to plot a CDF plot."""
+
+    def __init__(self, args):
+        """Initialize the CDF Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {"color": "dogerblue"}
+
+    def plot(self):
+        """Plot the CDF."""
+
+        x = np.sort(self.data)
+        y = np.cumsum(x) / np.sum(x)
+
+        self.ax.plot(
+            x,
+            y,
+            linewidth=1.5,
+            label=self.axes_labels["linelabel"],
+            color=self.customs["color"],
+        )
+
+        for hline in (0.1, 0.5, 0.9):
+            self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
+
+        self.label_axes()
+
+
+class Density(Plot, CustomizePlot):
+    """Class to plot a density plot."""
+
+    def __init__(self, args):
+        """Initialize the Density Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {"color": "red", "fill": False, "label": " "}
+
+    def plot(self):
+        """Plot the density plot of a dataset using kernel density estimation. This
+        method uses the density_args dict. There are no required keys for this dict.
+
+        Optional Keys:
+            - color: the color of the density plot, default is "red"
+            - fill: whether to fill the density plot, default is False
+            - label: the label of the density plot, default is " "
         """
-        # Convert the Data Into an array
-        data = np.array(data)
+        # Plot a density plot
+        sns.kdeplot(
+            self.data,
+            color=self.customs["color"],
+            ax=self.ax,
+            fill=self.customs["fill"],
+            label=self.customs["label"],
+        )
+        self.label_axes()
 
-        # Find the stats on the data
-        mu = np.mean(data)
-        sigma = np.std(data)
 
-        # Return the standardized data
-        return (data - mu) / sigma
+class BoxPlot(Plot, CustomizePlot):
+    """Class to plot a box plot."""
+
+    def __init__(self, args):
+        """Initialize the BoxPlot Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {"showfliers": True}
+
+    def plot(self) -> None:
+        """Plot Box Plots. This method uses the boxplot_args dict. There are no
+        required keys for this dict.
+
+        Optional Keys:
+            - showfliers: whether to show the outliers, default is True
+        """
+
+        self.ax.boxplot(
+            self.data,
+            flierprops=dict(marker="o", markersize=1),
+            medianprops=dict(color="red"),
+            boxprops=dict(color="navy"),
+            whiskerprops=dict(color="blue"),
+            capprops=dict(color="red"),
+            tick_labels=self.axes_labels["boxlabel"],
+            showfliers=self.customs["showfliers"],
+        )
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
 
 
-class CustomizePlot:
-    """Class to customize the appearance of a map.
+class Histogram(Plot, CustomizePlot):
+    """Class to plot a histogram."""
 
-    **Usage**
+    def __init__(self, args):
+        """Initialize the Histogram Class."""
+        # Get the arguments
+        self.args = args
 
-    >>> cmap = CustomizePlot()
-    """
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
 
-    def __init__(self, customs):
-        """Initialize the CustomizeMap Class."""
-        self.customs = customs
-        self._line_plot = {"color": "navy", "linestyle": "solid"}
-        self._cdf = {"color": "dogerblue"}
-        self._density = {"color": "red", "fill": False, "label": " "}
-        self._boxplot = {"showfliers": True}
-        self._histogram = {"num_bins": 20, "color": "plum", "ran": None}
-        self._probability_plot = {"color": "orangered"}
-        self._normal_cdf = {}
-        self._contour = {
+    def defaults(self):
+        return {"num_bins": 20, "color": "plum", "ran": None}
+
+    def plot(self):
+        """Plot a histogram. This method uses the hist_args dict. There are no
+        required keys for this dict.
+
+        Optional Keys:
+            - num_bins: the number of bins in the histogram, default is 20
+            - color: the color of the histogram, default is "plum"
+            - ran: the range of the histogram, default is None
+        """
+        self.ax.hist(
+            self.data,
+            bins=self.customs["num_bins"],
+            color=self.customs["color"],
+            edgecolor="black",
+            weights=np.ones_like(self.data) / len(self.data),
+            range=self.customs["ran"],
+        )
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
+
+
+class ProbabilityPlot(Plot, CustomizePlot):
+    """Class to plot a probability plot."""
+
+    def __init__(self, args):
+        """Initialize the ProbabilityPlot Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {"color": "orangered"}
+
+    def plot(self):
+        """Plot a probability plot. This method uses the prob_plot_args dict.
+        There are no required keys for this dict.
+
+        Optional Keys:
+            - color: the color of the plot, default is "orangered"
+        """
+        # Extract Fields
+        sample_data = self.data
+
+        # Data Stats
+        n = len(sample_data)
+        sigma = np.std(sample_data)
+        mu = np.mean(sample_data)
+
+        # Sort the data
+        sample_data.sort()
+
+        # Find percentiles
+        pctls = [(i - 0.5) / n for i in range(1, n + 1)]
+
+        # Find z percentiles
+        z = [norm.ppf(pctl) for pctl in pctls]
+
+        # Plot (z pctl, obs) ordered pairs
+        self.ax.scatter(
+            z,
+            sample_data,
+            color=self.customs["color"],
+            s=30,
+            marker="x",
+        )
+
+        # Plot Solid Line
+        self.ax.axline(
+            (0, mu),
+            slope=sigma,
+            color="black",
+            linewidth=1,
+            label=f"slope={mu:.2f}, y-intercept={sigma:.2f}",
+        )
+
+        # Create Axes Labels
+        self.axes_labels.update({"xlabel": "z percentile", "ylabel": "Observations"})
+
+        # label the axes
+        self.label_axes()
+
+
+class NormalCDF(Plot, CustomizePlot):
+    """Class to plot a normal CDF plot."""
+
+    def __init__(self, args):
+        """Initialize the NormalCDF Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {"color": "green"}
+
+    def plot(self):
+        """Plot a standard normal distribution CDF against the CDF
+        of other datasets. This method uses the norm_cdf_args dict. There are no
+        required keys for this dict.
+        """
+        data_list = (
+            self.data if isinstance(self.data[0], (list, np.ndarray)) else [self.data]
+        )
+
+        for idx, data in enumerate(data_list):
+            # Standardize the data
+            x = np.sort(self.util.standardize_dataset(data))
+            n = len(x)
+
+            # Find the percentiles
+            pctls = [(i - 0.5) / n for i in range(1, n + 1)]
+
+            # Plot Sample CDF
+            self.ax.plot(
+                x,
+                pctls,
+                linewidth=1.5,
+                linestyle="solid",
+                label=f"Sample Dataset {idx + 1} CDF",
+            )
+
+        # Find the z values
+        z = np.linspace(-3.4, 3.4)
+
+        # Find the p values
+        p_vals = [norm.cdf(z_) for z_ in z]
+
+        # Plot Stanfard Normal CDF
+        self.ax.plot(
+            z,
+            p_vals,
+            linewidth=1.5,
+            linestyle="dashed",
+            label="Standard Normal CDF",
+            color="red",
+        )
+
+        # label the axes
+        self.label_axes()
+
+
+class Contour(Plot, CustomizePlot):
+    """Class to plot a contour plot."""
+
+    def __init__(self, args):
+        """Initialize the Contour Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        def_dict = {
             "filled": False,
             "colors": None,
             "inline": True,
             "fsize": 9,
             "cmap": "viridis",
+            "hatch": False,
+            "hatch_color": "black",
+            "hatch_alpha": 0,
+            "hatch_fill": True,
+            "pattern": "..",
+            "xy1": (0, 0),
+            "xy2": (1, 1),
+            "hatch_grid": False,
+            "hatch_mask": False,
+            "mask": None,
+        }
+        return def_dict
+
+    def plot(self):
+        """Plot a contour plot. This method uses the contour_args dict. There are no
+        required keys for this dict. Please note that the data must be a list of
+        2D numpy arrays.
+
+        Optional Keys:
+            - filled: whether to fill the contour plot, default is False
+            - colors: the color of the contour plot, default is "k"
+            - inline: whether to show the inline labels, default is True
+            - fsize: the font size of the labels, default is 9
+        """
+        func = self.ax.contourf if self.customs["filled"] else self.ax.contour
+        color = (
+            self.customs["colors"]
+            if not self.customs["filled"]
+            else None
+        )
+
+        assert len(self.data) == 3, "Contour plot requires 3 datasets"
+
+        for data_ in self.data:
+            assert data_.ndim == 2, "Data must be a 2D numpy array"
+
+        CS = func(
+            self.data[0],
+            self.data[1],
+            self.data[2],
+            colors=color,
+            cmap=self.customs["cmap"],
+        )
+        self.ax.clabel(
+            CS,
+            fontsize=self.customs["fsize"],
+            inline=self.customs["inline"],
+        )
+
+        if self.customs["hatch_grid"] or self.customs["hatch_mask"]:
+            payload = {
+                "ax": self.ax,
+                "pattern": self.customs["pattern"],
+                "color": self.customs["hatch_color"],
+                "alpha": self.customs["hatch_alpha"],
+                "fill": self.customs["hatch_fill"],
+            }
+            if self.customs["hatch_grid"]:
+                payload.update(
+                    {
+                        "ax": self.ax,
+                        "xy1": self.customs["xy1"],
+                        "xy2": self.customs["xy2"],
+                    }
+                )
+                hatch = HatchArea(payload)
+                hatch("grid")
+            if self.customs["hatch_mask"]:
+                payload.update(
+                    {
+                        "data": [
+                            self.data[0],
+                            self.data[1],
+                            self.customs["mask"],
+                        ],
+                    }
+                )
+                hatch = HatchArea(payload)
+                hatch("mask")
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
+
+
+class BaseMap(Plot, CustomizePlot):
+    """Class to plot a basemap plot."""
+
+    def __init__(self, args):
+        """Initialize the BasemapPlot Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        """Set the default plot."""
+        return {
+            "proj": "ortho",
+            "draw_coastlines": True,
+            "fillcontinents": False,
+            "draw_countries": False,
+            "draw_states": False,
+            "draw_rivers": False,
+            "bluemarble": False,
+            "shaderelief": False,
+            "draw_parallels": False,
+            "draw_meridians": False,
         }
 
-    @property
-    def line_plot(self):
-        """Customize the line plot."""
-        self._line_plot.update(self.customs.get("line_plot", {}))
-        return self._line_plot
+    def plot(self):
+        """plot a basemap plot
 
-    @property
-    def cdf(self):
-        """Customize the cdf plot."""
-        self._cdf.update(self.customs.get("cdf", {}))
-        return self._cdf
+        Customs:
+            - proj: the projection of the map, default is "ortho"
+            - draw_coastlines: whether to draw coastlines, default is True
+            - fillcontinents: whether to fill continents, default is False
+            - draw_countries: whether to draw countries, default is False
+            - draw_states: whether to draw states, default is False
+            - draw_rivers: whether to draw rivers, default is False
+            - bluemarble: whether to use the bluemarble map, default is False
+            - shaderelief: whether to use the shaded relief map, default is False
+            - draw_parallels: whether to draw parallels, default is False
+            - draw_meridians: whether to draw meridians, default is False
+        """
+        map_ = Basemap(projection=self.customs["proj"], lat_0=0, lon_0=0)
 
-    @property
-    def density(self):
-        """Customize the density plot."""
-        self._density.update(self.customs.get("density", {}))
-        return self._density
+        basemap_methods = {
+            "draw_coastlines": map_.drawcoastlines,
+            "fillcontinents": map_.fillcontinents,
+            "draw_countries": map_.drawcountries,
+            "draw_states": map_.drawstates,
+            "draw_rivers": map_.drawrivers,
+            "bluemarble": map_.bluemarble,
+            "shaderelief": map_.shadedrelief,
+            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
+            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
+        }
 
-    @property
-    def boxplot(self):
-        """Customize the boxplot."""
-        self._boxplot.update(self.customs.get("boxplot", {}))
-        return self._boxplot
+        for key, method in basemap_methods.items():
+            if self.customs.get(key):
+                method()
 
-    @property
-    def histogram(self):
-        """Customize the histogram."""
-        self._histogram.update(self.customs.get("histogram", {}))
-        return self._histogram
-
-    @property
-    def probability_plot(self):
-        """Customize the probability plot."""
-        self._probability_plot.update(self.customs.get("probability_plot", {}))
-        return self._probability_plot
-
-    @property
-    def normal_cdf(self):
-        """Customize the normal cdf plot."""
-        self._normal_cdf.update(self.customs.get("normal_cdf", {}))
-        return self._normal_cdf
-
-    @property
-    def contour(self):
-        """Customize the contour plot."""
-        self._contour.update(self.customs.get("contour", {}))
-        return self._contour
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
