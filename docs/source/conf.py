@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "plotting"
+project = "chartly"
 copyright = "2024, Elizabeth Consulting International Inc"
 author = "Elizabeth Consulting International Inc"
 
@@ -31,4 +31,3 @@ autoapi_dirs = ["../../src"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "cloud"
-html_static_path = ["_static"]
