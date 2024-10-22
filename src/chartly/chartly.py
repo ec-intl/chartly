@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from matplotlib.patches import Rectangle
+from mpl_toolkits.basemap import Basemap
 from scipy.stats import norm
 
 color_list = ["slateblue", "lightpink", "skyblue", "plum", "mediumvioletred"]
@@ -430,29 +431,72 @@ class Plot:
             inline=self.customs.contour["inline"],
         )
 
-        if self.customs.contour["hatch_grid"]:
+        if self.customs.contour["hatch_grid"] or self.customs.contour["hatch_mask"]:
             payload = {
                 "ax": self.ax,
-                "xy1": self.customs.contour["xy1"],
-                "xy2": self.customs.contour["xy2"],
                 "pattern": self.customs.contour["pattern"],
                 "color": self.customs.contour["hatch_color"],
                 "alpha": self.customs.contour["hatch_alpha"],
                 "fill": self.customs.contour["hatch_fill"],
             }
-            hatch = HatchArea(payload)
-            hatch("grid")
-        if self.customs.contour["hatch_mask"]:
-            payload = {
-                "ax": self.ax,
-                "data": [self.data[0], self.data[1], self.customs.contour["mask"]],
-                "pattern": self.customs.contour["pattern"],
-                "color": self.customs.contour["hatch_color"],
-                "alpha": self.customs.contour["hatch_alpha"],
-                "fill": self.customs.contour["hatch_fill"],
-            }
-            hatch = HatchArea(payload)
-            hatch("mask")
+            if self.customs.contour["hatch_grid"]:
+                payload.update(
+                    {
+                        "ax": self.ax,
+                        "xy1": self.customs.contour["xy1"],
+                        "xy2": self.customs.contour["xy2"],
+                    }
+                )
+                hatch = HatchArea(payload)
+                hatch("grid")
+            if self.customs.contour["hatch_mask"]:
+                payload.update(
+                    {
+                        "data": [
+                            self.data[0],
+                            self.data[1],
+                            self.customs.contour["mask"],
+                        ],
+                    }
+                )
+                hatch = HatchArea(payload)
+                hatch("mask")
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
+
+    def basemap(self):
+        """Plot a base map. This method uses the basemap customs. The customs are
+
+        Optional Keys:
+            - proj: the projection of the map, default is "ortho"
+            - draw_coastlines: whether to draw coastlines, default is True
+            - fillcontinents: whether to fill continents, default is False
+            - draw_countries: whether to draw countries, default is False
+            - draw_states: whether to draw states, default is False
+            - draw_rivers: whether to draw rivers, default is False
+            - bluemarble: whether to use the bluemarble map, default is False
+            - shaderelief: whether to use the shaded relief map, default is False
+            - draw_parallels: whether to draw parallels, default is False
+            - draw_meridians: whether to draw meridians, default is False
+        """
+        map_ = Basemap(projection=self.customs.basemap["proj"], lat_0=0, lon_0=0)
+
+        basemap_methods = {
+            "draw_coastlines": map_.drawcoastlines,
+            "fillcontinents": map_.fillcontinents,
+            "draw_countries": map_.drawcountries,
+            "draw_states": map_.drawstates,
+            "draw_rivers": map_.drawrivers,
+            "bluemarble": map_.bluemarble,
+            "shaderelief": map_.shadedrelief,
+            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
+            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
+        }
+
+        for key, method in basemap_methods.items():
+            if self.customs.basemap.get(key):
+                method()
+
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
@@ -508,6 +552,7 @@ class Multiplots(Plot):
             "line_plot": self.line_plot,
             "contour": self.contour,
             "normal_cdf": self.normal_cdf,
+            "basemap": self.basemap,
         }
 
         self.subplots = []
@@ -699,6 +744,18 @@ class CustomizePlot:
             "hatch_mask": False,
             "mask": None,
         }
+        self._basemap = {
+            "proj": "ortho",
+            "draw_coastlines": True,
+            "fillcontinents": False,
+            "draw_countries": False,
+            "draw_states": False,
+            "draw_rivers": False,
+            "bluemarble": False,
+            "shaderelief": False,
+            "draw_parallels": False,
+            "draw_meridians": False,
+        }
 
     @property
     def line_plot(self):
@@ -747,6 +804,12 @@ class CustomizePlot:
         """Customize the contour plot."""
         self._contour.update(self.customs.get("contour", {}))
         return self._contour
+
+    @property
+    def basemap(self):
+        """Customize the basemap."""
+        self._basemap.update(self.customs.get("basemap", {}))
+        return self._basemap
 
 
 class HatchArea:
