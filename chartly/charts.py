@@ -23,9 +23,9 @@ This module contains the following classes:
     private sector. ECI is based in St. Lucia, West Indies.
 """
 
-from matplotlib.patches import Rectangle
 import numpy as np
 import seaborn as sns
+from matplotlib.patches import Rectangle
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot

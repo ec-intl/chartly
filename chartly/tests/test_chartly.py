@@ -16,7 +16,8 @@
 import unittest
 
 import numpy as np
-from ..chartly import Multiplots
+
+from ..chartly import Chart
 from ..charts import Contour, LinePlot
 from ..utilities import PlotUtilities
 
@@ -49,7 +50,7 @@ class TestPlotting(unittest.TestCase):
             "super_y_label": "Test Y Label",
         }
         # Create a multiplot object
-        self.multiplot = Multiplots(args)
+        self.multiplot = Chart(args)
 
     def test_gen_plot_data_type(self):
         """Test that the generic plot can use both a 1D and 2D list of data."""
