@@ -1,3 +1,3 @@
 """Initialize the chartly package."""
 
-import chartly  # noqa: F401
+from .chartly import Chart  # noqa: F401

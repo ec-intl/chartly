@@ -55,7 +55,7 @@ class Chart(Plot):
     False
     """
 
-    def __init__(self, args):
+    def __init__(self, args={}):
         """Initialize the Multiplot Class."""
         # Turn off interactive mode
         plt.ioff()
@@ -95,14 +95,14 @@ class Chart(Plot):
         Required Keys:
             - plot: The graph name.
             - data: The data to plot onto the graph
-            - axes_labels: The axes labels
 
         Optional Keys:
+            - axes_labels: The axes labels for the subplot.
             - customs: The plot's customization.
         """
         plot = overlay_args.get("plot")
         data = overlay_args.get("data")
-        axes_labels = overlay_args.get("axes_labels")
+        axes_labels = overlay_args.get("axes_labels", {})
         customs = overlay_args.get("customs", {})
 
         self.current_subplot.append([plot, data, axes_labels, customs])

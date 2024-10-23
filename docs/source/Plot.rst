@@ -1,19 +1,34 @@
-Chartly's Charts Usage Guide
+Plot Charts with Chartly Usage Guide
 ============================
 
-The Chartly package currently has eight (8) available scientific plots that can be created using the package. Each plot requires a dictionary of arguments to be passed to the class. The following keys are required in the dictionary:
+The Chartly package currently has eight (8) available scientific plots that can be created, namely:
+
+- Line Plot
+- Histogram
+- Contour Plot
+- Normal Probability Plot
+- Cumulative Distribution Function Plot
+- Normal Cumulative Distribution Function Plot
+- Density Plot
+- Box Plot
+
+Users can create a plot by passing a dictionary of arguments to the `overlay` method. The dictionary should contain the following keys:
 
 - `data`: The data that will be plotted.
+- `plot`: The type of plot to be created.
 
-The plots can also be customized by passing a `customs` dictionaty to the class. Each plot type has its own customization options.
+Users can also customize and label the plots by including the following keys in the dictionary:
 
-Charts
---------
+- `axes_labels`: A dictionary containing the labels of the plot.
+- `customs`: A dictionary containing the customization options of the plot.
+
+ Each plot type has its own customization options. Please continue reading to see the customization options available for each plot type.
+
 
 Line Plot
 ~~~~~~~~~~~~
 
-The Line Plot is a simple plot that can be used to plot any type of data. The plot is created using the `LinePlot` class. Users can pass both x and y data or just y data to the plot.
+A line plot can be created by using the `line_plot` keyword. Users can pass both x and y data or just y data to the line plot.
 
 The following customization options are available for the Line Plot:
 
@@ -29,12 +44,23 @@ The following customization options are available for the Line Plot:
 
     # customize the plot
     customs = {"color": "red", "linestyle": "--"}
+
     # label the plot
-    axes_labels = {"ylabel": "Y", "title": "Generic Plot Example"}
+    super_axes_labels = {"super_ylabel": "Y", "super_title": "Generic Plot Example"}
+
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # Create a subplot
+    plot.new_subplot()
 
     # set the arguments
-    args = {"data": data, "customs": customs, "axes_labels": axes_labels}
-    plot = chartly.LinePlot(args)
+    plot_payload = {
+        "plot": "line_plot",
+        "data": data,
+        "customs": customs,
+    }
+    plot.overlay(plot_payload)
 
     plot()
 
@@ -44,20 +70,31 @@ The following customization options are available for the Line Plot:
 
 
 .. code-block:: python
+
     import chartly
 
     # x and y data
     x = np.linspace(0, 10, 100)
     y = np.sin(x)
 
+    # define plot labels
+    super_axes_labels = {
+        "super_ylabel": "Y",
+        "super_xlabel": "X", 
+        "super_title": "Generic Plot Example with X & Y",
+    }
+
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # Create a subplot
+    plot.new_subplot()
+
     # customize the plot
     customs = {"color": "mediumpurple", "linestyle": "--"}
 
-    # label the plot
-    axes_labels = {"ylabel": "Y", "xlabel": "X", "title": "Generic Plot Example with X & Y"}
-
-    args = {"data": [x, y], "customs": customs, "axes_labels": axes_labels}
-    plot = chartly.LinePlot(args)
+    plot_payload = {"plot": "line_plot", "data": [x, y], "customs": customs}
+    plot.overlay(plot_payload)
 
     plot()
 
@@ -69,7 +106,7 @@ The following customization options are available for the Line Plot:
 Histogram
 ~~~~~~~~~
 
-A histogram plot can be created using the `Histogram` class. The histogram plot requires a 1D array of data to be passed to the plot. The following customization options are available for the histogram plot:
+A histogram plot can be created using the `histogram` keyword. The histogram plot requires a 1D array of data to be passed to the plot. The following customization options are available for the histogram plot:
 
 - `color` (str): The color of the histogram.
 - `num_bins` (int): The number of bins in the histogram.
@@ -81,14 +118,21 @@ A histogram plot can be created using the `Histogram` class. The histogram plot 
 
     data = np.random.randn(1000)
 
+    # label the plot
+    super_axes_labels = {
+        "super_ylabel": "Frequency",
+        "super_xlabel": "Value",
+        "super_title": "Histogram Plot Example",
+    }
+
     # customize the plot
     customs = {"color": "salmon", "num_bins": 30}
 
-    # label the plot
-    axes_labels = {"ylabel": "Frequency", "xlabel": "Value", "title": "Histogram Plot Example"}
+    plot = chartly.Chart(super_axes_labels)
+    plot.new_subplot()
 
-    args = {"data": data, "customs": customs, "axes_labels": axes_labels}
-    plot = chartly.Histogram(args)
+    plot_payload = {"plot": "histogram", "data": data, "customs": customs}
+    plot.overlay(plot_payload)
 
     plot()
 
@@ -100,7 +144,7 @@ A histogram plot can be created using the `Histogram` class. The histogram plot 
 Contour Plot
 ~~~~~~~~~~~~
 
-Contour plots can be created using the `Contour` class. The contour plot requires 2D arrays of X, Y and Z data to be passed to the plot. The following customization options are available for the contour plot:
+Contour plots can be created using the `contour` keyword. The contour plot requires 2D arrays of X, Y and Z data to be passed to the plot. The following customization options are available for the contour plot:
 
 - `color` (str): The color of the contour plot. Ensure that the `cmap` is set to None.
 - `levels` (int): The number of contour levels.
@@ -117,14 +161,27 @@ Contour plots can be created using the `Contour` class. The contour plot require
     X, Y = np.meshgrid(x, y)
     Z = np.cos(X/3) * np.sin(Y/3)
 
+    # label the plot
+    super_axes_labels = {
+        "super_xlabel": "X",
+        "super_ylabel": "Y",
+        "super_title": "Contour Plot Example",
+   }
+    # Create a charts instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # Create a subplot
+    plot.new_subplot()
+
+
     # customize the plot
     customs = {"cmap": "magma", "fsize": 14, "filled": True}
 
-    # label the plot
-    axes_labels = {"xlabel": "X", "ylabel": "Y", "title": "Contour Plot Example"}
+    # set the arguments
+    plot_payload = {"plot": "contour", "data": [X, Y, Z], "customs": customs}
 
-    args = {"data": [X, Y, Z], "axes_labels": axes_labels, "customs": customs}
-    plot = p.Contour(args)
+    plot.overlay(plot_payload)
+
     plot()
 
 
@@ -136,7 +193,7 @@ Contour plots can be created using the `Contour` class. The contour plot require
 Normal Probability Plot
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The normal probability plot is used to determine if a dataset is approximately normally distributed. A normal probability plot can be created using the `ProbabilityPlot` class. The normal probability plot requires a 1D array of data to be passed to the plot. The following customization options are available for the normal probability plot:
+The normal probability plot is used to determine if a dataset is approximately normally distributed. A normal probability plot can be created using the `probability_plot` keyword. The normal probability plot requires a 1D array of data to be passed to the plot. The following customization options are available for the normal probability plot:
 
 - `color` (str): The color of the markers of the plot.
 
@@ -144,16 +201,22 @@ The normal probability plot is used to determine if a dataset is approximately n
 
     import chartly
 
-    data = np.random.randn(100)
+    data = np.random.randn(150)
+
+    # label the plot
+    super_axes_labels = {"super_title": "Normal Probability Plot Example"}
+
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # Create a subplot
+    plot.new_subplot()
 
     # customize the plot
     customs = {"color": "firebrick"}
 
-    # label the plot
-    axes_labels = {"title": "Normal Probability Plot Example"}
-
-    args = {"data": data, "axes_labels": axes_labels, "customs": customs}
-    plot = chartly.ProbabilityPlot(args)
+    args = {"plot": "probability_plot", "data": data, "customs": customs}
+    plot.overlay(args)
 
     plot()
 
@@ -165,7 +228,7 @@ The normal probability plot is used to determine if a dataset is approximately n
 Cumulative Distribution Function Plot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The CDF plot of a dataset can be created using the `CDF` class. The CDF plot requires a 1D array of data to be passed to the plot. The following customization options are available for the CDF plot:
+The CDF plot of a dataset can be created using the `cdf` keyword. The CDF plot requires a 1D array of data to be passed to the plot. The following customization options are available for the CDF plot:
 
 - `color` (str): The color of the CDF plot.
 
@@ -176,15 +239,23 @@ The CDF plot of a dataset can be created using the `CDF` class. The CDF plot req
 
     data = np.random.exponential(scale=1.0, size=500)
 
-    # label the plot
-    axes_labels = {
-        "title": "Cumulative Distribution Function Plot Example",
-        "ylabel": "Probability",
-        "linelabel": "CDF",
+    # label the main figure
+    super_axes_labels = {
+        "super_title": "Cumulative Distribution Function Plot Example",
+        "super_ylabel": "Probability",
     }
 
-    args = {"data": data, "axes_labels": axes_labels}
-    plot = chartly.CDF(args)
+    # Create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # create a subplot
+    plot.new_subplot()
+
+    # customize the plot
+    axes_labels = {"linelabel": "CDF"}
+    args = {"plot":"cdf", "data": data, "axes_labels": axes_labels}
+
+    plot.overlay(args)
 
     plot()
 
@@ -196,7 +267,7 @@ The CDF plot of a dataset can be created using the `CDF` class. The CDF plot req
 Normal Cumulative Distribution Function Plot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The CDF of a dataset can be compared to the CDF of a normal distribution using the normal CDF plot. The normal CDF plot can be created using the `normal_cdf` method. Users can pass multiple datasets to the plot.
+The CDF of a dataset can be compared to the CDF of a normal distribution using the normal CDF plot. The normal CDF plot can be created using the `normal_cdf` keyword. Users can pass multiple datasets to the plot.
 
 
 .. code-block:: python
@@ -204,16 +275,22 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
     import chartly
 
     dataset_one = np.random.exponential(scale=1.0, size=500)
-    dataset_two = np.random.normal(loc=20, scale=1, size=500)
+    dataset_two = np.random.normal(loc=2, scale=1, size=500)
     dataset_three = np.random.gamma(2, 2, 500)
     data = [dataset_one, dataset_two, dataset_three]
 
 
-    # label the plot
-    axes_labels = {"title": "Normal Cumulative Distribution Function Plot Example"}
+    # label the main figure
+    super_axes_labels = {"super_title": "Normal Cumulative Distribution Function Plot Example"}
 
-    args = {"data": data, "axes_labels": axes_labels}
-    plot = chartly.NormalCDF(args)
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # create a subplot
+    plot.new_subplot()
+
+    args = {"plot": "normal_cdf", "data": data}
+    plot.overlay(args)
 
     plot()
 
@@ -225,7 +302,7 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
 Density Plot
 ~~~~~~~~~~~~
 
-The density function of a distribution can be created using the `Density` class. The `Density` plot requires a 1D array of data to be passed to the plot. The following customization options are available for the CDF plot:
+The density function of a distribution can be created using the `density` keyword. The density plot requires a 1D array of data to be passed to the plot. The following customization options are available for the density plot:
 
 
 - `color` (str): The color of the density plot.
@@ -239,13 +316,22 @@ The density function of a distribution can be created using the `Density` class.
     data = np.random.exponential(scale=1.0, size=500)
 
     # label the plot
-    axes_labels = {
-    "title": "Density Plot Example", "ylabel": "Probability", "linelabel": "CDF",
-    }
+    super_axes_labels = {"super_title": "Density Plot Example"}
 
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # create a subplot
+    plot.new_subplot()
+
+    # define the customs
     customs = {"fill": True, "color": "mediumvioletred", "label": "density"}
-    args = {"data": data, "axes_labels": axes_labels, "customs": customs}
-    plot = chartly.CDF(args)
+
+    # set the arguments
+    plot_payload = {"plot": "density", "data": data, "customs": customs}
+
+    # Overlay the density plot
+    plot.overlay(plot_payload)
 
     plot()
 
@@ -273,12 +359,23 @@ A boxplot of one or more datasets can be plotted using the `BoxPlot` class. A da
     dataset_three = np.random.gamma(2, 2, 500)
     data = [dataset_one, dataset_two, dataset_three]
 
-    # label the plot
-    axes_labels = {"title": "BoxPlot Example"}
+    # label the main figure
+    super_axes_labels = {"super_title": "BoxPlot Example"}
 
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # create a subplot
+    plot.new_subplot()
+
+    # define the customs
     customs = {"showfliers": False}
-    args = {"data": data, "axes_labels": axes_labels, "customs": customs}
-    plot = chartly.BoxPlot(args)
+
+    # set the arguments
+    plot_payload = {"plot": "boxplot", "data": data, "customs": customs}
+
+    # Overlay the boxplot
+    plot.overlay(plot_payload)
 
     plot()
 
