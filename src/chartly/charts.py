@@ -169,7 +169,7 @@ class CustomizePlot(ABC):
 
     def __init__(self, customs):
         """Initialize the CustomizeMap Class."""
-        self.defaults = self.defaults()
+        self.config = self.defaults()
         self._customs = customs
 
     @abstractmethod
@@ -185,8 +185,8 @@ class CustomizePlot(ABC):
     @property
     def customs(self):
         """Get the customs."""
-        self.defaults.update(self._customs)
-        return self.defaults
+        self.config.update(self._customs)
+        return self.config
 
 
 class HatchArea:
