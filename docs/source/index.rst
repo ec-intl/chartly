@@ -9,7 +9,7 @@ Chartly
 Overview
 --------
 
-**Chartly** is a simple tool designed to help users create scientific plots with ease. The package is built on top of the `matplotlib` and `seaborn` libraries, and it provides a simple interface for creating and customizing scientific plots.
+**Chartly** is a simple tool designed to help users create scientific plots with ease.
 
 .. toctree::
    :maxdepth: 2
