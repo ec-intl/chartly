@@ -24,12 +24,11 @@ This module contains the following classes:
     private sector. ECI is based in St. Lucia, West Indies.
 """
 
-import math
-
 import matplotlib.pyplot as plt
 
-from .charts import BoxPlot, CDF, Contour, Density, Histogram, LinePlot, NormalCDF, ProbabilityPlot
 from .base import Plot
+from .charts import BoxPlot, CDF, Contour, Density, Histogram, LinePlot, NormalCDF, ProbabilityPlot
+
 
 class Multiplots(Plot):
     """Class to plot multiple subplots on the same graph.
@@ -146,7 +145,7 @@ class Multiplots(Plot):
 
         # Set Up the Figure and Num of Rows and Columns
         Plot._fig = plt.figure(figsize=(20, 8))
-        rows, cols = self.tiling(self.subplot_count)
+        rows, cols = self.util.tiling(self.subplot_count)
         ax1 = None
 
         # Add subplots
@@ -194,22 +193,3 @@ class Multiplots(Plot):
         """Reset Subplot Trackers."""
         self.subplot_count = 0
         self.subplots = []
-
-    def tiling(self, num):
-        """Calculates the number of rows and columns for the subplot.
-
-        :param int num: the number of subplots
-        :return: the number of rows and columns
-        :rtype: tuple
-        """
-        if num < 5:
-            return 1, num
-        else:
-            root = int(math.isqrt(num))
-            if num == root**2:
-                return root, root
-            else:
-                col = root + 1
-                del_row = (col**2 - num) // col
-                row = col - del_row
-                return row, col

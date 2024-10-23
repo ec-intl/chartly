@@ -1,4 +1,6 @@
 """Utilities module for the Chartly package."""
+import math
+
 import numpy as np
 
 
@@ -27,3 +29,22 @@ class PlotUtilities:
 
         # Return the standardized data
         return (data - mu) / sigma
+    
+    def tiling(self, num):
+        """Calculates the number of rows and columns for the subplot.
+
+        :param int num: the number of subplots
+        :return: the number of rows and columns
+        :rtype: tuple
+        """
+        if num < 5:
+            return 1, num
+        else:
+            root = int(math.isqrt(num))
+            if num == root**2:
+                return root, root
+            else:
+                col = root + 1
+                del_row = (col**2 - num) // col
+                row = col - del_row
+                return row, col
