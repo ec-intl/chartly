@@ -189,7 +189,7 @@ The CDF plot of a dataset can be created using the `CDF` class. The CDF plot req
     plot()
 
 .. image:: https://clidapp.s3.amazonaws.com/static/server/img/cdf_eg.jpg
-    :alt: NormalCDFExample
+    :alt: CDFExample
     :align: center
 
 
@@ -250,7 +250,7 @@ The density function of a distribution can be created using the `Density` class.
     plot()
 
 .. image:: https://clidapp.s3.amazonaws.com/static/server/img/density_eg.jpg
-    :alt: NormalCDFExample
+    :alt: DensityExample
     :align: center
 
 
@@ -283,6 +283,6 @@ A boxplot of one or more datasets can be plotted using the `BoxPlot` class. A da
     plot()
 
 .. image:: https://clidapp.s3.amazonaws.com/static/server/img/boxplot_eg.jpg
-    :alt: NormalCDFExample
+    :alt: BoxPlotExample
     :align: center
 

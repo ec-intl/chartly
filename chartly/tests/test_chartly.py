@@ -16,7 +16,8 @@
 import unittest
 
 import numpy as np
-from ..chartly import Contour, LinePlot, Multiplots
+from ..chartly import  Multiplots
+from ..charts import Contour, LinePlot
 from ..utilities import PlotUtilities
 
 
