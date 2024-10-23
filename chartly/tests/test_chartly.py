@@ -16,7 +16,8 @@
 import unittest
 
 import numpy as np
-from chartly import Contour, LinePlot, Multiplots, PlotUtilities
+from ..chartly import Contour, LinePlot, Multiplots
+from ..utilities import PlotUtilities
 
 
 class TestPlotting(unittest.TestCase):
@@ -53,17 +54,17 @@ class TestPlotting(unittest.TestCase):
         """Test that the generic plot can use both a 1D and 2D list of data."""
         # Test 1D data
         self.line_plot.data = self.dataset_one
-        self.assertIsNone(self.line_plot.plot())
+        self.assertIsNone(self.line_plot())
 
         # Test 2D data
         self.line_plot.data = self.data
-        self.assertIsNone(self.line_plot.plot())
+        self.assertIsNone(self.line_plot())
 
     def test_gen_plot_data_length(self):
         """Test that the generic plot throws an error if the data lengths are unequal."""
         self.line_plot.data = [self.dataset_one, self.dataset_two[:-1]]
         with self.assertRaises(AssertionError):
-            self.line_plot.plot()
+            self.line_plot()
 
     def test_standardize_data(self):
         """Test that the data is standardized correctly."""
@@ -105,18 +106,18 @@ class TestPlotting(unittest.TestCase):
         # Test that the contour plot throws an error when a user does not send 3 datasets
         self.contour.data = [self.dataset_one, self.dataset_two]
         with self.assertRaises(AssertionError):
-            self.contour.plot()
+            self.contour()
 
         # test that the contour plot does not throw an error when a user sends 3 datasets
         X, Y = np.meshgrid(np.linspace(-5, 5, 100), np.linspace(-5, 5, 100))
         Z = np.sin(X) * np.cos(Y)
         self.contour.data = [X, Y, Z]
-        self.assertIsNone(self.contour.plot())
+        self.assertIsNone(self.contour())
 
         # Test that the contour plot throws an error when the data sets are not 2D
         self.contour.data = [X, Y, Z[0]]
         with self.assertRaises(AssertionError):
-            self.contour.plot()
+            self.contour()
 
     def test_default(self):
         """Test that the default plot is created correctly."""

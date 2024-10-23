@@ -9,7 +9,7 @@ Chartly
 Overview
 --------
 
-**Chartly** is a simple tool that allows you to create plots using minimal lines of code.
+**Chartly** is a simple tool designed to help users create scientific plots with ease. The package is built on top of the `matplotlib` and `seaborn` libraries, and it provides a simple interface for creating and customizing scientific plots.
 
 .. toctree::
    :maxdepth: 2
@@ -37,11 +37,12 @@ To install the chartly package, run the following command:
 Usage
 -----
 
-To use the chartly package, you need to import the package and create a plot object.
-There are two main methods that you can use to create a plot:
+To plot a scientific chart using the chartly package, you need to follow these steps:
 
-- `Plot`: This method plots a single plot at a time on a specified axis.
-- `Multiplots`: This method plots multiple plots and overlays on a single figure.
+1. Import the chartly package.
+2. Create a plot instance.
+3. Call the plot instance.
+
 
 Here is an example of how to use the chartly package:
 
@@ -52,9 +53,9 @@ Here is an example of how to use the chartly package:
 
     data = np.random.randn(100)
     args = {"data": data}
-    plot = chartly.Plot(args)
+    plot = chartly.LinePlot(args)
 
-    plot.generic_plot()
+    plot()
 
 .. image:: https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg
     :alt: SimpleExampleResult

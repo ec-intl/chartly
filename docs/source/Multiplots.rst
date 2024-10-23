@@ -17,7 +17,7 @@ Overlay Plots
 
 The `overlay` method allows users to overlay multiple plots on a single subplot. The overlay method requires a dictionary of arguments to be passed to the method:
 
-- `plot`
+- `plot` (str): The type of plot to overlay.
 - `data` (list): A list of data that will be plotted.
 
 
@@ -77,7 +77,7 @@ The `new_subplot` method allows users to create a new subplot on the figure. The
     data = np.random.normal(loc=0.8, scale=2, size=50)
 
     # Define Plots
-    plots = ["histogram", "density", "prob_plot", "gen_plot", "norm_cdf"]
+    plots = ["histogram", "density", "probability_plot", "line_plot", "normal_cdf"]
 
     for plot in plots:
         # Create a subplot

@@ -8,7 +8,8 @@ from .utilities import PlotUtilities
 
 class Plot:
     """
-    Class that holds various methods used to plot graphs.
+    Base Class for Chartly's Plots. This class handles setting up and labelling
+    the axes of a plot.
 
     :param dict args: the master dictionary containing both optional
         and required fields
@@ -17,15 +18,8 @@ class Plot:
         - data: a data list, or a list of data lists
 
     Optional Keys
-        - axes_labels: the axes labels
-        - boxplot: the optional customizations for a boxplot
-        - cdf: the optional customizations for a cdf plot
-        - histogram: the optional customizations for a histogram
-        - probability_plot: the optional customizations for a probability plot
-        - line_plot: the optional customizations for a generic plot
-        - normal_cdf: the optional customizations for a normal cdf plot
-        - contour: the optional customizations for a contour plot
-        - density: the optional customizations for a density plot
+        - axes_labels (dict): the axes labels
+        - display (bool): whether to display the plot or not. Default is True
 
     **Examples**
 
@@ -35,34 +29,21 @@ class Plot:
     >>> plot.data
     [1, 2, 3, 4, 5]
     """
+    _fig, _ax = None, None
 
     def __init__(self, args):
         """Initialize the Plot Class"""
         self.args = args
 
-        # Turn off interactive mode
-        plt.ioff()
-
-        # initialize the figure and axis
-        self.create_fig = self.args.get("create_fig", True)
-
-        if self.create_fig:
-            self._fig, self._ax = plt.subplots()
-
-        # Turn off interactive mode
-        plt.ioff()
-
-        self.display = self.args.get("display", True)
-
         # Extract the data
         self.data = self.args.get("data")
 
+        self.display = self.args.get("display", True)
+
         # Set the filename and format
+        self._last_fig = None
         self._fname = "plot"
         self._format = "eps"
-
-        # Initialize the Plot Utilities
-        self.util = PlotUtilities()
 
         def_axes_labels = {
             "title": " ",
@@ -81,23 +62,28 @@ class Plot:
             **self.args.get("axes_labels", {}),
         }
 
+        # Initialize the Plot Utilities
+        self.util = PlotUtilities()
+
     @property
     def fig(self):
         """Get the figure."""
-        return self._fig
+        self.create_plot()
+        return Plot._fig
 
     @fig.setter
     def fig(self, value):
-        self._fig = value
+        Plot._fig = value
 
     @property
     def ax(self):
         """Get the figure."""
-        return self._ax
+        self.create_plot()
+        return Plot._ax
 
     @ax.setter
     def ax(self, value):
-        self._ax = value
+        Plot._ax = value
 
     @property
     def fname(self):
@@ -116,6 +102,24 @@ class Plot:
     @format.setter
     def format(self, value):
         self._format = value
+
+    @property
+    def last_fig(self):
+        """Get the last figure."""
+        return self._last_fig
+
+    @last_fig.setter
+    def last_fig(self, value):
+        self._last_fig = value
+
+    def create_plot(self):
+        """Create a plot."""
+        if Plot._fig is None or Plot._ax is None:
+            Plot._fig, Plot._ax = plt.subplots()
+
+    def clear_plot(self):
+        """Clear the plot."""
+        Plot._fig, Plot._ax = None, None
 
     def label_axes(self):
         """Label the axes of a graph. This method uses the axes_labels dict.
@@ -145,12 +149,20 @@ class Plot:
             self.ax.legend()
 
         if self.display:
-            plt.show()
+            self.display_plot()
+
+    def display_plot(self):
+        """Display the plot."""
+        plt.show()
+        self._last_fig = self.fig
+        self.clear_plot()
 
     def save(self):
-        """Export the current figure to a file."""
+        """Export the current figure to a file. The default filename is 'plot'
+        and the default format is 'eps'.
+        """
 
-        self.fig.savefig(
+        self.last_fig.savefig(
             f"{self.fname}.{self.format}",
             format=self.format,
             bbox_inches="tight",
@@ -160,15 +172,13 @@ class Plot:
 
 
 class CustomizePlot(ABC):
-    """Class to customize the appearance of a map.
-
-    **Usage**
-
-    >>> cmap = CustomizePlot()
-    """
+    """Class to customize the appearance of a map."""
 
     def __init__(self, customs):
-        """Initialize the CustomizeMap Class."""
+        """Initialize the CustomizeMap Class.
+
+        :param dict customs: the dictionary containing the customizations
+        """
         self.config = self.defaults()
         self._customs = customs
 
@@ -178,7 +188,7 @@ class CustomizePlot(ABC):
         pass
 
     @abstractmethod
-    def plot(self):
+    def __call__(self):
         """Plot the graph."""
         pass
 
@@ -190,7 +200,21 @@ class CustomizePlot(ABC):
 
 
 class HatchArea:
-    """Class to hatch the area between two points."""
+    """Class to hatch the area between two points.
+
+    :param dict args: the dictionary containing the customizations
+
+    Required Keys
+        - ax: the axis object
+
+    Optional Keys
+        - xy1: the first point
+        - xy2: the second point
+        - pattern: the hatch pattern
+        - color: the color of the hatch
+        - alpha: the transparency of the hatch
+        - fill: whether to fill the hatch or not
+        - data: the data to use for the hatch"""
 
     def __init__(self, args):
         """Initialize the HatchArea Class."""
@@ -205,7 +229,17 @@ class HatchArea:
         self.data = self.args.get("data", None)
 
     def __call__(self, func):
-        """Hatch the area between two points."""
+        """Hatch the area between two points.
+
+        :param str func: the function to call. Either 'grid' or 'mask'
+
+        Grid Required Keys
+            - xy1: the first point
+            - xy2: the second point
+
+        Mask Required Keys
+            - data: the data to use for the hatch
+        """
         if func == "grid":
             x = self.xy1[0]
             y = self.xy1[1]

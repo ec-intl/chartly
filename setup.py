@@ -18,7 +18,7 @@ setup(
         "Issues": "https://github.com/ec-intl/chartly/issues",
     },
     packages=["chartly"],
-    package_dir={"": "src"},
+    package_dir={"": "."},
     license="Apache License 2.0",
     classifiers=[
         "Programming Language :: Python :: 3",

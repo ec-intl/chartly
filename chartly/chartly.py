@@ -7,8 +7,14 @@
 
 This module contains the following classes:
 
-    - :class:`Plot`: Class to plot various types of graphs.
-    - :class:`PlotUtilities`: Class containing auxillary utility functions for plotting.
+    - :class:`LinePlot`: Class to plot a line plot.
+    - :class:`CDF`: Class to plot a CDF plot.
+    - :class:`Density`: Class to plot a density plot.
+    - :class:`BoxPlot`: Class to plot a box plot.
+    - :class:`Histogram`: Class to plot a histogram.
+    - :class:`ProbabilityPlot`: Class to plot a probability plot.
+    - :class:`Contour`: Class to plot a contour plot.
+    - :class:`NormalCDF`: Class to plot a normal CDF plot.
     - :class:`Multiplots`: Class to plot multiple subplots on the same graph.
 
 .. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
@@ -58,7 +64,7 @@ class Multiplots(Plot):
         plt.ioff()
 
         # Initialize the Plot Class
-        super().__init__({"data": [], "display": False, "create_fig": False})
+        super().__init__({"data": [], "display": False})
 
         # Extract Graph labels
         self.super_title = args.get("super_title", " ")
@@ -94,8 +100,8 @@ class Multiplots(Plot):
             - data: The data to plot onto the graph
             - axes_labels: The axes labels
 
-        *Optional Keys*:
-        customs: The plot's customization.
+        Optional Keys:
+            - customs: The plot's customization.
         """
         plot = overlay_args.get("plot")
         data = overlay_args.get("data")
@@ -142,23 +148,23 @@ class Multiplots(Plot):
         self.current_subplot = []
 
         # Set Up the Figure and Num of Rows and Columns
-        self.fig = plt.figure(figsize=(20, 8))
+        Plot._fig = plt.figure(figsize=(20, 8))
         rows, cols = self.tiling(self.subplot_count)
         ax1 = None
 
         # Add subplots
         for idx, subplot in enumerate(self.subplots):
             if idx == 0:
-                ax = self.fig.add_subplot(rows, cols, idx + 1)
+                ax = Plot._fig.add_subplot(rows, cols, idx + 1)
                 ax1 = ax
             else:
                 if self.share_axes:
-                    ax = self.fig.add_subplot(rows, cols, idx + 1, sharey=ax1)
+                    ax = Plot._fig.add_subplot(rows, cols, idx + 1, sharey=ax1)
                 else:
-                    ax = self.fig.add_subplot(rows, cols, idx + 1)
+                    ax = Plot._fig.add_subplot(rows, cols, idx + 1)
             for overlay in subplot:
                 plot_name = overlay[0]
-                self.ax = ax
+                Plot._ax = ax
 
                 # Prepare payload
                 payload = {
@@ -166,14 +172,13 @@ class Multiplots(Plot):
                     "axes_labels": overlay[2],
                     "customs": overlay[3],
                     "display": False,
-                    "create_fig": False,
                 }
 
                 # Plot the graph
                 try:
                     plot = self.graphs[plot_name](payload)
                     plot.ax = self.ax
-                    plot.plot()
+                    plot()
                 except Exception:
                     self.clear_axis()
                     raise
@@ -183,7 +188,7 @@ class Multiplots(Plot):
         self.fig.supxlabel(self.super_xlabel)
         self.fig.supylabel(self.super_ylabel)
         self.fig.tight_layout()
-        plt.show()
+        self.display_plot()
 
         # Reset Canvas
         self.clear_axis()
@@ -214,7 +219,21 @@ class Multiplots(Plot):
 
 
 class LinePlot(Plot, CustomizePlot):
-    """Class to plot a line plot."""
+    """Class to plot a line plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - color: the color of the line plot, default is "navy"
+        - linestyle: the style of the line plot, default is "solid"
+    """
 
     def __init__(self, args):
         """Initialize the LinePlot Class."""
@@ -226,7 +245,7 @@ class LinePlot(Plot, CustomizePlot):
         super().__init__(self.args)
         CustomizePlot.__init__(self, customs_)
 
-    def plot(self):
+    def __call__(self):
         """Plot the line plot."""
         # Check if the data is 1D or 2D
         if isinstance(self.data[0], (list, np.ndarray)):
@@ -258,7 +277,20 @@ class LinePlot(Plot, CustomizePlot):
 
 
 class CDF(Plot, CustomizePlot):
-    """Class to plot a CDF plot."""
+    """Class to plot a CDF plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+
+    Available Customizations
+        - color: the color of the CDF plot, default is "dodgerblue"
+
+    """
 
     def __init__(self, args):
         """Initialize the CDF Class."""
@@ -271,9 +303,9 @@ class CDF(Plot, CustomizePlot):
         CustomizePlot.__init__(self, customs_)
 
     def defaults(self):
-        return {"color": "dogerblue"}
+        return {"color": "dodgerblue"}
 
-    def plot(self):
+    def __call__(self):
         """Plot the CDF."""
 
         x = np.sort(self.data)
@@ -294,7 +326,21 @@ class CDF(Plot, CustomizePlot):
 
 
 class Density(Plot, CustomizePlot):
-    """Class to plot a density plot."""
+    """Class to plot a density plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+
+    Available Customizations
+        - color: the color of the density plot, default is "red"
+        - fill: whether to fill the density plot, default is False
+        - label: the label of the density plot, default is " "
+    """
 
     def __init__(self, args):
         """Initialize the Density Class."""
@@ -309,15 +355,8 @@ class Density(Plot, CustomizePlot):
     def defaults(self):
         return {"color": "red", "fill": False, "label": " "}
 
-    def plot(self):
-        """Plot the density plot of a dataset using kernel density estimation. This
-        method uses the density_args dict. There are no required keys for this dict.
-
-        Optional Keys:
-            - color: the color of the density plot, default is "red"
-            - fill: whether to fill the density plot, default is False
-            - label: the label of the density plot, default is " "
-        """
+    def __call__(self):
+        """Plot the density plot."""
         # Plot a density plot
         sns.kdeplot(
             self.data,
@@ -330,7 +369,20 @@ class Density(Plot, CustomizePlot):
 
 
 class BoxPlot(Plot, CustomizePlot):
-    """Class to plot a box plot."""
+    """Class to plot a box plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - showfliers: whether to show the outliers, default is True
+    """
 
     def __init__(self, args):
         """Initialize the BoxPlot Class."""
@@ -343,16 +395,19 @@ class BoxPlot(Plot, CustomizePlot):
         CustomizePlot.__init__(self, customs_)
 
     def defaults(self):
-        return {"showfliers": True}
+        if isinstance(self.data[0], (list, np.ndarray)):
+            label = [f"Dataset {i+1}" for i in range(len(self.data))]
+        else:
+            label = ["Dataset 1"]
+        return {
+            "showfliers": True,
+            "boxlabels": label,
+            }
 
-    def plot(self) -> None:
-        """Plot Box Plots. This method uses the boxplot_args dict. There are no
-        required keys for this dict.
-
-        Optional Keys:
-            - showfliers: whether to show the outliers, default is True
-        """
-
+    def __call__(self) -> None:
+        """Plot Box Plots."""
+        assert isinstance(self.data, (list, np.ndarray)), "Data must be a list or a list of lists"
+        assert isinstance(self.customs["boxlabels"], list), "Box labels must be a list"
         self.ax.boxplot(
             self.data,
             flierprops=dict(marker="o", markersize=1),
@@ -360,7 +415,7 @@ class BoxPlot(Plot, CustomizePlot):
             boxprops=dict(color="navy"),
             whiskerprops=dict(color="blue"),
             capprops=dict(color="red"),
-            tick_labels=self.axes_labels["boxlabel"],
+            labels=self.customs["boxlabels"],
             showfliers=self.customs["showfliers"],
         )
         self.axes_labels["show_legend"] = False
@@ -368,7 +423,22 @@ class BoxPlot(Plot, CustomizePlot):
 
 
 class Histogram(Plot, CustomizePlot):
-    """Class to plot a histogram."""
+    """Class to plot a histogram.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - num_bins: the number of bins in the histogram, default is 20
+        - color: the color of the histogram, default is "plum"
+        - ran: the range of the histogram, default is None
+    """
 
     def __init__(self, args):
         """Initialize the Histogram Class."""
@@ -383,15 +453,8 @@ class Histogram(Plot, CustomizePlot):
     def defaults(self):
         return {"num_bins": 20, "color": "plum", "ran": None}
 
-    def plot(self):
-        """Plot a histogram. This method uses the hist_args dict. There are no
-        required keys for this dict.
-
-        Optional Keys:
-            - num_bins: the number of bins in the histogram, default is 20
-            - color: the color of the histogram, default is "plum"
-            - ran: the range of the histogram, default is None
-        """
+    def __call__(self):
+        """Plot a histogram"""
         self.ax.hist(
             self.data,
             bins=self.customs["num_bins"],
@@ -405,7 +468,20 @@ class Histogram(Plot, CustomizePlot):
 
 
 class ProbabilityPlot(Plot, CustomizePlot):
-    """Class to plot a probability plot."""
+    """Class to plot a probability plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - color: the color of the scatter markers, default is "orangered"
+    """
 
     def __init__(self, args):
         """Initialize the ProbabilityPlot Class."""
@@ -420,13 +496,8 @@ class ProbabilityPlot(Plot, CustomizePlot):
     def defaults(self):
         return {"color": "orangered"}
 
-    def plot(self):
-        """Plot a probability plot. This method uses the prob_plot_args dict.
-        There are no required keys for this dict.
-
-        Optional Keys:
-            - color: the color of the plot, default is "orangered"
-        """
+    def __call__(self):
+        """Plot a probability plot."""
         # Extract Fields
         sample_data = self.data
 
@@ -470,7 +541,18 @@ class ProbabilityPlot(Plot, CustomizePlot):
 
 
 class NormalCDF(Plot, CustomizePlot):
-    """Class to plot a normal CDF plot."""
+    """Class to plot a normal CDF plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    """
 
     def __init__(self, args):
         """Initialize the NormalCDF Class."""
@@ -485,7 +567,7 @@ class NormalCDF(Plot, CustomizePlot):
     def defaults(self):
         return {"color": "green"}
 
-    def plot(self):
+    def __call__(self):
         """Plot a standard normal distribution CDF against the CDF
         of other datasets. This method uses the norm_cdf_args dict. There are no
         required keys for this dict.
@@ -532,7 +614,24 @@ class NormalCDF(Plot, CustomizePlot):
 
 
 class Contour(Plot, CustomizePlot):
-    """Class to plot a contour plot."""
+    """Class to plot a contour plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: a list of 2D numpy arrays
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - filled: whether to fill the contour plot, default is False
+        - colors: the color of the contour plot, default is "k"
+        - inline: whether to show the inline labels, default is True
+        - fsize: the font size of the labels, default is 9
+        - cmap: the colormap of the contour plot, default is "viridis"
+    """
 
     def __init__(self, args):
         """Initialize the Contour Class."""
@@ -554,17 +653,8 @@ class Contour(Plot, CustomizePlot):
         }
         return def_dict
 
-    def plot(self):
-        """Plot a contour plot. This method uses the contour_args dict. There are no
-        required keys for this dict. Please note that the data must be a list of
-        2D numpy arrays.
-
-        Optional Keys:
-            - filled: whether to fill the contour plot, default is False
-            - colors: the color of the contour plot, default is "k"
-            - inline: whether to show the inline labels, default is True
-            - fsize: the font size of the labels, default is 9
-        """
+    def __call__(self):
+        """Plot a contour plot."""
         func = self.ax.contourf if self.customs["filled"] else self.ax.contour
         color = self.customs["colors"] if not self.customs["filled"] else None
 
@@ -585,3 +675,7 @@ class Contour(Plot, CustomizePlot):
             fontsize=self.customs["fsize"],
             inline=self.customs["inline"],
         )
+        if self.customs["filled"]:
+            cbar = self.fig.colorbar(CS, ax=self.ax)
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
