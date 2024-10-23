@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 from .utilities import PlotUtilities
 
+
 class Plot:
     """
     Base Class for Chartly's Plots. This class handles setting up and labelling
@@ -26,6 +27,7 @@ class Plot:
     >>> plot.data
     [1, 2, 3, 4, 5]
     """
+
     _fig, _ax = None, None
 
     def __init__(self, args):

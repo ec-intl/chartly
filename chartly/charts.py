@@ -1,78 +1,34 @@
+"""Module to plot and customize various types of graphs.
+
+:author: A.M.E. Popo[#]_,
+    C.O. Mbengue[#]_,
+
+:organization: Elizabeth Consulting International Inc.
+
+This module contains the following classes:
+
+    - :class:`LinePlot`: Class to plot a line plot.
+    - :class:`CDF`: Class to plot a CDF plot.
+    - :class:`Density`: Class to plot a density plot.
+    - :class:`BoxPlot`: Class to plot a box plot.
+    - :class:`Histogram`: Class to plot a histogram.
+    - :class:`ProbabilityPlot`: Class to plot a probability plot.
+    - :class:`Contour`: Class to plot a contour plot.
+    - :class:`NormalCDF`: Class to plot a normal CDF plot.
+
+.. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
+.. [#] Cheikh Oumar Mbengue, Research Scientist, cmbengue@ec-intl.com
+.. [#] Elizabeth Consulting International Inc. (ECI) is a private company that
+    specializes in the development of decision support systems for the
+    private sector. ECI is based in St. Lucia, West Indies.
+"""
+
 from matplotlib.patches import Rectangle
 import numpy as np
 import seaborn as sns
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot
-
-class HatchArea:
-    """Class to hatch the area between two points.
-
-    :param dict args: the dictionary containing the customizations
-
-    Required Keys
-        - ax: the axis object
-
-    Optional Keys
-        - xy1: the first point
-        - xy2: the second point
-        - pattern: the hatch pattern
-        - color: the color of the hatch
-        - alpha: the transparency of the hatch
-        - fill: whether to fill the hatch or not
-        - data: the data to use for the hatch"""
-
-    def __init__(self, args):
-        """Initialize the HatchArea Class."""
-        self.args = args
-        self.xy1 = self.args.get("xy1", (0, 0))
-        self.xy2 = self.args.get("xy2", (1, 1))
-        self.ax = self.args.get("ax")
-        self.pattern = self.args.get("pattern", "..")
-        self.color = self.args.get("color", "black")
-        self.alpha = self.args.get("alpha", 0.2)
-        self.fill = self.args.get("fill", True)
-        self.data = self.args.get("data", None)
-
-    def __call__(self, func):
-        """Hatch the area between two points.
-
-        :param str func: the function to call. Either 'grid' or 'mask'
-
-        Grid Required Keys
-            - xy1: the first point
-            - xy2: the second point
-
-        Mask Required Keys
-            - data: the data to use for the hatch
-        """
-        if func == "grid":
-            x = self.xy1[0]
-            y = self.xy1[1]
-            width = self.xy2[0] - self.xy1[0]
-            height = self.xy2[1] - self.xy1[1]
-
-            self.ax.add_patch(
-                Rectangle(
-                    (x, y),
-                    width,
-                    height,
-                    fill=self.fill,
-                    color=self.color,
-                    alpha=self.alpha,
-                    hatch=self.pattern,
-                )
-            )
-        if func == "mask":
-            assert self.data is not None, "Data must be provided"
-            self.ax.contourf(
-                self.data[0],
-                self.data[1],
-                self.data[2],
-                [0.5, 1],
-                hatches=[self.pattern],
-                alpha=self.alpha,
-            )
 
 
 class LinePlot(Plot, CustomizePlot):
@@ -259,11 +215,13 @@ class BoxPlot(Plot, CustomizePlot):
         return {
             "showfliers": True,
             "boxlabels": label,
-            }
+        }
 
     def __call__(self) -> None:
         """Plot Box Plots."""
-        assert isinstance(self.data, (list, np.ndarray)), "Data must be a list or a list of lists"
+        assert isinstance(
+            self.data, (list, np.ndarray)
+        ), "Data must be a list or a list of lists"
         assert isinstance(self.customs["boxlabels"], list), "Box labels must be a list"
         self.ax.boxplot(
             self.data,
@@ -536,3 +494,73 @@ class Contour(Plot, CustomizePlot):
             cbar = self.fig.colorbar(CS, ax=self.ax)
         self.axes_labels["show_legend"] = False
         self.label_axes()
+
+
+class HatchArea:
+    """Class to hatch the area between two points.
+
+    :param dict args: the dictionary containing the customizations
+
+    Required Keys
+        - ax: the axis object
+
+    Optional Keys
+        - xy1: the first point
+        - xy2: the second point
+        - pattern: the hatch pattern
+        - color: the color of the hatch
+        - alpha: the transparency of the hatch
+        - fill: whether to fill the hatch or not
+        - data: the data to use for the hatch"""
+
+    def __init__(self, args):
+        """Initialize the HatchArea Class."""
+        self.args = args
+        self.xy1 = self.args.get("xy1", (0, 0))
+        self.xy2 = self.args.get("xy2", (1, 1))
+        self.ax = self.args.get("ax")
+        self.pattern = self.args.get("pattern", "..")
+        self.color = self.args.get("color", "black")
+        self.alpha = self.args.get("alpha", 0.2)
+        self.fill = self.args.get("fill", True)
+        self.data = self.args.get("data", None)
+
+    def __call__(self, func):
+        """Hatch the area between two points.
+
+        :param str func: the function to call. Either 'grid' or 'mask'
+
+        Grid Required Keys
+            - xy1: the first point
+            - xy2: the second point
+
+        Mask Required Keys
+            - data: the data to use for the hatch
+        """
+        if func == "grid":
+            x = self.xy1[0]
+            y = self.xy1[1]
+            width = self.xy2[0] - self.xy1[0]
+            height = self.xy2[1] - self.xy1[1]
+
+            self.ax.add_patch(
+                Rectangle(
+                    (x, y),
+                    width,
+                    height,
+                    fill=self.fill,
+                    color=self.color,
+                    alpha=self.alpha,
+                    hatch=self.pattern,
+                )
+            )
+        if func == "mask":
+            assert self.data is not None, "Data must be provided"
+            self.ax.contourf(
+                self.data[0],
+                self.data[1],
+                self.data[2],
+                [0.5, 1],
+                hatches=[self.pattern],
+                alpha=self.alpha,
+            )

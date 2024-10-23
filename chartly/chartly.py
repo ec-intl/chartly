@@ -7,15 +7,7 @@
 
 This module contains the following classes:
 
-    - :class:`LinePlot`: Class to plot a line plot.
-    - :class:`CDF`: Class to plot a CDF plot.
-    - :class:`Density`: Class to plot a density plot.
-    - :class:`BoxPlot`: Class to plot a box plot.
-    - :class:`Histogram`: Class to plot a histogram.
-    - :class:`ProbabilityPlot`: Class to plot a probability plot.
-    - :class:`Contour`: Class to plot a contour plot.
-    - :class:`NormalCDF`: Class to plot a normal CDF plot.
-    - :class:`Multiplots`: Class to plot multiple subplots on the same graph.
+    - :class:`Chart`: Class to plot multiple subplots on the same graph.
 
 .. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
 .. [#] Cheikh Oumar Mbengue, Research Scientist, cmbengue@ec-intl.com
@@ -27,10 +19,19 @@ This module contains the following classes:
 import matplotlib.pyplot as plt
 
 from .base import Plot
-from .charts import BoxPlot, CDF, Contour, Density, Histogram, LinePlot, NormalCDF, ProbabilityPlot
+from .charts import (
+    BoxPlot,
+    CDF,
+    Contour,
+    Density,
+    Histogram,
+    LinePlot,
+    NormalCDF,
+    ProbabilityPlot,
+)
 
 
-class Multiplots(Plot):
+class Chart(Plot):
     """Class to plot multiple subplots on the same graph.
 
     :param dict args: the master dictionary containing the required fields.

@@ -29,7 +29,7 @@ class PlotUtilities:
 
         # Return the standardized data
         return (data - mu) / sigma
-    
+
     def tiling(self, num):
         """Calculates the number of rows and columns for the subplot.
 
