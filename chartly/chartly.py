@@ -41,6 +41,7 @@ class Chart(Plot):
         - super_xlabel: the x-axis label of the main figure
         - super_ylabel: the y-axis label of the main figure
         - share_axes: whether to share the axes of the subplots
+        - show: whether to display the main figure or not. Default is True
 
     **Example**
 
@@ -68,6 +69,7 @@ class Chart(Plot):
         self.super_xlabel = args.get("super_xlabel", " ")
         self.super_ylabel = args.get("super_ylabel", " ")
         self.share_axes = args.get("share_axes", True)
+        self.show = args.get("show", True)
 
         # Set the subplot count
         self.subplot_count = 0
@@ -185,7 +187,13 @@ class Chart(Plot):
         self.fig.supxlabel(self.super_xlabel)
         self.fig.supylabel(self.super_ylabel)
         self.fig.tight_layout()
-        self.display_plot()
+        if self.show:
+            self.display_plot()
+
+        else:
+            self._last_fig = Plot._fig
+            self.clear_plot()
+            plt.close()
 
         # Reset Canvas
         self.clear_axis()

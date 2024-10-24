@@ -41,7 +41,7 @@ class Plot:
         self.display = self.args.get("display", True)
 
         # Set the filename and format
-        self._last_fig = None
+        self._last_fig = Plot._fig
         self._fname = "plot"
         self._format = "eps"
 
@@ -150,6 +150,8 @@ class Plot:
 
         if self.display:
             self.display_plot()
+        else:
+            self._last_fig = self.fig
 
     def display_plot(self):
         """Display the plot."""
