@@ -465,6 +465,15 @@ class Contour(Plot, CustomizePlot):
             "inline": True,
             "fsize": 9,
             "cmap": "viridis",
+            "hatch": False,
+            "hatch_color": "black",
+            "hatch_alpha": 0.2,
+            "hatch_fill": True,
+            "hatch_grid": False,
+            "hatch_mask": False,
+            "pattern": "..",
+            "xy1": (0, 0),
+            "xy2": (1, 1),
         }
         return def_dict
 
@@ -492,6 +501,29 @@ class Contour(Plot, CustomizePlot):
         )
         if self.customs["filled"]:
             _ = self.fig.colorbar(CS, ax=self.ax)
+        if self.customs["hatch_grid"]:
+            payload = {
+                "ax": self.ax,
+                "xy1": self.customs["xy1"],
+                "xy2": self.customs["xy2"],
+                "pattern": self.customs["pattern"],
+                "color": self.customs["hatch_color"],
+                "alpha": self.customs["hatch_alpha"],
+                "fill": self.customs["hatch_fill"],
+            }
+            hatch = HatchArea(payload)
+            hatch("grid")
+        if self.customs["hatch_mask"]:
+            payload = {
+                "ax": self.ax,
+                "data": [self.data[0], self.data[1], self.customs["mask"]],
+                "pattern": self.customs["pattern"],
+                "color": self.customs["hatch_color"],
+                "alpha": self.customs["hatch_alpha"],
+                "fill": self.customs["hatch_fill"],
+            }
+            hatch = HatchArea(payload)
+            hatch("mask")
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
