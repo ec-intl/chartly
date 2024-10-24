@@ -441,11 +441,13 @@ class Contour(Plot, CustomizePlot):
         - axes_labels: the axes labels
 
     Available Customizations
-        - filled: whether to fill the contour plot, default is False
+        - filled?: whether to fill the contour plot, default is False
         - colors: the color of the contour plot, default is "k"
         - inline?: whether to show the inline labels, default is True
         - fontsize: the font size of the labels, default is 9
         - colormap: the colormap of the contour plot, default is "viridis"
+        - hatch?: whether to hatch the area, default is False
+        - hatch_customs: the hatch customization, default is {}
     """
 
     def __init__(self, args):
@@ -527,7 +529,7 @@ class HatchArea(CustomizePlot):
         - pattern: the hatch pattern
         - color: the color of the hatch
         - alpha: the transparency of the hatch
-        - fill: whether to fill the hatch or not
+        - fill?: whether to fill the hatch or not
         - data: the data to use for the hatch"""
 
     def defaults(self):
