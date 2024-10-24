@@ -25,7 +25,9 @@ This module contains the following classes:
 
 import numpy as np
 import seaborn as sns
+from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
+import matplotlib.pyplot as plt
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot
@@ -464,6 +466,7 @@ class Contour(Plot, CustomizePlot):
         def_dict = {
             "filled?": False,
             "colors": None,
+            "labelcolor": "dimgray",
             "inline?": True,
             "fontsize": 9,
             "colormap": "viridis",
@@ -491,13 +494,26 @@ class Contour(Plot, CustomizePlot):
             colors=color,
             cmap=self.customs["colormap"],
         )
+        contour = CS
+
+        if self.customs["filled?"]:
+            dark_cmap = self.darker_cmap()
+            edge_contours = self.ax.contour(
+                self.data[0],
+                self.data[1],
+                self.data[2],
+                cmap=dark_cmap,
+                linewidths=0.5,
+            )
+            _ = self.fig.colorbar(CS, ax=self.ax)
+            contour = edge_contours
+
         self.ax.clabel(
-            CS,
+            contour,
             fontsize=self.customs["fontsize"],
             inline=self.customs["inline?"],
+            colors=self.customs["labelcolor"],
         )
-        if self.customs["filled?"]:
-            _ = self.fig.colorbar(CS, ax=self.ax)
 
         # Hatch the area
         if self.customs["hatch?"]:
@@ -513,6 +529,18 @@ class Contour(Plot, CustomizePlot):
 
         self.axes_labels["show_legend"] = False
         self.label_axes()
+
+    def darker_cmap(self, factor=0.7):
+        """Make a colormap darker.
+
+        :param str cmap: the colormap to darken
+        :param float alpha: the transparency of the colormap
+        """
+        cmap = plt.get_cmap(self.customs["colormap"])
+        colors = cmap(np.arange(cmap.N))
+        dark_cmap = colors * factor
+        dark_cmap[:, -1] = colors[:, -1]
+        return LinearSegmentedColormap.from_list("darkened_cmap", dark_cmap)
 
 
 class HatchArea(CustomizePlot):
