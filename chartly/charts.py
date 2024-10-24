@@ -444,8 +444,8 @@ class Contour(Plot, CustomizePlot):
         - filled: whether to fill the contour plot, default is False
         - colors: the color of the contour plot, default is "k"
         - inline: whether to show the inline labels, default is True
-        - fsize: the font size of the labels, default is 9
-        - cmap: the colormap of the contour plot, default is "viridis"
+        - fontsize: the font size of the labels, default is 9
+        - colormap: the colormap of the contour plot, default is "viridis"
     """
 
     def __init__(self, args):
@@ -463,12 +463,12 @@ class Contour(Plot, CustomizePlot):
             "filled": False,
             "colors": None,
             "inline": True,
-            "fsize": 9,
-            "cmap": "viridis",
+            "fontsize": 9,
+            "colormap": "viridis",
             "hatch": False,
             "hatch_color": "black",
             "hatch_alpha": 0.2,
-            "hatch_fill": True,
+            "hatch_fill": False,
             "hatch_grid": False,
             "hatch_mask": False,
             "pattern": "..",
@@ -492,11 +492,11 @@ class Contour(Plot, CustomizePlot):
             self.data[1],
             self.data[2],
             colors=color,
-            cmap=self.customs["cmap"],
+            cmap=self.customs["colormap"],
         )
         self.ax.clabel(
             CS,
-            fontsize=self.customs["fsize"],
+            fontsize=self.customs["fontsize"],
             inline=self.customs["inline"],
         )
         if self.customs["filled"]:
