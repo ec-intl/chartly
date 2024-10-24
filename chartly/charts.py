@@ -505,7 +505,9 @@ class Contour(Plot, CustomizePlot):
                 cmap=dark_cmap,
                 linewidths=0.5,
             )
-            _ = self.fig.colorbar(CS, ax=self.ax, location="right", fraction=0.1, pad=0.02)
+            _ = self.fig.colorbar(
+                CS, ax=self.ax, location="right", fraction=0.1, pad=0.02
+            )
             contour = edge_contours
 
         self.ax.clabel(

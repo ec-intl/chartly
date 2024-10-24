@@ -111,7 +111,7 @@ class Chart(Plot):
 
     def new_subplot(self, args={}):
         """Create new subplot with current overlays
-    
+
         :param dict args: Optional. Master dictionary of all inputs to plot a graph.
 
         Required Keys:
