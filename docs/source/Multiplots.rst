@@ -85,4 +85,3 @@ The `new_subplot` method allows users to create a new subplot on the figure. The
 .. image:: https://chartly.s3.amazonaws.com/static/server/img/subplots_eg.jpg
     :alt: SubplotsExample
     :align: center
-
