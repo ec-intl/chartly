@@ -1,26 +1,21 @@
-Chartly.Multiplots Usage Guide
-===============================
+ Subplot Charts with Chartly Examples
+=====================================
 
-The Multiplots Class allows users to plot multiple plots and overlay them on a single figure. The Multiplots Class requires a dictionary of arguments to be passed to the class:
+Chartly allows users to create multiple plots on the same figure using the `overlay` and `new_subplot` methods. The `overlay` method allows users to overlay multiple plots on a single subplot. The `new_subplot` method allows users to create a new subplot on the figure.
 
-- `super_title` (str): The title of the figure.
-- `super_xlabel` (str): The x-axis label of the figure.
-- `super_ylabel` (str): The y-axis label of the figure.
-- `share_axes` (bool): Whether to share the y-axes across all subplots.
-
-
-Examples
---------
 
 Overlay Plots
 ~~~~~~~~~~~~~
 
-The `overlay` method allows users to overlay multiple plots on a single subplot. The overlay method requires a dictionary of arguments to be passed to the method:
+The `overlay` method allows users to overlay multiple plots on a single subplot. The overlay method requires a dictionary of arguments to be passed to the method. The dictionary should contain the following
 
-- `plot` (str): The type of plot to overlay.
-- `data` (list): A list of data that will be plotted.
+- `data`: The data that will be plotted.
+- `plot`: The type of plot to be created.
 
+Users can also customize and label the plots by including the following keys in the dictionary:
 
+- `axes_labels`: A dictionary containing the labels of the subplot.
+- `customs`: A dictionary containing the customization options of the plot.
 
 .. code-block:: python
 
@@ -29,7 +24,7 @@ The `overlay` method allows users to overlay multiple plots on a single subplot.
     # define main figure labels
     args = {"super_title": "Overlay Example", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
 
-    multi = chartly.Multiplots(args)
+    multi = chartly.Chart(args)
 
     # Define Some Data
     data = np.random.normal(loc=2, scale=1, size=1000)
@@ -46,10 +41,6 @@ The `overlay` method allows users to overlay multiple plots on a single subplot.
         # Overlay a histogram
         multi.overlay(overlay_payload)
 
-    # Overlay a density plot
-    overlay_payload = {"plot": "density", "data": data, "axes_labels": {"xlabel": "X", "ylabel": "Y"}}
-    multi.overlay(overlay_payload)
-
     multi()
 
 
@@ -61,7 +52,7 @@ The `overlay` method allows users to overlay multiple plots on a single subplot.
 Subplots
 ~~~~~~~~
 
-The `new_subplot` method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Multiplots object to render the figure.
+The `new_subplot` method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Charts instance to render the figure.
 
 
 .. code-block:: python
@@ -71,7 +62,7 @@ The `new_subplot` method allows users to create a new subplot on the figure. The
     # define main figure labels
     args = {"super_title": "Subplots Example", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
 
-    multi = chartly.Multiplots(args)
+    multi = chartly.Chart(args)
 
     # Define Some Data
     data = np.random.normal(loc=0.8, scale=2, size=50)

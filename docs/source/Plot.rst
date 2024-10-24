@@ -1,29 +1,5 @@
-Plot Charts with Chartly Usage Guide
-============================
-
-The Chartly package currently has eight (8) available scientific plots that can be created, namely:
-
-- Line Plot
-- Histogram
-- Contour Plot
-- Normal Probability Plot
-- Cumulative Distribution Function Plot
-- Normal Cumulative Distribution Function Plot
-- Density Plot
-- Box Plot
-
-Users can create a plot by passing a dictionary of arguments to the `overlay` method. The dictionary should contain the following keys:
-
-- `data`: The data that will be plotted.
-- `plot`: The type of plot to be created.
-
-Users can also customize and label the plots by including the following keys in the dictionary:
-
-- `axes_labels`: A dictionary containing the labels of the plot.
-- `customs`: A dictionary containing the customization options of the plot.
-
- Each plot type has its own customization options. Please continue reading to see the customization options available for each plot type.
-
+Single Plot Charts with Chartly Examples
+========================================
 
 Line Plot
 ~~~~~~~~~~~~
@@ -40,7 +16,7 @@ The following customization options are available for the Line Plot:
     import chartly
 
     # Only y data
-    data = np.random.randn(100)
+    data = np.random.randn(300)
 
     # customize the plot
     customs = {"color": "red", "linestyle": "--"}
