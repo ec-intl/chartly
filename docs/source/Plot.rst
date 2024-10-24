@@ -122,11 +122,14 @@ Contour Plot
 
 Contour plots can be created using the `contour` keyword. The contour plot requires 2D arrays of X, Y and Z data to be passed to the plot. The following customization options are available for the contour plot:
 
+- `inline?` (bool): Whether the contour labels are inline or not.
 - `color` (str): The color of the contour plot. Ensure that the `cmap` is set to None.
 - `levels` (int): The number of contour levels.
-- `cmap` (str): The colormap of the contour plot.
-- `filled` (bool): Whether the contour plot is filled or not.
-- `fsize` (int): The font size of the contour labels.
+- `colormap` (str): The colormap of the contour plot.
+- `filled?` (bool): Whether the contour plot is filled or not.
+- `fontsize` (int): The font size of the contour labels.
+- `hatch?` (bool): Whether the contour plot has a hatched area or not.
+- `hatch_customs` (dict): The hatch customization options.
 
 .. code-block:: python
 
@@ -151,7 +154,7 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
 
 
     # customize the plot
-    customs = {"cmap": "magma", "fsize": 14, "filled": True}
+    customs = {"colormap": "magma", "fontsize": 14, "filled?": True}
 
     # set the arguments
     plot_payload = {"plot": "contour", "data": [X, Y, Z], "customs": customs}
@@ -358,4 +361,3 @@ A boxplot of one or more datasets can be plotted using the `BoxPlot` class. A da
 .. image:: https://chartly.s3.amazonaws.com/static/server/img/boxplot_eg.jpg
     :alt: BoxPlotExample
     :align: center
-

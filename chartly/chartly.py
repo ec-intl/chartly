@@ -109,8 +109,19 @@ class Chart(Plot):
 
         self.current_subplot.append([plot, data, axes_labels, customs])
 
-    def new_subplot(self):
-        """Create new subplot with current overlays"""
+    def new_subplot(self, args={}):
+        """Create new subplot with current overlays
+
+        :param dict args: Optional. Master dictionary of all inputs to plot a graph.
+
+        Required Keys:
+            - plot: The graph name.
+            - data: The data to plot onto the graph
+
+        Optional Keys:
+            - axes_labels: The axes labels for the subplot.
+            - customs: The plot's customization.
+        """
         # Increment the number of subplots already plotted
         self.subplot_count += 1
         if len(self.current_subplot) > 0:
@@ -119,6 +130,8 @@ class Chart(Plot):
 
         # Reset current subplot
         self.current_subplot = []
+        if args:
+            self.overlay(args)
 
     def __call__(self):
         """Build the main figure, label its axes and display the result.
