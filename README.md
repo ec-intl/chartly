@@ -1,114 +1,68 @@
-# ✨ Welcome to ECI's GitHub Repository Template! ✨
+# plotting Package
 
-🚀 Ready to launch your next stellar project? You've landed on the right launchpad! This repository is your ultimate starter kit for blasting off a new company GitHub repository.
+![GitHub license](https://img.shields.io/github/license/ec-intl/plotting)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/ec-intl/plotting)
+![GitHub issues](https://img.shields.io/github/issues/ec-intl/plotting)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/ec-intl/plotting)
+![GitHub contributors](https://img.shields.io/github/contributors/ec-intl/plotting)
+![GitHub last commit](https://img.shields.io/github/last-commit/ec-intl/plotting)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ec-intl/plotting)
+![GitHub top language](https://img.shields.io/github/languages/top/ec-intl/plotting)
+![GitHub search hit counter](https://img.shields.io/github/search/ec-intl/plotting/plotting)
+![GitHub stars](https://img.shields.io/github/stars/ec-intl/plotting)
+![GitHub watchers](https://img.shields.io/github/watchers/ec-intl/plotting)
 
-## Important Considerations
+`plotting` is a lightweight Python package designed to plot and customize multiple subplots and overlays onto one master plot.
 
-For the best experience, please follow these guidelines:
 
-### Required Branches on GitHub
+## Project Status
 
-- `main` - The main branch for the repository.
-- `staging` - The staging branch for the repository.
-- `production` - The production branch for the repository.
-- `release` - The release branch for the repository.
-- `gh-pages` - The GitHub Pages branch for the repository.
+Here's the current status of our workflows:
 
-### Minimum Directory Structure
+| Workflow                | Status |
+|-------------------------|--------|
+| Testing Suite  | [![Continuous-Integration](https://github.com/ec-intl/plotting/actions/workflows/ci.yml/badge.svg)](https://github.com/ec-intl/plotting/actions/workflows/ci.yml) |
+| Deployment Suite | [![Continuous-Deployment](https://github.com/ec-intl/plotting/actions/workflows/cd.yml/badge.svg)](https://github.com/ec-intl/plotting/actions/workflows/cd.yml)|
+| Sphinx Documentation           | [![Sphinx-docs](https://github.com/ec-intl/plotting/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/plotting/actions/workflows/docs.yml) |
+| Guard Main Branch       | [![Guard Main Branch](https://github.com/ec-intl/plotting/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/plotting/actions/workflows/guard.yml) |
+| Code Quality Checker    | [![Lint Codebase](https://github.com/ec-intl/plotting/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ec-intl/plotting/actions/workflows/super-linter.yml) |
 
-The following directory structure is required for the template to work correctly.
+## Components
 
-```plaintext
-|--- .github/
-      |--- workflows/
-           |--- ci.yml
-           |--- cd.yml
-           |--- docs.yml
-           |--- guard.yml
-           |--- release-log.yml
-           |--- super-linter.yml
-|--- LICENSE  # ECI Proprietary License file / Apache 2.0
-|--- README.md
-```
-
-## Status
-
-| Workflow | Status |
-|----------|--------|
-| **Continuous Integration** | [![Continuous-Integration](https://github.com/ec-intl/workflow-templates/actions/workflows/ci.yml/badge.svg)](https://github.com/ec-intl/workflow-templates/actions/workflows/ci.yml) |
-| **Continuous Deployment** | [![Continuous Deployment](https://github.com/ec-intl/workflow-templates/actions/workflows/cd.yml/badge.svg)](https://github.com/ec-intl/workflow-templates/actions/workflows/cd.yml) |
-| **Documentation Status** | [![Documentation](https://github.com/ec-intl/workflow-templates/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/workflow-templates/actions/workflows/docs.yml) |
-| **Guard Main Branch** | [![Guard Main](https://github.com/ec-intl/workflow-templates/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/workflow-templates/actions/workflows/guard.yml) |
-| **Code Standards Checks** | [![Lint Codebase](https://github.com/ec-intl/workflow-templates/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ec-intl/workflow-templates/actions/workflows/super-linter.yml) |
-| **Release Logging** | [![Release Log](https://github.com/ec-intl/workflow-templates/actions/workflows/release-log.yml/badge.svg)](https://github.com/ec-intl/workflow-templates/actions/workflows/release-log.yml) |
-
-## Why Use This Template?
-
-- **Ignite Your Engines:** Accelerate your projects with pre-configured settings, branching strategies, and essential files.
-- **Mission Control:** Standardized structure makes it easier for your team to collaborate and navigate your repositories.
-
-## What's in the Cargo Bay?
-
-- **README.MD:** This is a helpful guide!
-- **LICENSE:** Choose the appropriate license for your project.
-- **.gitignore:** Ignore files that shouldn't be tracked in your repository.
-- **.github/workflows:** GitHub Actions for CI/CD.
-- **Dockerfile:** Build your project into a container.
-- **Jupyter Notebook:** A sample notebook to get you started.
-- **docker-compose.yml:** A sample Docker Compose file.
-- **run-ci:** A script to run CI checks locally but with Docker.
-- **run-linter:** A script to run linters locally.
-- **[Optional Folders]:** Examples: `docs/`, `notebooks/`, `src/`, `environments/`, `.github/`, and `.devcontainer/`
-
-## 🚀 3... 2... 1... Liftoff! 🚀
-
-1. **Clone or Create Repository from template:**  Make this repository your own!
-2. **Personalize:** Update the `README.md`, `LICENSE`, etc., with your project details.
-3. **Collaborate:** Invite your team to join the adventure.
-4. **Blast Off!** Start building something incredible!
-
-## 🌌 Repository Stucture 🌌
+The plotting's codebase structure is as shown below:
 
 ```plaintext
-|--- .devcontainer/          # Dev Container settings
-      |--- bash-src
-           |--- aliases
-           |--- functions
-      |--- install
-|--- .github/                # GitHub Actions
-      |--- workflows/
-           |--- ci.yml
-           |--- cd.yml
-           |--- docs.yml
-           |--- guard.yml
-           |--- release-log.yml
-           |--- super-linter.yml
-|--- docs/
-      |--- index.html
-      |--- static/
-           |--- css/
-                |--- site.css
-           |--- js/
-                |--- site.js
-|--- environments/
-      |--- development.env
-      |--- production.env
-      |--- staging.env
-      |--- testing.env
-|--- notebooks/
-      |--- sample.ipynb
-|--- scripts/
-      |--- ci
-            |--- run-ci.sh
-      |--- dev
-            |--- .sleeping_daemon.sh
-|--- src/
-      |--- sample_module.py
-|--- .dockerignore
-|--- .gitignore
-|--- Dockerfile
-|--- LICENSE
-|--- README.md
-|--- docker-compose.yml
-|--- VERSION
+.
+├── LICENSE
+├── README.md
+├── MANIFEST.in
+├── VERSION
+├── Dockerfile
+├── docker-compose.yml
+├── CHANGELOG.md
+├── docs
+│   ├── index.html
+│   ├── static
+|   │   ├── css
+|   |   │   └── site.css
+|   |   └── js
+|   |       └── site.js
+├── requirements
+│   ├── testing.txt
+│   ├── staging.txt
+│   └── production.txt
+├── requirements.txt
+├── setup.py
+├── scripts
+│   ├── ci
+│   │   └── run-ci.sh
+│   └── dev
+│       └── sleeping_daemon.sh
+└── src
+│   ├── plotting
+│   │   ├── __init__.py
+│   │   └── plotting.py
+│   └── tests
+│   │   ├── __init__.py
+│   │   └── test_plotting.py
 ```
