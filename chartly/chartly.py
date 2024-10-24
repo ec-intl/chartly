@@ -19,8 +19,16 @@ This module contains the following classes:
 import matplotlib.pyplot as plt
 
 from .base import Plot
-from .charts import (CDF, BoxPlot, Contour, Density, Histogram, LinePlot,
-                     NormalCDF, ProbabilityPlot)
+from .charts import (
+    CDF,
+    BoxPlot,
+    Contour,
+    Density,
+    Histogram,
+    LinePlot,
+    NormalCDF,
+    ProbabilityPlot,
+)
 
 
 class Chart(Plot):

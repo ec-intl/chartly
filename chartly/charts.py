@@ -491,7 +491,7 @@ class Contour(Plot, CustomizePlot):
             inline=self.customs["inline"],
         )
         if self.customs["filled"]:
-            cbar = self.fig.colorbar(CS, ax=self.ax)
+            _ = self.fig.colorbar(CS, ax=self.ax)
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
