@@ -37,7 +37,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -v --cov ./src/tests/
+          pytest -v --cov ./chartly/tests/
 
       - name: Build and upload to Test PyPI
         if: ${{ vars.STAGE_TO_PYPI == 'yes' && contains(env.BRANCH, 'staging') && env.EVENT == 'merge_group' }}
