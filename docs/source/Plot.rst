@@ -124,9 +124,9 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
 
 - `color` (str): The color of the contour plot. Ensure that the `cmap` is set to None.
 - `levels` (int): The number of contour levels.
-- `cmap` (str): The colormap of the contour plot.
+- `colormap` (str): The colormap of the contour plot.
 - `filled` (bool): Whether the contour plot is filled or not.
-- `fsize` (int): The font size of the contour labels.
+- `fontsize` (int): The font size of the contour labels.
 
 .. code-block:: python
 
@@ -151,7 +151,7 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
 
 
     # customize the plot
-    customs = {"cmap": "magma", "fsize": 14, "filled": True}
+    customs = {"colormap": "magma", "fontsize": 14, "filled": True}
 
     # set the arguments
     plot_payload = {"plot": "contour", "data": [X, Y, Z], "customs": customs}
