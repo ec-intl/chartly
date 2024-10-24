@@ -1,0 +1,346 @@
+chartly.charts
+==============
+
+.. py:module:: chartly.charts
+
+.. autoapi-nested-parse::
+
+   Module to plot and customize various types of graphs.
+
+   :author: A.M.E. Popo[#]_,
+       C.O. Mbengue[#]_,
+
+   :organization: Elizabeth Consulting International Inc.
+
+   This module contains the following classes:
+
+       - :class:`LinePlot`: Class to plot a line plot.
+       - :class:`CDF`: Class to plot a CDF plot.
+       - :class:`Density`: Class to plot a density plot.
+       - :class:`BoxPlot`: Class to plot a box plot.
+       - :class:`Histogram`: Class to plot a histogram.
+       - :class:`ProbabilityPlot`: Class to plot a probability plot.
+       - :class:`Contour`: Class to plot a contour plot.
+       - :class:`NormalCDF`: Class to plot a normal CDF plot.
+
+   .. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
+   .. [#] Cheikh Oumar Mbengue, Research Scientist, cmbengue@ec-intl.com
+   .. [#] Elizabeth Consulting International Inc. (ECI) is a private company that
+       specializes in the development of decision support systems for the
+       private sector. ECI is based in St. Lucia, West Indies.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   chartly.charts.LinePlot
+   chartly.charts.CDF
+   chartly.charts.Density
+   chartly.charts.BoxPlot
+   chartly.charts.Histogram
+   chartly.charts.ProbabilityPlot
+   chartly.charts.NormalCDF
+   chartly.charts.Contour
+   chartly.charts.HatchArea
+
+
+Module Contents
+---------------
+
+.. py:class:: LinePlot(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a line plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+       - axes_labels: the axes labels
+
+   Available Customizations
+       - color: the color of the line plot, default is "navy"
+       - linestyle: the style of the line plot, default is "solid"
+
+
+   .. py:method:: __call__()
+
+      Plot the line plot.
+
+
+
+   .. py:method:: defaults()
+
+      Set the default plot.
+
+
+
+.. py:class:: CDF(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a CDF plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+
+   Available Customizations
+       - color: the color of the CDF plot, default is "dodgerblue"
+
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Plot the CDF.
+
+
+
+.. py:class:: Density(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a density plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+
+   Available Customizations
+       - color: the color of the density plot, default is "red"
+       - fill: whether to fill the density plot, default is False
+       - label: the label of the density plot, default is " "
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Plot the density plot.
+
+
+
+.. py:class:: BoxPlot(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a box plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+       - axes_labels: the axes labels
+
+   Available Customizations
+       - showfliers: whether to show the outliers, default is True
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__() -> None
+
+      Plot Box Plots.
+
+
+
+.. py:class:: Histogram(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a histogram.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+       - axes_labels: the axes labels
+
+   Available Customizations
+       - num_bins: the number of bins in the histogram, default is 20
+       - color: the color of the histogram, default is "plum"
+       - ran: the range of the histogram, default is None
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Plot a histogram
+
+
+
+.. py:class:: ProbabilityPlot(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a probability plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+       - axes_labels: the axes labels
+
+   Available Customizations
+       - color: the color of the scatter markers, default is "orangered"
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Plot a probability plot.
+
+
+
+.. py:class:: NormalCDF(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a normal CDF plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: the data to plot
+
+   Optional Keys
+       - customs: the plot's customization
+       - axes_labels: the axes labels
+
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Plot a standard normal distribution CDF against the CDF
+      of other datasets. This method uses the norm_cdf_args dict. There are no
+      required keys for this dict.
+
+
+
+.. py:class:: Contour(args)
+
+   Bases: :py:obj:`chartly.base.Plot`, :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to plot a contour plot.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys
+       - data: a list of 2D numpy arrays
+
+   Optional Keys
+       - customs: the plot's customization
+       - axes_labels: the axes labels
+
+   Available Customizations
+       - filled?: whether to fill the contour plot, default is False
+       - colors: the color of the contour plot, default is "k"
+       - inline?: whether to show the inline labels, default is True
+       - fontsize: the font size of the labels, default is 9
+       - colormap: the colormap of the contour plot, default is "viridis"
+       - hatch?: whether to hatch the area, default is False
+       - hatch_customs: the hatch customization, default is {}
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Plot a contour plot.
+
+
+
+   .. py:method:: darker_cmap(factor=0.7)
+
+      Make a colormap darker.
+
+      :param str cmap: the colormap to darken
+      :param float alpha: the transparency of the colormap
+
+
+
+.. py:class:: HatchArea
+
+   Bases: :py:obj:`chartly.base.CustomizePlot`
+
+
+   Class to hatch the area between two points.
+
+   :param dict args: the dictionary containing the customizations
+
+   Required Keys
+       - ax: the axis object
+
+   Optional Keys
+       - xy1: the first point
+       - xy2: the second point
+       - pattern: the hatch pattern
+       - color: the color of the hatch
+       - alpha: the transparency of the hatch
+       - fill?: whether to fill the hatch or not
+       - data: the data to use for the hatch
+
+
+   .. py:method:: defaults()
+
+
+   .. py:method:: __call__()
+
+      Hatch the area between two points.
+
+      :param str func: the function to call. Either 'grid' or 'mask'
+
+      Grid Required Keys
+          - xy1: the first point
+          - xy2: the second point
+
+      Mask Required Keys
+          - data: the data to use for the hatch
+
+
+

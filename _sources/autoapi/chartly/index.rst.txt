@@ -1,0 +1,134 @@
+chartly
+=======
+
+.. py:module:: chartly
+
+.. autoapi-nested-parse::
+
+   Initialize the chartly package.
+
+
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/chartly/tests/index
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/chartly/base/index
+   /autoapi/chartly/chartly/index
+   /autoapi/chartly/charts/index
+   /autoapi/chartly/utilities/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   chartly.Chart
+
+
+Package Contents
+----------------
+
+.. py:class:: Chart(args={})
+
+   Bases: :py:obj:`chartly.base.Plot`
+
+
+   Class to plot multiple subplots on the same graph.
+
+   :param dict args: the master dictionary containing the required fields.
+
+   Required Keys:
+       - super_title: the title of the main figure
+       - super_xlabel: the x-axis label of the main figure
+       - super_ylabel: the y-axis label of the main figure
+       - share_axes: whether to share the axes of the subplots
+       - show: whether to display the main figure or not. Default is True
+
+   **Example**
+
+   >>> args = {
+   ...     "super_title": "Test Title",
+   ...     "super_xlabel": "Test X Label",
+   ...     "super_ylabel": "Test Y Label",
+   ...     "share_axes": False,
+   ... }
+   >>> multiplot = Multiplots(args)
+   >>> multiplot.share_axes
+   False
+
+
+   .. py:method:: overlay(overlay_args)
+
+      Overlay new plot onto current subplot.
+
+      :param dict overlay_args: Master dictionary of all inputs
+
+      Required Keys:
+          - plot: The graph name.
+          - data: The data to plot onto the graph
+
+      Optional Keys:
+          - axes_labels: The axes labels for the subplot.
+          - customs: The plot's customization.
+
+
+
+   .. py:method:: new_subplot(args={})
+
+      Create new subplot with current overlays
+
+      :param dict args: Optional. Master dictionary of all inputs to plot a graph.
+
+      Required Keys:
+          - plot: The graph name.
+          - data: The data to plot onto the graph
+
+      Optional Keys:
+          - axes_labels: The axes labels for the subplot.
+          - customs: The plot's customization.
+
+
+
+   .. py:method:: __call__()
+
+      Build the main figure, label its axes and display the result.
+
+      **Usage**
+
+      >>> args = {
+      ...     "super_title": "Test Title",
+      ...     "super_xlabel": "Test X Label",
+      ...     "super_ylabel": "Test Y Label",
+      ...     "share_axes": False,
+      ... }
+      >>> multiplot = Multiplots(args)
+      >>> multiplot.new_subplot()
+      >>> overlay_args = {
+      ...     "plot": "cdf",
+      ...     "data": [1, 2, 3, 4, 5],
+      ...     "axes_labels": {"title": "CDF Plot", "xlabel": "X", "ylabel": "Y"},
+      ... }
+      >>> multiplot.overlay(overlay_args)
+      >>> multiplot()
+
+
+
+   .. py:method:: clear_axis()
+
+      Reset Subplot Trackers.
+
+
+

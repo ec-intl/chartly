@@ -1,0 +1,89 @@
+chartly.tests.test_chartly
+==========================
+
+.. py:module:: chartly.tests.test_chartly
+
+.. autoapi-nested-parse::
+
+   Test plotting module.
+
+   :author: C.O. Mbengue [#]_,
+       A.M.E. Popo [#]_
+
+   :organization: Elizabeth Consulting International Inc. [#]_
+
+   .. [#] Cheikh Oumar Mbengue, Research Scientist, cmbengue@ec-intl.com
+   .. [#] Azendae Marie-Ange Elizabeth Popo, Research Assistant, apopo@ec-intl.com
+   .. [#] Elizabeth Consulting International Inc. (ECI) is a private company that
+       specializes in the development of decision support systems for the
+       private sector. ECI is based in St. Lucia, West Indies.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   chartly.tests.test_chartly.TestPlotting
+
+
+Module Contents
+---------------
+
+.. py:class:: TestPlotting(methodName='runTest')
+
+   Bases: :py:obj:`unittest.TestCase`
+
+
+   Test the plotting module.
+
+
+   .. py:method:: setUp()
+
+      Set up the test class.
+
+
+
+   .. py:method:: test_gen_plot_data_type()
+
+      Test that the generic plot can use both a 1D and 2D list of data.
+
+
+
+   .. py:method:: test_gen_plot_data_length()
+
+      Test that the generic plot throws an error if the data lengths are unequal.
+
+
+
+   .. py:method:: test_standardize_data()
+
+      Test that the data is standardized correctly.
+
+
+
+   .. py:method:: test_mutli_subplot_count()
+
+      Test that the multiplot object can handle multiple subplots.
+
+
+
+   .. py:method:: test_multi_clear_axis()
+
+      Test that the multiplot object can clear the axis.
+
+
+
+   .. py:method:: test_contour_data_length()
+
+      Test that the contour plot throws an error if the data lengths are unequal.
+
+
+
+   .. py:method:: test_default()
+
+      Test that the default plot is created correctly.
+
+
+

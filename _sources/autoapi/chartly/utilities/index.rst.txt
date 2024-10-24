@@ -1,0 +1,52 @@
+chartly.utilities
+=================
+
+.. py:module:: chartly.utilities
+
+.. autoapi-nested-parse::
+
+   Utilities module for the Chartly package.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   chartly.utilities.PlotUtilities
+
+
+Module Contents
+---------------
+
+.. py:class:: PlotUtilities
+
+   Class containing auxillary utility functions for plotting.
+
+   **Usage**
+
+   >>> util = PlottingUtilities()
+
+
+   .. py:method:: standardize_dataset(data: list) -> numpy.ndarray
+
+      Standardize a dataset by subtracting the mean and dividing the std
+      of the dataset from each value.
+
+      :param list data: the data list
+      :return: standardized data
+      :rtype: ndarray
+
+
+
+   .. py:method:: tiling(num)
+
+      Calculates the number of rows and columns for the subplot.
+
+      :param int num: the number of subplots
+      :return: the number of rows and columns
+      :rtype: tuple
+
+
+

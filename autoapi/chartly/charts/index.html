@@ -1,0 +1,681 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>chartly.charts &#8212; chartly  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/cloud.css?v=f9ae72be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+
+    
+    
+     
+        <script src="../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="chartly.utilities" href="../utilities/index.html" />
+    <link rel="prev" title="chartly.chartly" href="../chartly/index.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../utilities/index.html" title="chartly.utilities"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../chartly/index.html" title="chartly.chartly"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../../index.html">chartly  documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" accesskey="U">chartly</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">chartly.charts</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-chartly.charts">
+<span id="chartly-charts"></span><h1>chartly.charts<a class="headerlink" href="#module-chartly.charts" title="Link to this heading">¶</a></h1>
+<p>Module to plot and customize various types of graphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A.M.E. Popo[#]_,
+C.O. Mbengue[#]_,</p>
+</dd>
+<dt class="field-even">organization<span class="colon">:</span></dt>
+<dd class="field-even"><p>Elizabeth Consulting International Inc.</p>
+</dd>
+</dl>
+<p>This module contains the following classes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#chartly.charts.LinePlot" title="chartly.charts.LinePlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinePlot</span></code></a>: Class to plot a line plot.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.CDF" title="chartly.charts.CDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">CDF</span></code></a>: Class to plot a CDF plot.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.Density" title="chartly.charts.Density"><code class="xref py py-class docutils literal notranslate"><span class="pre">Density</span></code></a>: Class to plot a density plot.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.BoxPlot" title="chartly.charts.BoxPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoxPlot</span></code></a>: Class to plot a box plot.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.Histogram" title="chartly.charts.Histogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram</span></code></a>: Class to plot a histogram.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.ProbabilityPlot" title="chartly.charts.ProbabilityPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProbabilityPlot</span></code></a>: Class to plot a probability plot.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.Contour" title="chartly.charts.Contour"><code class="xref py py-class docutils literal notranslate"><span class="pre">Contour</span></code></a>: Class to plot a contour plot.</p></li>
+<li><p><a class="reference internal" href="#chartly.charts.NormalCDF" title="chartly.charts.NormalCDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">NormalCDF</span></code></a>: Class to plot a normal CDF plot.</p></li>
+</ul>
+</div></blockquote>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Azendae Marie-Ange Elizabeth Popo, Research Assistant, <a class="reference external" href="mailto:apopo&#37;&#52;&#48;ec-intl&#46;com">apopo<span>&#64;</span>ec-intl<span>&#46;</span>com</a></p>
+</aside>
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Cheikh Oumar Mbengue, Research Scientist, <a class="reference external" href="mailto:cmbengue&#37;&#52;&#48;ec-intl&#46;com">cmbengue<span>&#64;</span>ec-intl<span>&#46;</span>com</a></p>
+</aside>
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<p>Elizabeth Consulting International Inc. (ECI) is a private company that
+specializes in the development of decision support systems for the
+private sector. ECI is based in St. Lucia, West Indies.</p>
+</aside>
+</aside>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#chartly.charts.LinePlot" title="chartly.charts.LinePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinePlot</span></code></a></p></td>
+<td><p>Class to plot a line plot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#chartly.charts.CDF" title="chartly.charts.CDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CDF</span></code></a></p></td>
+<td><p>Class to plot a CDF plot.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#chartly.charts.Density" title="chartly.charts.Density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Density</span></code></a></p></td>
+<td><p>Class to plot a density plot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#chartly.charts.BoxPlot" title="chartly.charts.BoxPlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoxPlot</span></code></a></p></td>
+<td><p>Class to plot a box plot.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#chartly.charts.Histogram" title="chartly.charts.Histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Histogram</span></code></a></p></td>
+<td><p>Class to plot a histogram.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#chartly.charts.ProbabilityPlot" title="chartly.charts.ProbabilityPlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProbabilityPlot</span></code></a></p></td>
+<td><p>Class to plot a probability plot.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#chartly.charts.NormalCDF" title="chartly.charts.NormalCDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NormalCDF</span></code></a></p></td>
+<td><p>Class to plot a normal CDF plot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#chartly.charts.Contour" title="chartly.charts.Contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Contour</span></code></a></p></td>
+<td><p>Class to plot a contour plot.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#chartly.charts.HatchArea" title="chartly.charts.HatchArea"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HatchArea</span></code></a></p></td>
+<td><p>Class to hatch the area between two points.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.LinePlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">LinePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.LinePlot" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a line plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>color: the color of the line plot, default is “navy”</p></li>
+<li><p>linestyle: the style of the line plot, default is “solid”</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.LinePlot.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.LinePlot.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot the line plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.LinePlot.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.LinePlot.defaults" title="Link to this definition">¶</a></dt>
+<dd><p>Set the default plot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.CDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">CDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.CDF" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a CDF plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>color: the color of the CDF plot, default is “dodgerblue”</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.CDF.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.CDF.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.CDF.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.CDF.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot the CDF.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.Density">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">Density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Density" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a density plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>color: the color of the density plot, default is “red”</p></li>
+<li><p>fill: whether to fill the density plot, default is False</p></li>
+<li><p>label: the label of the density plot, default is “ “</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Density.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Density.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Density.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Density.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot the density plot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.BoxPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">BoxPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.BoxPlot" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a box plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>showfliers: whether to show the outliers, default is True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.BoxPlot.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.BoxPlot.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.BoxPlot.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#chartly.charts.BoxPlot.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot Box Plots.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.Histogram">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">Histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Histogram" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a histogram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>num_bins: the number of bins in the histogram, default is 20</p></li>
+<li><p>color: the color of the histogram, default is “plum”</p></li>
+<li><p>ran: the range of the histogram, default is None</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Histogram.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Histogram.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Histogram.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Histogram.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot a histogram</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.ProbabilityPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">ProbabilityPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.ProbabilityPlot" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a probability plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>color: the color of the scatter markers, default is “orangered”</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.ProbabilityPlot.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.ProbabilityPlot.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.ProbabilityPlot.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.ProbabilityPlot.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot a probability plot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.NormalCDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">NormalCDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.NormalCDF" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a normal CDF plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.NormalCDF.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.NormalCDF.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.NormalCDF.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.NormalCDF.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot a standard normal distribution CDF against the CDF
+of other datasets. This method uses the norm_cdf_args dict. There are no
+required keys for this dict.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.Contour">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">Contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Contour" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a contour plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: a list of 2D numpy arrays</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>filled?: whether to fill the contour plot, default is False</p></li>
+<li><p>colors: the color of the contour plot, default is “k”</p></li>
+<li><p>inline?: whether to show the inline labels, default is True</p></li>
+<li><p>fontsize: the font size of the labels, default is 9</p></li>
+<li><p>colormap: the colormap of the contour plot, default is “viridis”</p></li>
+<li><p>hatch?: whether to hatch the area, default is False</p></li>
+<li><p>hatch_customs: the hatch customization, default is {}</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Contour.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Contour.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Contour.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Contour.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot a contour plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.Contour.darker_cmap">
+<span class="sig-name descname"><span class="pre">darker_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.Contour.darker_cmap" title="Link to this definition">¶</a></dt>
+<dd><p>Make a colormap darker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmap</strong> (<em>str</em>) – the colormap to darken</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – the transparency of the colormap</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.HatchArea">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">HatchArea</span></span><a class="headerlink" href="#chartly.charts.HatchArea" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to hatch the area between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the dictionary containing the customizations</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>ax: the axis object</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>xy1: the first point</p></li>
+<li><p>xy2: the second point</p></li>
+<li><p>pattern: the hatch pattern</p></li>
+<li><p>color: the color of the hatch</p></li>
+<li><p>alpha: the transparency of the hatch</p></li>
+<li><p>fill?: whether to fill the hatch or not</p></li>
+<li><p>data: the data to use for the hatch</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.HatchArea.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.HatchArea.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.HatchArea.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.HatchArea.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Hatch the area between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>str</em>) – the function to call. Either ‘grid’ or ‘mask’</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Grid Required Keys</dt><dd><ul class="simple">
+<li><p>xy1: the first point</p></li>
+<li><p>xy2: the second point</p></li>
+</ul>
+</dd>
+<dt>Mask Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to use for the hatch</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="../../../index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">chartly.charts</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#chartly.charts.LinePlot"><code class="docutils literal notranslate"><span class="pre">LinePlot</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.LinePlot.__call__"><code class="docutils literal notranslate"><span class="pre">LinePlot.__call__()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.LinePlot.defaults"><code class="docutils literal notranslate"><span class="pre">LinePlot.defaults()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.CDF"><code class="docutils literal notranslate"><span class="pre">CDF</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.CDF.defaults"><code class="docutils literal notranslate"><span class="pre">CDF.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.CDF.__call__"><code class="docutils literal notranslate"><span class="pre">CDF.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.Density"><code class="docutils literal notranslate"><span class="pre">Density</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.Density.defaults"><code class="docutils literal notranslate"><span class="pre">Density.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.Density.__call__"><code class="docutils literal notranslate"><span class="pre">Density.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.BoxPlot"><code class="docutils literal notranslate"><span class="pre">BoxPlot</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.BoxPlot.defaults"><code class="docutils literal notranslate"><span class="pre">BoxPlot.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.BoxPlot.__call__"><code class="docutils literal notranslate"><span class="pre">BoxPlot.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.Histogram"><code class="docutils literal notranslate"><span class="pre">Histogram</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.Histogram.defaults"><code class="docutils literal notranslate"><span class="pre">Histogram.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.Histogram.__call__"><code class="docutils literal notranslate"><span class="pre">Histogram.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.ProbabilityPlot"><code class="docutils literal notranslate"><span class="pre">ProbabilityPlot</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.ProbabilityPlot.defaults"><code class="docutils literal notranslate"><span class="pre">ProbabilityPlot.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.ProbabilityPlot.__call__"><code class="docutils literal notranslate"><span class="pre">ProbabilityPlot.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.NormalCDF"><code class="docutils literal notranslate"><span class="pre">NormalCDF</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.NormalCDF.defaults"><code class="docutils literal notranslate"><span class="pre">NormalCDF.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.NormalCDF.__call__"><code class="docutils literal notranslate"><span class="pre">NormalCDF.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.Contour"><code class="docutils literal notranslate"><span class="pre">Contour</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.Contour.defaults"><code class="docutils literal notranslate"><span class="pre">Contour.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.Contour.__call__"><code class="docutils literal notranslate"><span class="pre">Contour.__call__()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.Contour.darker_cmap"><code class="docutils literal notranslate"><span class="pre">Contour.darker_cmap()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.HatchArea"><code class="docutils literal notranslate"><span class="pre">HatchArea</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.HatchArea.defaults"><code class="docutils literal notranslate"><span class="pre">HatchArea.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.HatchArea.__call__"><code class="docutils literal notranslate"><span class="pre">HatchArea.__call__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div class="sphinxprev">
+    <h4>Previous page</h4>
+    <p class="topless"><a href="../chartly/index.html"
+                          title="Previous page">&larr; chartly.chartly</a></p>
+  </div>
+  <div class="sphinxnext">
+    <h4>Next page</h4>
+    <p class="topless"><a href="../utilities/index.html"
+                          title="Next page">&rarr; chartly.utilities</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/autoapi/chartly/charts/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../utilities/index.html" title="chartly.utilities"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../chartly/index.html" title="chartly.chartly"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../../index.html">chartly  documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >chartly</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">chartly.charts</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Elizabeth Consulting International Inc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

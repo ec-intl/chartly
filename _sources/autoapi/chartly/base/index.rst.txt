@@ -1,0 +1,138 @@
+chartly.base
+============
+
+.. py:module:: chartly.base
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   chartly.base.Plot
+   chartly.base.CustomizePlot
+
+
+Module Contents
+---------------
+
+.. py:class:: Plot(args)
+
+   Base Class for Chartly's Plots. This class handles setting up and labelling
+   the axes of a plot.
+
+   :param dict args: the master dictionary containing both optional
+       and required fields
+
+   Required Keys
+       - data: a data list, or a list of data lists
+
+   Optional Keys
+       - axes_labels (dict): the axes labels
+       - display (bool): whether to display the plot or not. Default is True
+
+   **Examples**
+
+   >>> data = [1, 2, 3, 4, 5]
+   >>> args = {"data": data}
+   >>> plot = Plot(args)
+   >>> plot.data
+   [1, 2, 3, 4, 5]
+
+
+   .. py:property:: fig
+      Get the figure.
+
+
+
+   .. py:property:: ax
+      Get the figure.
+
+
+
+   .. py:property:: fname
+      Get the figure.
+
+
+
+   .. py:property:: format
+      Get the figure.
+
+
+
+   .. py:property:: last_fig
+      Get the last figure.
+
+
+
+   .. py:method:: create_plot()
+
+      Create a plot.
+
+
+
+   .. py:method:: clear_plot()
+
+      Clear the plot.
+
+
+
+   .. py:method:: label_axes()
+
+      Label the axes of a graph. This method uses the axes_labels dict.
+      There are no required keys for this dict.
+
+      Optional Keys
+          - xlabel: the x-axis label, default is " "
+          - ylabel: the y-axis label, default is " "
+          - title: the title of the graph, default is " "
+          - linelabel: the label for the line, default is " "
+          - show_legend: whether to show the legend or not, default is True
+          - scale: the scale of the axes, default is "linear"
+          - base: the base of the axes, default is 10
+
+
+
+
+   .. py:method:: display_plot()
+
+      Display the plot.
+
+
+
+   .. py:method:: save()
+
+      Export the current figure to a file. The default filename is 'plot'
+      and the default format is 'eps'.
+
+
+
+.. py:class:: CustomizePlot(customs)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Class to customize the appearance of a map.
+
+
+   .. py:method:: defaults()
+      :abstractmethod:
+
+
+      Set the default plot.
+
+
+
+   .. py:method:: __call__()
+      :abstractmethod:
+
+
+      Plot the graph.
+
+
+
+   .. py:property:: customs
+      Get the customs.
+
+
+

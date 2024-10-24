@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Multiple Plot Charts with Chartly Examples &#8212; chartly  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="autoapi/index.html" />
+    <link rel="prev" title="Single Plot Charts with Chartly Examples" href="Plot.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="autoapi/index.html" title="API Reference"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="Plot.html" title="Single Plot Charts with Chartly Examples"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">chartly  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Multiple Plot Charts with Chartly Examples</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="multiple-plot-charts-with-chartly-examples">
+<h1>Multiple Plot Charts with Chartly Examples<a class="headerlink" href="#multiple-plot-charts-with-chartly-examples" title="Link to this heading">¶</a></h1>
+<p>Chartly allows users to create multiple plots on the same figure using the <cite>overlay</cite> and <cite>new_subplot</cite> methods. The <cite>overlay</cite> method allows users to overlay multiple plots on a single subplot. The <cite>new_subplot</cite> method allows users to create a new subplot on the figure.</p>
+<section id="overlay-plots">
+<h2>Overlay Plots<a class="headerlink" href="#overlay-plots" title="Link to this heading">¶</a></h2>
+<p>The <cite>overlay</cite> method allows users to overlay multiple plots on a single subplot. The overlay method requires a dictionary of arguments to be passed to the method. The dictionary should contain the following</p>
+<ul class="simple">
+<li><p><cite>data</cite>: The data that will be plotted.</p></li>
+<li><p><cite>plot</cite>: The type of plot to be created.</p></li>
+</ul>
+<p>Users can also customize and label the plots by including the following keys in the dictionary:</p>
+<ul class="simple">
+<li><p><cite>axes_labels</cite>: A dictionary containing the labels of the subplot.</p></li>
+<li><p><cite>customs</cite>: A dictionary containing the customization options of the plot.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="c1"># define main figure labels</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Overlay Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+
+<span class="n">multi</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="c1"># Define Some Data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Create a subplot</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
+    <span class="c1"># set up overlay payload</span>
+    <span class="n">overlay_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+    <span class="c1"># Overlay a histogram</span>
+    <span class="n">multi</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">overlay_payload</span><span class="p">)</span>
+
+<span class="n">multi</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="OverlayHeteroExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/overlay_hetero_eg.jpg" />
+</section>
+<section id="subplots">
+<h2>Subplots<a class="headerlink" href="#subplots" title="Link to this heading">¶</a></h2>
+<p>The <cite>new_subplot</cite> method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Charts instance to render the figure.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="c1"># define main figure labels</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Subplots Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+
+<span class="n">multi</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="c1"># Define Some Data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Define Plots</span>
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;probability_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;normal_cdf&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
+    <span class="c1"># Create a subplot</span>
+    <span class="n">multi</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+    <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">plot</span><span class="p">}</span>
+
+    <span class="n">overlay_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
+    <span class="n">multi</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">overlay_payload</span><span class="p">)</span>
+
+<span class="n">multi</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">overlay_payload</span><span class="p">)</span>
+
+<span class="n">multi</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="SubplotsExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/subplots_eg.jpg" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Multiple Plot Charts with Chartly Examples</a><ul>
+<li><a class="reference internal" href="#overlay-plots">Overlay Plots</a></li>
+<li><a class="reference internal" href="#subplots">Subplots</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div class="sphinxprev">
+    <h4>Previous page</h4>
+    <p class="topless"><a href="Plot.html"
+                          title="Previous page">&larr; Single Plot Charts with Chartly Examples</a></p>
+  </div>
+  <div class="sphinxnext">
+    <h4>Next page</h4>
+    <p class="topless"><a href="autoapi/index.html"
+                          title="Next page">&rarr; API Reference</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Multiplots.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="autoapi/index.html" title="API Reference"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="Plot.html" title="Single Plot Charts with Chartly Examples"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">chartly  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Multiple Plot Charts with Chartly Examples</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Elizabeth Consulting International Inc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

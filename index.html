@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chartly &#8212; chartly  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Single Plot Charts with Chartly Examples" href="Plot.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="Plot.html" title="Single Plot Charts with Chartly Examples"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+    <li><a href="#">chartly  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Chartly</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="chartly">
+<h1>Chartly<a class="headerlink" href="#chartly" title="Link to this heading">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p><strong>Chartly</strong> is a simple plotting tool designed to help users create scientific plots with ease.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<p>The chartly package requires the following packages:</p>
+<ul class="simple">
+<li><p><cite>matplotlib</cite> &gt;= 3.9.1</p></li>
+<li><p><cite>numpy</cite> &gt;= 1.26.4</p></li>
+<li><p><cite>scipy</cite> &gt;= 1.14.0</p></li>
+<li><p><cite>seaborn</cite> &gt;= 0.11.0</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>To install the chartly package, run the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>chartly
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<p>The Chartly package currently has eight (8) available scientific plots that can be created, namely:</p>
+<ul class="simple">
+<li><p>Line Plot</p></li>
+<li><p>Histogram</p></li>
+<li><p>Contour Plot</p></li>
+<li><p>Normal Probability Plot</p></li>
+<li><p>Cumulative Distribution Function Plot</p></li>
+<li><p>Normal Cumulative Distribution Function Plot</p></li>
+<li><p>Density Plot</p></li>
+<li><p>Box Plot</p></li>
+</ul>
+<p>Users can plot these scientific plots by creating a <cite>Chart</cite> instance and overlaying the plots on the figure.</p>
+<p>When creating a <cite>Chart</cite> instance, users can set up and label the main figure by passing a dictionary of arguments to the <cite>Chart</cite> class.</p>
+<p>Keys:</p>
+<ul class="simple">
+<li><p><cite>super_title</cite> (str): The title of the main figure.</p></li>
+<li><p><cite>super_xlabel</cite> (str): The x-axis label of the main figure.</p></li>
+<li><p><cite>super_ylabel</cite> (str): The y-axis label of the main figure.</p></li>
+<li><p><cite>share_axes</cite> (bool): Whether to share the y-axes across all subplots. Default is True.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 1. Define Some Data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># 2. Define the main figure labels</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Simple Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">}</span>
+
+<span class="c1"># 3. Create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To create a plot, a subplot must be created by calling the <cite>new_subplot</cite> method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4. Create a subplot to overlay the plot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After the subplot is created, users can overlay the plots on the main figure by calling the <cite>overlay</cite> method.</p>
+<p>Users can create a plot by passing a dictionary of arguments to the <cite>overlay</cite> method. The dictionary should contain the following keys:</p>
+<ul class="simple">
+<li><p><cite>data</cite>: The data that will be plotted.</p></li>
+<li><p><cite>plot</cite>: The type of plot to be created.</p></li>
+</ul>
+<p>Users can also customize and label the plots by including the following keys in the dictionary:</p>
+<ul class="simple">
+<li><p><cite>axes_labels</cite>: A dictionary containing the labels of the subplot.</p></li>
+<li><p><cite>customs</cite>: A dictionary containing the customization options of the plot.</p></li>
+</ul>
+<blockquote>
+<div><p>Each plot type has its own customization options. Please continue reading to see the customization options available for each plot type.</p>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5. Overlay a line plot on the subplot</span>
+<span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;linelabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Example Line Label&quot;</span><span class="p">}</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;dashdot&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;mediumslateblue&quot;</span><span class="p">}</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">,</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the user desires multiple subplots, they must call the <cite>new_subplot</cite> method again to create a new subplot. Finally, the figure can be rendered by calling the <cite>Chart</cite> instance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5. Render the main figure</span>
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="SimpleExampleResult" class="align-center" src="https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg" />
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plot.html">Single Plot Charts with Chartly Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#line-plot">Line Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#histogram">Histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#contour-plot">Contour Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#normal-probability-plot">Normal Probability Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#cumulative-distribution-function-plot">Cumulative Distribution Function Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#normal-cumulative-distribution-function-plot">Normal Cumulative Distribution Function Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#density-plot">Density Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Plot.html#box-plot">Box Plot</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Multiplots.html">Multiple Plot Charts with Chartly Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Multiplots.html#overlay-plots">Overlay Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Multiplots.html#subplots">Subplots</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/chartly/index.html">chartly</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="#">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Chartly</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  </div>
+  <div class="sphinxnext">
+    <h4>Next page</h4>
+    <p class="topless"><a href="Plot.html"
+                          title="Next page">&rarr; Single Plot Charts with Chartly Examples</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="Plot.html" title="Single Plot Charts with Chartly Examples"
+             >next</a> &nbsp; &nbsp;</li>
+    <li><a href="#">chartly  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Chartly</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Elizabeth Consulting International Inc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>chartly.base &#8212; chartly  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/cloud.css?v=f9ae72be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+
+    
+    
+     
+        <script src="../../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../../_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="chartly.chartly" href="../chartly/index.html" />
+    <link rel="prev" title="chartly.tests.test_chartly" href="../tests/test_chartly/index.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../chartly/index.html" title="chartly.chartly"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../tests/test_chartly/index.html" title="chartly.tests.test_chartly"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../../index.html">chartly  documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" accesskey="U">chartly</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">chartly.base</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-chartly.base">
+<span id="chartly-base"></span><h1>chartly.base<a class="headerlink" href="#module-chartly.base" title="Link to this heading">¶</a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plot</span></code></a></p></td>
+<td><p>Base Class for Chartly's Plots. This class handles setting up and labelling</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustomizePlot</span></code></a></p></td>
+<td><p>Class to customize the appearance of a map.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.base.Plot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.base.</span></span><span class="sig-name descname"><span class="pre">Plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.Plot" title="Link to this definition">¶</a></dt>
+<dd><p>Base Class for Chartly’s Plots. This class handles setting up and labelling
+the axes of a plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing both optional
+and required fields</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: a data list, or a list of data lists</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>axes_labels (dict): the axes labels</p></li>
+<li><p>display (bool): whether to display the plot or not. Default is True</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Examples</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span><span class="o">.</span><span class="n">data</span>
+<span class="go">[1, 2, 3, 4, 5]</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="chartly.base.Plot.fig">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fig</span></span><a class="headerlink" href="#chartly.base.Plot.fig" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">figure.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chartly.base.Plot.ax">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ax</span></span><a class="headerlink" href="#chartly.base.Plot.ax" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">figure.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chartly.base.Plot.fname">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fname</span></span><a class="headerlink" href="#chartly.base.Plot.fname" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">figure.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chartly.base.Plot.format">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#chartly.base.Plot.format" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">figure.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chartly.base.Plot.last_fig">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_fig</span></span><a class="headerlink" href="#chartly.base.Plot.last_fig" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">figure.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.Plot.create_plot">
+<span class="sig-name descname"><span class="pre">create_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.Plot.create_plot" title="Link to this definition">¶</a></dt>
+<dd><p>Create a plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.Plot.clear_plot">
+<span class="sig-name descname"><span class="pre">clear_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.Plot.clear_plot" title="Link to this definition">¶</a></dt>
+<dd><p>Clear the plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.Plot.label_axes">
+<span class="sig-name descname"><span class="pre">label_axes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.Plot.label_axes" title="Link to this definition">¶</a></dt>
+<dd><p>Label the axes of a graph. This method uses the axes_labels dict.
+There are no required keys for this dict.</p>
+<dl class="simple">
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>xlabel: the x-axis label, default is “ “</p></li>
+<li><p>ylabel: the y-axis label, default is “ “</p></li>
+<li><p>title: the title of the graph, default is “ “</p></li>
+<li><p>linelabel: the label for the line, default is “ “</p></li>
+<li><p>show_legend: whether to show the legend or not, default is True</p></li>
+<li><p>scale: the scale of the axes, default is “linear”</p></li>
+<li><p>base: the base of the axes, default is 10</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.Plot.display_plot">
+<span class="sig-name descname"><span class="pre">display_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.Plot.display_plot" title="Link to this definition">¶</a></dt>
+<dd><p>Display the plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.Plot.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.Plot.save" title="Link to this definition">¶</a></dt>
+<dd><p>Export the current figure to a file. The default filename is ‘plot’
+and the default format is ‘eps’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.base.CustomizePlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.base.</span></span><span class="sig-name descname"><span class="pre">CustomizePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.CustomizePlot" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Class to customize the appearance of a map.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.CustomizePlot.defaults">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.CustomizePlot.defaults" title="Link to this definition">¶</a></dt>
+<dd><p>Set the default plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.base.CustomizePlot.__call__">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.base.CustomizePlot.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot the graph.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="chartly.base.CustomizePlot.customs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">customs</span></span><a class="headerlink" href="#chartly.base.CustomizePlot.customs" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">customs.</span></span></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="../../../index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">chartly.base</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#chartly.base.Plot"><code class="docutils literal notranslate"><span class="pre">Plot</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.base.Plot.fig"><code class="docutils literal notranslate"><span class="pre">Plot.fig</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.ax"><code class="docutils literal notranslate"><span class="pre">Plot.ax</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.fname"><code class="docutils literal notranslate"><span class="pre">Plot.fname</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.format"><code class="docutils literal notranslate"><span class="pre">Plot.format</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.last_fig"><code class="docutils literal notranslate"><span class="pre">Plot.last_fig</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.create_plot"><code class="docutils literal notranslate"><span class="pre">Plot.create_plot()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.clear_plot"><code class="docutils literal notranslate"><span class="pre">Plot.clear_plot()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.label_axes"><code class="docutils literal notranslate"><span class="pre">Plot.label_axes()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.display_plot"><code class="docutils literal notranslate"><span class="pre">Plot.display_plot()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.Plot.save"><code class="docutils literal notranslate"><span class="pre">Plot.save()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.base.CustomizePlot"><code class="docutils literal notranslate"><span class="pre">CustomizePlot</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.base.CustomizePlot.defaults"><code class="docutils literal notranslate"><span class="pre">CustomizePlot.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.CustomizePlot.__call__"><code class="docutils literal notranslate"><span class="pre">CustomizePlot.__call__()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.base.CustomizePlot.customs"><code class="docutils literal notranslate"><span class="pre">CustomizePlot.customs</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div class="sphinxprev">
+    <h4>Previous page</h4>
+    <p class="topless"><a href="../tests/test_chartly/index.html"
+                          title="Previous page">&larr; chartly.tests.test_chartly</a></p>
+  </div>
+  <div class="sphinxnext">
+    <h4>Next page</h4>
+    <p class="topless"><a href="../chartly/index.html"
+                          title="Next page">&rarr; chartly.chartly</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/autoapi/chartly/base/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../chartly/index.html" title="chartly.chartly"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="../tests/test_chartly/index.html" title="chartly.tests.test_chartly"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../../../index.html">chartly  documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >API Reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../index.html" >chartly</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">chartly.base</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Elizabeth Consulting International Inc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

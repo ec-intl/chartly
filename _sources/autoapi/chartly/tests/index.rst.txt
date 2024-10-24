@@ -1,0 +1,15 @@
+chartly.tests
+=============
+
+.. py:module:: chartly.tests
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/chartly/tests/test_chartly/index
+
+

@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Single Plot Charts with Chartly Examples &#8212; chartly  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Multiple Plot Charts with Chartly Examples" href="Multiplots.html" />
+    <link rel="prev" title="Chartly" href="index.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="Multiplots.html" title="Multiple Plot Charts with Chartly Examples"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Chartly"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">chartly  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Single Plot Charts with Chartly Examples</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="single-plot-charts-with-chartly-examples">
+<h1>Single Plot Charts with Chartly Examples<a class="headerlink" href="#single-plot-charts-with-chartly-examples" title="Link to this heading">¶</a></h1>
+<section id="line-plot">
+<h2>Line Plot<a class="headerlink" href="#line-plot" title="Link to this heading">¶</a></h2>
+<p>A line plot can be created by using the <cite>line_plot</cite> keyword. Users can pass both x and y data or just y data to the line plot.</p>
+<p>The following customization options are available for the Line Plot:</p>
+<ul class="simple">
+<li><p><cite>color</cite> (str): The color of the line.</p></li>
+<li><p><cite>linestyle</cite> (str): The style of the line.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="c1"># Only y data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">}</span>
+
+<span class="c1"># label the plot</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Generic Plot Example&quot;</span><span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># Create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="c1"># set the arguments</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+    <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="GenericPlotOnlyY" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/gen_plot_only_y.jpg" />
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="c1"># x and y data</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># define plot labels</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Generic Plot Example with X &amp; Y&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># Create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;mediumpurple&quot;</span><span class="p">,</span> <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">}</span>
+
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="GenericPlotXY" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/gen_plot_x_y.jpg" />
+</section>
+<section id="histogram">
+<h2>Histogram<a class="headerlink" href="#histogram" title="Link to this heading">¶</a></h2>
+<p>A histogram plot can be created using the <cite>histogram</cite> keyword. The histogram plot requires a 1D array of data to be passed to the plot. The following customization options are available for the histogram plot:</p>
+<ul class="simple">
+<li><p><cite>color</cite> (str): The color of the histogram.</p></li>
+<li><p><cite>num_bins</cite> (int): The number of bins in the histogram.</p></li>
+<li><p><cite>ran</cite> (tuple): The range of the histogram.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># label the plot</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Frequency&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Histogram Plot Example&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;salmon&quot;</span><span class="p">,</span> <span class="s2">&quot;num_bins&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="HistogramExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/hist_eg.jpg" />
+</section>
+<section id="contour-plot">
+<h2>Contour Plot<a class="headerlink" href="#contour-plot" title="Link to this heading">¶</a></h2>
+<p>Contour plots can be created using the <cite>contour</cite> keyword. The contour plot requires 2D arrays of X, Y and Z data to be passed to the plot. The following customization options are available for the contour plot:</p>
+<ul class="simple">
+<li><p><cite>inline?</cite> (bool): Whether the contour labels are inline or not.</p></li>
+<li><p><cite>color</cite> (str): The color of the contour plot. Ensure that the <cite>cmap</cite> is set to None.</p></li>
+<li><p><cite>levels</cite> (int): The number of contour levels.</p></li>
+<li><p><cite>colormap</cite> (str): The colormap of the contour plot.</p></li>
+<li><p><cite>filled?</cite> (bool): Whether the contour plot is filled or not.</p></li>
+<li><p><cite>fontsize</cite> (int): The font size of the contour labels.</p></li>
+<li><p><cite>hatch?</cite> (bool): Whether the contour plot has a hatched area or not.</p></li>
+<li><p><cite>hatch_customs</cite> (dict): The hatch customization options.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="kn">import</span> <span class="nn">chartly</span>
+
+ <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+ <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+ <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+ <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">X</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">Y</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+
+ <span class="c1"># label the plot</span>
+ <span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Contour Plot Example&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+ <span class="c1"># Create a charts instance</span>
+ <span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+ <span class="c1"># Create a subplot</span>
+ <span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+
+ <span class="c1"># customize the plot</span>
+ <span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;colormap&quot;</span><span class="p">:</span> <span class="s2">&quot;magma&quot;</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">&quot;filled?&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+ <span class="c1"># set the arguments</span>
+ <span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;contour&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">],</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+
+ <span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+ <span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="ContourExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/contour_eg.jpg" />
+</section>
+<section id="normal-probability-plot">
+<h2>Normal Probability Plot<a class="headerlink" href="#normal-probability-plot" title="Link to this heading">¶</a></h2>
+<p>The normal probability plot is used to determine if a dataset is approximately normally distributed. A normal probability plot can be created using the <cite>probability_plot</cite> keyword. The normal probability plot requires a 1D array of data to be passed to the plot. The following customization options are available for the normal probability plot:</p>
+<ul class="simple">
+<li><p><cite>color</cite> (str): The color of the markers of the plot.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+
+<span class="c1"># label the plot</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Normal Probability Plot Example&quot;</span><span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># Create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;firebrick&quot;</span><span class="p">}</span>
+
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;probability_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="NormalProbabilityExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/norm_prob_eg.jpg" />
+</section>
+<section id="cumulative-distribution-function-plot">
+<h2>Cumulative Distribution Function Plot<a class="headerlink" href="#cumulative-distribution-function-plot" title="Link to this heading">¶</a></h2>
+<p>The CDF plot of a dataset can be created using the <cite>cdf</cite> keyword. The CDF plot requires a 1D array of data to be passed to the plot. The following customization options are available for the CDF plot:</p>
+<ul class="simple">
+<li><p><cite>color</cite> (str): The color of the CDF plot.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># label the main figure</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Cumulative Distribution Function Plot Example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Probability&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;linelabel&quot;</span><span class="p">:</span> <span class="s2">&quot;CDF&quot;</span><span class="p">}</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span><span class="s2">&quot;cdf&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
+
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="CDFExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/cdf_eg.jpg" />
+</section>
+<section id="normal-cumulative-distribution-function-plot">
+<h2>Normal Cumulative Distribution Function Plot<a class="headerlink" href="#normal-cumulative-distribution-function-plot" title="Link to this heading">¶</a></h2>
+<p>The CDF of a dataset can be compared to the CDF of a normal distribution using the normal CDF plot. The normal CDF plot can be created using the <cite>normal_cdf</cite> keyword. Users can pass multiple datasets to the plot.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="n">dataset_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">dataset_two</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">dataset_three</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">dataset_one</span><span class="p">,</span> <span class="n">dataset_two</span><span class="p">,</span> <span class="n">dataset_three</span><span class="p">]</span>
+
+
+<span class="c1"># label the main figure</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Normal Cumulative Distribution Function Plot Example&quot;</span><span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;normal_cdf&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="NormalCDFExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/norm_cdf_eg.jpg" />
+</section>
+<section id="density-plot">
+<h2>Density Plot<a class="headerlink" href="#density-plot" title="Link to this heading">¶</a></h2>
+<p>The density function of a distribution can be created using the <cite>density</cite> keyword. The density plot requires a 1D array of data to be passed to the plot. The following customization options are available for the density plot:</p>
+<ul class="simple">
+<li><p><cite>color</cite> (str): The color of the density plot.</p></li>
+<li><p><cite>fill</cite> (bool): Whether the density plot is filled or not.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># label the plot</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Density Plot Example&quot;</span><span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="c1"># define the customs</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fill&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;mediumvioletred&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">}</span>
+
+<span class="c1"># set the arguments</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+
+<span class="c1"># Overlay the density plot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="DensityExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/density_eg.jpg" />
+</section>
+<section id="box-plot">
+<h2>Box Plot<a class="headerlink" href="#box-plot" title="Link to this heading">¶</a></h2>
+<p>A boxplot of one or more datasets can be plotted using the <cite>BoxPlot</cite> class. A dataset list or a list of dataset lists can be passed to the <cite>BoxPlot</cite> plot. The following customization options are available for the <cite>BoxPlot</cite> plot:</p>
+<ul class="simple">
+<li><p><cite>showfliers</cite> (bool): Whether to show the outliers in the boxplot.</p></li>
+<li><p><cite>boxlabels</cite> (list): The labels of the boxplots.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+
+<span class="n">dataset_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">dataset_two</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">dataset_three</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">dataset_one</span><span class="p">,</span> <span class="n">dataset_two</span><span class="p">,</span> <span class="n">dataset_three</span><span class="p">]</span>
+
+<span class="c1"># label the main figure</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;BoxPlot Example&quot;</span><span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># create a subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+
+<span class="c1"># define the customs</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;showfliers&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+
+<span class="c1"># set the arguments</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;boxplot&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+
+<span class="c1"># Overlay the boxplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="BoxPlotExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/server/img/boxplot_eg.jpg" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Single Plot Charts with Chartly Examples</a><ul>
+<li><a class="reference internal" href="#line-plot">Line Plot</a></li>
+<li><a class="reference internal" href="#histogram">Histogram</a></li>
+<li><a class="reference internal" href="#contour-plot">Contour Plot</a></li>
+<li><a class="reference internal" href="#normal-probability-plot">Normal Probability Plot</a></li>
+<li><a class="reference internal" href="#cumulative-distribution-function-plot">Cumulative Distribution Function Plot</a></li>
+<li><a class="reference internal" href="#normal-cumulative-distribution-function-plot">Normal Cumulative Distribution Function Plot</a></li>
+<li><a class="reference internal" href="#density-plot">Density Plot</a></li>
+<li><a class="reference internal" href="#box-plot">Box Plot</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div class="sphinxprev">
+    <h4>Previous page</h4>
+    <p class="topless"><a href="index.html"
+                          title="Previous page">&larr; Chartly</a></p>
+  </div>
+  <div class="sphinxnext">
+    <h4>Next page</h4>
+    <p class="topless"><a href="Multiplots.html"
+                          title="Next page">&rarr; Multiple Plot Charts with Chartly Examples</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Plot.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="Multiplots.html" title="Multiple Plot Charts with Chartly Examples"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="index.html" title="Chartly"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">chartly  documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Single Plot Charts with Chartly Examples</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Elizabeth Consulting International Inc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
