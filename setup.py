@@ -5,20 +5,20 @@ with open("VERSION", "r", encoding="utf-8") as version_file:
     version = version_file.read().strip()
 
 setup(
-    name="plotting",
+    name="chartly",
     version=version,
     author="Elizabeth Consulting International Inc.",
     author_email="info@ec-intl.com",
-    description=("A Python package for plotting multiple plots."),
+    description=("A Python package for chartly multiple plots."),
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/ec-intl/plotting",
+    url="https://github.com/ec-intl/chartly",
     project_urls={
-        "Homepage": "https://github.com/ec-intl/plotting",
-        "Issues": "https://github.com/ec-intl/plotting/issues",
+        "Homepage": "https://github.com/ec-intl/chartly",
+        "Issues": "https://github.com/ec-intl/chartly/issues",
     },
-    packages=["plotting"],
-    package_dir={"": "src"},
+    packages=["chartly"],
+    package_dir={"": "."},
     license="Apache License 2.0",
     classifiers=[
         "Programming Language :: Python :: 3",

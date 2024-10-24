@@ -26,7 +26,7 @@ extensions = [
 
 templates_path = ["_templates"]
 exclude_patterns: list[str] = []
-autoapi_dirs = ["../../src"]
+autoapi_dirs = ["../../chartly"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
