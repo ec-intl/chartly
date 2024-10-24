@@ -537,7 +537,7 @@ class HatchArea(CustomizePlot):
             "pattern": "..",
             "color": "black",
             "alpha": 0.2,
-            "fill?": True,
+            "fill?": False,
             "data": None,
             "type": "mask",
         }
