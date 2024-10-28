@@ -616,6 +616,7 @@ class HatchArea(CustomizePlot):
                 alpha=self.customs["alpha"],
             )
 
+
 class Basemap(Plot, CustomizePlot):
     """Class to plot a basemap.
 
@@ -627,7 +628,7 @@ class Basemap(Plot, CustomizePlot):
     Optional Keys
         - customs: the plot's customization
         - axes_labels: the axes labels
-    
+
     Available Customizations:
         - proj: the projection of the map, default is "ortho"
         - draw_coastlines: whether to draw coastlines, default is True
@@ -642,13 +643,17 @@ class Basemap(Plot, CustomizePlot):
     """
 
     def __init__(self, args):
-        """Initialize the Contour Class."""
-        # Get the arguments
+        """Initialize the Basemap Class."""
+        # Get the basemap arguments
         self.args = args
 
         # Extract the customs
         customs_ = self.args.get("customs", {})
+
+        # Initialize the Plot Class
         super().__init__(self.args)
+
+        # Initialize the CustomizePlot Class
         CustomizePlot.__init__(self, customs_)
 
     def defaults(self):
