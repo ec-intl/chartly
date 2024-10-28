@@ -668,6 +668,12 @@ class Basemap(Plot, CustomizePlot):
             "shaderelief": False,
             "draw_parallels": False,
             "draw_meridians": False,
+            "contour": False,
+            "contourf": False,
+            "hatch": False,
+            "hatch_customs": {},
+            "mask": None,
+            "contour_customs": {},
         }
 
     def __call__(self):
@@ -689,6 +695,27 @@ class Basemap(Plot, CustomizePlot):
         for key, method in basemap_methods.items():
             if self.customs.get(key):
                 method()
+
+        # vAdd Contour or filled contour
+        for contour_type in ["contour", "contourf"]:
+            if self.customs.get(contour_type):
+                cs = getattr(map_, contour_type)(
+                    self.data[0],
+                    self.data[1],
+                    self.data[2],
+                )
+
+        # Add Contour Hatch
+        if self.customs.get("hatch"):
+            self.customs["hatch_customs"].update({"ax": map_})
+            if self.customs["hatch_customs"]["type"] == "mask":
+                self.customs["hatch_customs"]["data"] = [
+                    self.data[0],
+                    self.data[1],
+                    self.customs["mask"],
+                ]
+            hatch = HatchArea(self.customs["hatch_customs"])
+            hatch()
 
         self.axes_labels["show_legend"] = False
         self.label_axes()
