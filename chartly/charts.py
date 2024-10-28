@@ -23,8 +23,10 @@ This module contains the following classes:
     private sector. ECI is based in St. Lucia, West Indies.
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
 from scipy.stats import norm
 
@@ -441,11 +443,13 @@ class Contour(Plot, CustomizePlot):
         - axes_labels: the axes labels
 
     Available Customizations
-        - filled: whether to fill the contour plot, default is False
+        - filled?: whether to fill the contour plot, default is False
         - colors: the color of the contour plot, default is "k"
-        - inline: whether to show the inline labels, default is True
-        - fsize: the font size of the labels, default is 9
-        - cmap: the colormap of the contour plot, default is "viridis"
+        - inline?: whether to show the inline labels, default is True
+        - fontsize: the font size of the labels, default is 9
+        - colormap: the colormap of the contour plot, default is "viridis"
+        - hatch?: whether to hatch the area, default is False
+        - hatch_customs: the hatch customization, default is {}
     """
 
     def __init__(self, args):
@@ -460,18 +464,23 @@ class Contour(Plot, CustomizePlot):
 
     def defaults(self):
         def_dict = {
-            "filled": False,
+            "filled?": False,
             "colors": None,
-            "inline": True,
-            "fsize": 9,
-            "cmap": "viridis",
+            "labelcolor": "dimgray",
+            "inline?": True,
+            "fontsize": 9,
+            "colormap": "viridis",
+            "hatch?": False,
+            "hatch_customs": {},
+            "mask": None,
         }
+
         return def_dict
 
     def __call__(self):
         """Plot a contour plot."""
-        func = self.ax.contourf if self.customs["filled"] else self.ax.contour
-        color = self.customs["colors"] if not self.customs["filled"] else None
+        func = self.ax.contourf if self.customs["filled?"] else self.ax.contour
+        color = self.customs["colors"] if not self.customs["filled?"] else None
 
         assert len(self.data) == 3, "Contour plot requires 3 datasets"
 
@@ -483,20 +492,60 @@ class Contour(Plot, CustomizePlot):
             self.data[1],
             self.data[2],
             colors=color,
-            cmap=self.customs["cmap"],
+            cmap=self.customs["colormap"],
         )
+        contour = CS
+
+        if self.customs["filled?"]:
+            dark_cmap = self.darker_cmap()
+            edge_contours = self.ax.contour(
+                self.data[0],
+                self.data[1],
+                self.data[2],
+                cmap=dark_cmap,
+                linewidths=0.5,
+            )
+            _ = self.fig.colorbar(
+                CS, ax=self.ax, location="right", fraction=0.1, pad=0.02
+            )
+            contour = edge_contours
+
         self.ax.clabel(
-            CS,
-            fontsize=self.customs["fsize"],
-            inline=self.customs["inline"],
+            contour,
+            fontsize=self.customs["fontsize"],
+            inline=self.customs["inline?"],
+            colors=self.customs["labelcolor"],
         )
-        if self.customs["filled"]:
-            _ = self.fig.colorbar(CS, ax=self.ax)
+
+        # Hatch the area
+        if self.customs["hatch?"]:
+            self.customs["hatch_customs"].update({"ax": self.ax})
+            if self.customs["hatch_customs"]["type"] == "mask":
+                self.customs["hatch_customs"]["data"] = [
+                    self.data[0],
+                    self.data[1],
+                    self.customs["mask"],
+                ]
+            hatch = HatchArea(self.customs["hatch_customs"])
+            hatch()
+
         self.axes_labels["show_legend"] = False
         self.label_axes()
 
+    def darker_cmap(self, factor=0.7):
+        """Make a colormap darker.
 
-class HatchArea:
+        :param str cmap: the colormap to darken
+        :param float alpha: the transparency of the colormap
+        """
+        cmap = plt.get_cmap(self.customs["colormap"])
+        colors = cmap(np.arange(cmap.N))
+        dark_cmap = colors * factor
+        dark_cmap[:, -1] = colors[:, -1]
+        return LinearSegmentedColormap.from_list("darkened_cmap", dark_cmap)
+
+
+class HatchArea(CustomizePlot):
     """Class to hatch the area between two points.
 
     :param dict args: the dictionary containing the customizations
@@ -510,22 +559,22 @@ class HatchArea:
         - pattern: the hatch pattern
         - color: the color of the hatch
         - alpha: the transparency of the hatch
-        - fill: whether to fill the hatch or not
+        - fill?: whether to fill the hatch or not
         - data: the data to use for the hatch"""
 
-    def __init__(self, args):
-        """Initialize the HatchArea Class."""
-        self.args = args
-        self.xy1 = self.args.get("xy1", (0, 0))
-        self.xy2 = self.args.get("xy2", (1, 1))
-        self.ax = self.args.get("ax")
-        self.pattern = self.args.get("pattern", "..")
-        self.color = self.args.get("color", "black")
-        self.alpha = self.args.get("alpha", 0.2)
-        self.fill = self.args.get("fill", True)
-        self.data = self.args.get("data", None)
+    def defaults(self):
+        return {
+            "xy1": (0, 0),
+            "xy2": (1, 1),
+            "pattern": "..",
+            "color": "black",
+            "alpha": 0.2,
+            "fill?": False,
+            "data": None,
+            "type": "mask",
+        }
 
-    def __call__(self, func):
+    def __call__(self):
         """Hatch the area between two points.
 
         :param str func: the function to call. Either 'grid' or 'mask'
@@ -537,30 +586,31 @@ class HatchArea:
         Mask Required Keys
             - data: the data to use for the hatch
         """
-        if func == "grid":
-            x = self.xy1[0]
-            y = self.xy1[1]
-            width = self.xy2[0] - self.xy1[0]
-            height = self.xy2[1] - self.xy1[1]
+        assert self.customs["type"] in ["grid", "mask"], "Invalid hatch type"
+        if self.customs["type"] == "grid":
+            x = self.customs["xy1"][0]
+            y = self.customs["xy1"][1]
+            width = self.customs["xy2"][0] - self.customs["xy1"][0]
+            height = self.customs["xy2"][1] - self.customs["xy1"][1]
 
-            self.ax.add_patch(
+            self.customs["ax"].add_patch(
                 Rectangle(
                     (x, y),
                     width,
                     height,
-                    fill=self.fill,
-                    color=self.color,
-                    alpha=self.alpha,
-                    hatch=self.pattern,
+                    fill=self.customs["fill?"],
+                    color=self.customs["color"],
+                    alpha=self.customs["alpha"],
+                    hatch=self.customs["pattern"],
                 )
             )
-        if func == "mask":
-            assert self.data is not None, "Data must be provided"
-            self.ax.contourf(
-                self.data[0],
-                self.data[1],
-                self.data[2],
+        if self.customs["type"] == "mask":
+            assert self.customs["data"] is not None, "Data must be provided"
+            self.customs["ax"].contourf(
+                self.customs["data"][0],
+                self.customs["data"][1],
+                self.customs["data"][2],
                 [0.5, 1],
-                hatches=[self.pattern],
-                alpha=self.alpha,
+                hatches=[self.customs["pattern"]],
+                alpha=self.customs["alpha"],
             )

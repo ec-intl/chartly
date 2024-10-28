@@ -9,7 +9,8 @@ Chartly
 Overview
 --------
 
-**Chartly** is a simple plotting tool designed to help users create scientific plots with ease.
+**Chartly** is a simple plotting tool designed to help users create scientific plots with ease. Whether you want to test a distribution for normality or to plot contours onto a map of the globe, chartly can help you achieve your scientific plot with minimal effort. Chartly also allows users to plot multiple overlays and subplots onto the same figure.
+
 
 .. toctree::
    :maxdepth: 2
@@ -48,11 +49,7 @@ The Chartly package currently has eight (8) available scientific plots that can 
 - Density Plot
 - Box Plot
 
-Users can plot these scientific plots by creating a `Chart` instance and overlaying the plots on the figure.
-
-When creating a `Chart` instance, users can set up and label the main figure by passing a dictionary of arguments to the `Chart` class.
-
-Keys:
+Chartly allows users to build plots by first creating a main figure and then adding subplots to the figure. To initialize a main figure, users can create a `Chart` instance. Users can also label and customize the main figure my passing an optional dictionary. The dictionary should contain the following keys:
 
 - `super_title` (str): The title of the main figure.
 - `super_xlabel` (str): The x-axis label of the main figure.
@@ -64,25 +61,14 @@ Keys:
    import chartly
    import numpy as np
 
-   # 1. Define Some Data
-   data = np.random.randn(100)
+   # 1. Define the main figure labels
+   super_axes_labels = {"super_title": "Usage Of Chartly Example", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
 
-   # 2. Define the main figure labels
-   super_axes_labels = {"super_title": "Simple Example", "super_xlabel": "X", "super_ylabel": "Y"}
-
-   # 3. Create a chart instance
+   # 2. Initialize a main figure by creating a chart instance
    plot = chartly.Chart(super_axes_labels)
 
-To create a plot, a subplot must be created by calling the `new_subplot` method.
 
-.. code-block:: python
-
-   # 4. Create a subplot to overlay the plot
-   plot.new_subplot()
-
-After the subplot is created, users can overlay the plots on the main figure by calling the `overlay` method.
-
-Users can create a plot by passing a dictionary of arguments to the `overlay` method. The dictionary should contain the following keys:
+To create a plot, a user must create a subplot by calling the `new_subplot` method and passing it an optional dictionary of arguments. The dictionary should contain the following keys:
 
 - `data`: The data that will be plotted.
 - `plot`: The type of plot to be created.
@@ -92,29 +78,98 @@ Users can also customize and label the plots by including the following keys in 
 - `axes_labels`: A dictionary containing the labels of the subplot.
 - `customs`: A dictionary containing the customization options of the plot.
 
- Each plot type has its own customization options. Please continue reading to see the customization options available for each plot type.
 
 .. code-block:: python
 
-   # 5. Overlay a line plot on the subplot
-   axes_labels = {"linelabel": "Example Line Label"}
-   customs = {"linestyle": "dashdot", "color": "mediumslateblue"}
+   # 3. Define Some Data
+   data = np.random.randn(100)
 
-   payload = {"plot": "line_plot", "data": data, "axes_labels": axes_labels, "customs": customs}
-   plot.overlay(payload)
+   # 4. Build the plot dictionary
+   plot_payload = {
+       "plot": "histogram",
+       "data": data,
+   }
+
+   # 5. Plot the data
+   plot.new_subplot(plot_payload)
 
 
-If the user desires multiple subplots, they must call the `new_subplot` method again to create a new subplot. Finally, the figure can be rendered by calling the `Chart` instance.
+To overlay a new plot onto the current subplot, a user can call the `overlay` method and pass it a dictionary of arguments, similar to what is shown above: 
 
 
 .. code-block:: python
 
-   # 5. Render the main figure
+   # 6. build the overlay plot dictionary
+   plot_payload = {
+       "plot": "density",
+       "data": data,
+   }
+
+   # 7. Overlay the plot
+   plot.overlay(plot_payload)
+
+
+To add a new subplot, users can call the `new_subplot` method again and pass it a dictionary of arguments.
+
+
+.. code-block:: python
+
+   # 8. build the plot dictionary
+   plot_payload = {
+       "plot": "boxplot",
+       "data": data,
+   }
+
+   # 9. Plot data onto new subplot
+   plot.new_subplot(plot_payload)
+
+
+Users can also customize the axes of each subplot. 
+
+- Users can change the scale of the x and y axes from linear to log. They can also change the base of the log scale. If the base is changed, ensure that the subplots are not sharing axes.
+
+
+.. code-block:: python
+
+   # 10. Define a random exponential function
+   exp_func = lambda x: np.e ** (-500 * x + 2)
+
+   x = np.linspace(0, 1, num=100)
+   y = list(map(exp_func, x))
+   
+   # 11. build the plot dictionary
+   plot_payload = {
+       "plot": "line_plot",
+       "data": y,
+       "axes_labels": {"scale": "semilogy", "base": 10, "linelabel": "Semilogy Line"},
+   }
+
+   # 12. Plot exponential function
+   plot.new_subplot(plot_payload)
+
+
+Finally, the figure can be rendered by calling the `Chart` instance.
+
+
+.. code-block:: python
+
+   # 13. Render the main figure
    plot()
 
-.. image:: https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg
-    :alt: SimpleExampleResult
+To save the figure that was rendered, users can call the `save` method. The default file format is `eps` and the default file name is `chartly_plot`. To change the file format and name, update the plot's properties.
+
+
+.. code-block:: python
+
+   # 14. Save the figure with a different file format and name
+   plot.format = "jpg"
+   plot.fname = "my_plot"
+   plot.save()
+
+.. image:: https://chartly.s3.amazonaws.com/static/img/my_plot.jpg
+    :alt: SimpleUsageOfChartlyExample
     :align: center
+    :height: 500px
 
 .. toctree::
    :maxdepth: 2
