@@ -63,7 +63,7 @@ The chartly's codebase structure is as shown below:
 
 To install `chartly`, run this command in your command line:
 
-```
+```shell
 pip install chartly
 ```
 
