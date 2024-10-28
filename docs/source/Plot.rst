@@ -40,7 +40,7 @@ The following customization options are available for the Line Plot:
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/gen_plot_only_y.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/gen_plot_only_y.jpg
     :alt: GenericPlotOnlyY
     :align: center
 
@@ -74,7 +74,7 @@ The following customization options are available for the Line Plot:
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/gen_plot_x_y.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/gen_plot_x_y.jpg
     :alt: GenericPlotXY
     :align: center
 
@@ -112,7 +112,7 @@ A histogram plot can be created using the `histogram` keyword. The histogram plo
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/hist_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/hist_eg.jpg
     :alt: HistogramExample
     :align: center
 
@@ -164,7 +164,7 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
     plot()
 
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/contour_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/contour_eg.jpg
     :alt: ContourExample
     :align: center
 
@@ -199,7 +199,7 @@ The normal probability plot is used to determine if a dataset is approximately n
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/norm_prob_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/norm_prob_eg.jpg
     :alt: NormalProbabilityExample
     :align: center
 
@@ -238,7 +238,7 @@ The CDF plot of a dataset can be created using the `cdf` keyword. The CDF plot r
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/cdf_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/cdf_eg.jpg
     :alt: CDFExample
     :align: center
 
@@ -273,7 +273,7 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/norm_cdf_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/norm_cdf_eg.jpg
     :alt: NormalCDFExample
     :align: center
 
@@ -314,7 +314,7 @@ The density function of a distribution can be created using the `density` keywor
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/density_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/density_eg.jpg
     :alt: DensityExample
     :align: center
 
@@ -358,6 +358,6 @@ A boxplot of one or more datasets can be plotted using the `BoxPlot` class. A da
 
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/boxplot_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/boxplot_eg.jpg
     :alt: BoxPlotExample
     :align: center

@@ -97,4 +97,4 @@ plot.new_subplot(payload)
 plot()
 ```
 
-![Example Output](https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg)
+![Example Output](https://chartly.s3.amazonaws.com/static/img/plot_index_eg.jpg)

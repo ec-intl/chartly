@@ -112,7 +112,7 @@ If the user desires multiple subplots, they must call the `new_subplot` method a
    # 5. Render the main figure
    plot()
 
-.. image:: https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/plot_index_eg.jpg
     :alt: SimpleExampleResult
     :align: center
 
