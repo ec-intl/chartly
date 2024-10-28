@@ -1,5 +1,5 @@
 Multiple Plot Charts with Chartly Examples
-====================================
+==========================================
 
 Chartly allows users to create multiple plots on the same figure using the `overlay` and `new_subplot` methods. The `overlay` method allows users to overlay multiple plots on a single subplot. The `new_subplot` method allows users to create a new subplot on the figure.
 
@@ -47,6 +47,7 @@ Users can also customize and label the plots by including the following keys in 
 .. image:: https://chartly.s3.amazonaws.com/static/img/overlay_hetero_eg.jpg
     :alt: OverlayHeteroExample
     :align: center
+    :height: 500px
 
 
 Subplots
@@ -85,4 +86,4 @@ The `new_subplot` method allows users to create a new subplot on the figure. The
 .. image:: https://chartly.s3.amazonaws.com/static/img/subplots_eg.jpg
     :alt: SubplotsExample
     :align: center
-
+    :height: 500px
