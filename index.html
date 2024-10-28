@@ -70,7 +70,7 @@
 <h1>Chartly<a class="headerlink" href="#chartly" title="Link to this heading">¶</a></h1>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
-<p><strong>Chartly</strong> is a simple plotting tool designed to help users create scientific plots with ease.</p>
+<p><strong>Chartly</strong> is a simple plotting tool designed to help users create scientific plots with ease. Whether you want to test a distribution for normality or to plot contours onto a map of the globe, chartly can help you achieve your scientific plot with minimal effort. Chartly also allows users to plot multiple overlays and subplots onto the same figure.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -104,9 +104,7 @@
 <li><p>Density Plot</p></li>
 <li><p>Box Plot</p></li>
 </ul>
-<p>Users can plot these scientific plots by creating a <cite>Chart</cite> instance and overlaying the plots on the figure.</p>
-<p>When creating a <cite>Chart</cite> instance, users can set up and label the main figure by passing a dictionary of arguments to the <cite>Chart</cite> class.</p>
-<p>Keys:</p>
+<p>Chartly allows users to build plots by first creating a main figure and then adding subplots to the figure. To initialize a main figure, users can create a <cite>Chart</cite> instance. Users can also label and customize the main figure my passing an optional dictionary. The dictionary should contain the following keys:</p>
 <ul class="simple">
 <li><p><cite>super_title</cite> (str): The title of the main figure.</p></li>
 <li><p><cite>super_xlabel</cite> (str): The x-axis label of the main figure.</p></li>
@@ -116,23 +114,14 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c1"># 1. Define Some Data</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># 1. Define the main figure labels</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Usage Of Chartly Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
 
-<span class="c1"># 2. Define the main figure labels</span>
-<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Simple Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">}</span>
-
-<span class="c1"># 3. Create a chart instance</span>
+<span class="c1"># 2. Initialize a main figure by creating a chart instance</span>
 <span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To create a plot, a subplot must be created by calling the <cite>new_subplot</cite> method.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4. Create a subplot to overlay the plot</span>
-<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>After the subplot is created, users can overlay the plots on the main figure by calling the <cite>overlay</cite> method.</p>
-<p>Users can create a plot by passing a dictionary of arguments to the <cite>overlay</cite> method. The dictionary should contain the following keys:</p>
+<p>To create a plot, a user must create a subplot by calling the <cite>new_subplot</cite> method and passing it an optional dictionary of arguments. The dictionary should contain the following keys:</p>
 <ul class="simple">
 <li><p><cite>data</cite>: The data that will be plotted.</p></li>
 <li><p><cite>plot</cite>: The type of plot to be created.</p></li>
@@ -142,23 +131,76 @@
 <li><p><cite>axes_labels</cite>: A dictionary containing the labels of the subplot.</p></li>
 <li><p><cite>customs</cite>: A dictionary containing the customization options of the plot.</p></li>
 </ul>
-<blockquote>
-<div><p>Each plot type has its own customization options. Please continue reading to see the customization options available for each plot type.</p>
-</div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5. Overlay a line plot on the subplot</span>
-<span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;linelabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Example Line Label&quot;</span><span class="p">}</span>
-<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;dashdot&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;mediumslateblue&quot;</span><span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Define Some Data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">,</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
-<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+<span class="c1"># 4. Build the plot dictionary</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># 5. Plot the data</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If the user desires multiple subplots, they must call the <cite>new_subplot</cite> method again to create a new subplot. Finally, the figure can be rendered by calling the <cite>Chart</cite> instance.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5. Render the main figure</span>
+<p>To overlay a new plot onto the current subplot, a user can call the <cite>overlay</cite> method and pass it a dictionary of arguments, similar to what is shown above:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 6. build the overlay plot dictionary</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># 7. Overlay the plot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To add a new subplot, users can call the <cite>new_subplot</cite> method again and pass it a dictionary of arguments.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 8. build the plot dictionary</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;boxplot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># 9. Plot data onto new subplot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Users can also customize the axes of each subplot.</p>
+<ul class="simple">
+<li><p>Users can change the scale of the x and y axes from linear to log. They can also change the base of the log scale. If the base is changed, ensure that the subplots are not sharing axes.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 10. Define a random exponential function</span>
+<span class="n">exp_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">500</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">exp_func</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># 11. build the plot dictionary</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+    <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="s2">&quot;semilogy&quot;</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;linelabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Semilogy Line&quot;</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="c1"># 12. Plot exponential function</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, the figure can be rendered by calling the <cite>Chart</cite> instance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 13. Render the main figure</span>
 <span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="SimpleExampleResult" class="align-center" src="https://clidapp.s3.amazonaws.com/static/server/img/plot_index_eg.jpg" />
+<p>To save the figure that was rendered, users can call the <cite>save</cite> method. The default file format is <cite>eps</cite> and the default file name is <cite>chartly_plot</cite>. To change the file format and name, update the plot’s properties.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 14. Save the figure with a different file format and name</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;jpg&quot;</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;my_plot&quot;</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="https://chartly.s3.amazonaws.com/static/img/my_plot.jpg"><img alt="SimpleUsageOfChartlyExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/img/my_plot.jpg" style="height: 500px;" />
+</a>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Plot.html">Single Plot Charts with Chartly Examples</a><ul>
