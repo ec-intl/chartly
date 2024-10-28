@@ -28,6 +28,7 @@ import numpy as np
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
+from mpl_toolkits.basemap import Basemap as bmap
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot
@@ -614,3 +615,75 @@ class HatchArea(CustomizePlot):
                 hatches=[self.customs["pattern"]],
                 alpha=self.customs["alpha"],
             )
+
+class Basemap(Plot, CustomizePlot):
+    """Class to plot a basemap.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+    
+    Available Customizations:
+        - proj: the projection of the map, default is "ortho"
+        - draw_coastlines: whether to draw coastlines, default is True
+        - fillcontinents: whether to fill continents, default is False
+        - draw_countries: whether to draw countries, default is False
+        - draw_states: whether to draw states, default is False
+        - draw_rivers: whether to draw rivers, default is False
+        - bluemarble: whether to use the bluemarble map, default is False
+        - shaderelief: whether to use the shaded relief map, default is False
+        - draw_parallels: whether to draw parallels, default is False
+        - draw_meridians: whether to draw meridians, default is False
+    """
+
+    def __init__(self, args):
+        """Initialize the Contour Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {
+            "proj": "ortho",
+            "draw_coastlines": True,
+            "fillcontinents": False,
+            "draw_countries": False,
+            "draw_states": False,
+            "draw_rivers": False,
+            "bluemarble": False,
+            "shaderelief": False,
+            "draw_parallels": False,
+            "draw_meridians": False,
+        }
+
+    def __call__(self):
+        """Plot a basemap."""
+        map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
+
+        basemap_methods = {
+            "draw_coastlines": map_.drawcoastlines,
+            "fillcontinents": map_.fillcontinents,
+            "draw_countries": map_.drawcountries,
+            "draw_states": map_.drawstates,
+            "draw_rivers": map_.drawrivers,
+            "bluemarble": map_.bluemarble,
+            "shaderelief": map_.shadedrelief,
+            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
+            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
+        }
+
+        for key, method in basemap_methods.items():
+            if self.customs.get(key):
+                method()
+
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
