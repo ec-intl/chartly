@@ -14,6 +14,7 @@ The following customization options are available for the Line Plot:
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     # Only y data
     data = np.random.randn(300)
@@ -27,27 +28,29 @@ The following customization options are available for the Line Plot:
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # Create a subplot
-    plot.new_subplot()
-
-    # set the arguments
+    # Set the arguments for the plot
     plot_payload = {
         "plot": "line_plot",
         "data": data,
         "customs": customs,
     }
-    plot.overlay(plot_payload)
 
+    # Create a subplot and plot the data
+    plot.new_subplot(plot_payload)
+
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/gen_plot_only_y.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/gen_plot_only_y.jpg
     :alt: GenericPlotOnlyY
     :align: center
+    :height: 500px
 
 
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     # x and y data
     x = np.linspace(0, 10, 100)
@@ -63,20 +66,22 @@ The following customization options are available for the Line Plot:
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # Create a subplot
-    plot.new_subplot()
-
     # customize the plot
     customs = {"color": "mediumpurple", "linestyle": "--"}
 
+    # set the arguments
     plot_payload = {"plot": "line_plot", "data": [x, y], "customs": customs}
-    plot.overlay(plot_payload)
 
+    # Create a subplot and plot the data
+    plot.new_subplot(plot_payload)
+
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/gen_plot_x_y.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/gen_plot_x_y.jpg
     :alt: GenericPlotXY
     :align: center
+    :height: 500px
 
 
 Histogram
@@ -91,6 +96,7 @@ A histogram plot can be created using the `histogram` keyword. The histogram plo
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     data = np.random.randn(1000)
 
@@ -101,20 +107,24 @@ A histogram plot can be created using the `histogram` keyword. The histogram plo
         "super_title": "Histogram Plot Example",
     }
 
+    plot = chartly.Chart(super_axes_labels)
+
     # customize the plot
     customs = {"color": "salmon", "num_bins": 30}
 
-    plot = chartly.Chart(super_axes_labels)
-    plot.new_subplot()
-
+    # set the arguments
     plot_payload = {"plot": "histogram", "data": data, "customs": customs}
-    plot.overlay(plot_payload)
 
+    # Create a subplot and plot the data
+    plot.new_subplot(plot_payload)
+
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/hist_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/hist_eg.jpg
     :alt: HistogramExample
     :align: center
+    :height: 500px
 
 
 Contour Plot
@@ -134,6 +144,7 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     x = np.linspace(-3.0, 3.0, 100)
     y = np.linspace(-3.0, 3.0, 100)
@@ -146,12 +157,9 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
         "super_ylabel": "Y",
         "super_title": "Contour Plot Example",
    }
+
     # Create a charts instance
     plot = chartly.Chart(super_axes_labels)
-
-    # Create a subplot
-    plot.new_subplot()
-
 
     # customize the plot
     customs = {"colormap": "magma", "fontsize": 14, "filled?": True}
@@ -159,14 +167,17 @@ Contour plots can be created using the `contour` keyword. The contour plot requi
     # set the arguments
     plot_payload = {"plot": "contour", "data": [X, Y, Z], "customs": customs}
 
-    plot.overlay(plot_payload)
+    # Create a subplot and plot the data
+    plot.new_subplot(plot_payload)
 
+    # Build and display the main figure
     plot()
 
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/contour_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/contour_eg.jpg
     :alt: ContourExample
     :align: center
+    :height: 500px
 
 
 Normal Probability Plot
@@ -179,6 +190,7 @@ The normal probability plot is used to determine if a dataset is approximately n
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     data = np.random.randn(150)
 
@@ -188,20 +200,22 @@ The normal probability plot is used to determine if a dataset is approximately n
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # Create a subplot
-    plot.new_subplot()
-
     # customize the plot
     customs = {"color": "firebrick"}
 
+    # set the arguments
     args = {"plot": "probability_plot", "data": data, "customs": customs}
-    plot.overlay(args)
 
+    # Create a subplot and plot the data
+    plot.new_subplot(args)
+
+    # build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/norm_prob_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/norm_prob_eg.jpg
     :alt: NormalProbabilityExample
     :align: center
+    :height: 500px
 
 
 Cumulative Distribution Function Plot
@@ -215,6 +229,7 @@ The CDF plot of a dataset can be created using the `cdf` keyword. The CDF plot r
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     data = np.random.exponential(scale=1.0, size=500)
 
@@ -227,20 +242,20 @@ The CDF plot of a dataset can be created using the `cdf` keyword. The CDF plot r
     # Create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # create a subplot
-    plot.new_subplot()
-
     # customize the plot
     axes_labels = {"linelabel": "CDF"}
     args = {"plot":"cdf", "data": data, "axes_labels": axes_labels}
 
-    plot.overlay(args)
+    # Create a subplot and plot the data
+    plot.new_subplot(args)
 
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/cdf_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/cdf_eg.jpg
     :alt: CDFExample
     :align: center
+    :height: 500px
 
 
 Normal Cumulative Distribution Function Plot
@@ -252,12 +267,12 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     dataset_one = np.random.exponential(scale=1.0, size=500)
     dataset_two = np.random.normal(loc=2, scale=1, size=500)
     dataset_three = np.random.gamma(2, 2, 500)
     data = [dataset_one, dataset_two, dataset_three]
-
 
     # label the main figure
     super_axes_labels = {"super_title": "Normal Cumulative Distribution Function Plot Example"}
@@ -265,17 +280,19 @@ The CDF of a dataset can be compared to the CDF of a normal distribution using t
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # create a subplot
-    plot.new_subplot()
-
+    # set the arguments
     args = {"plot": "normal_cdf", "data": data}
-    plot.overlay(args)
 
+    # Create a subplot and plot the data
+    plot.new_subplot(args)
+
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/norm_cdf_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/norm_cdf_eg.jpg
     :alt: NormalCDFExample
     :align: center
+    :height: 500px
 
 
 Density Plot
@@ -291,6 +308,7 @@ The density function of a distribution can be created using the `density` keywor
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     data = np.random.exponential(scale=1.0, size=500)
 
@@ -300,23 +318,22 @@ The density function of a distribution can be created using the `density` keywor
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # create a subplot
-    plot.new_subplot()
-
     # define the customs
     customs = {"fill": True, "color": "mediumvioletred", "label": "density"}
 
     # set the arguments
     plot_payload = {"plot": "density", "data": data, "customs": customs}
 
-    # Overlay the density plot
-    plot.overlay(plot_payload)
+    # Create the subplot and plot density plot
+    plot.new_subplot(plot_payload)
 
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/density_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/density_eg.jpg
     :alt: DensityExample
     :align: center
+    :height: 500px
 
 
 Box Plot
@@ -332,6 +349,7 @@ A boxplot of one or more datasets can be plotted using the `BoxPlot` class. A da
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     dataset_one = np.random.exponential(scale=1.0, size=500)
     dataset_two = np.random.normal(loc=2, scale=1, size=500)
@@ -344,20 +362,19 @@ A boxplot of one or more datasets can be plotted using the `BoxPlot` class. A da
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
 
-    # create a subplot
-    plot.new_subplot()
-
     # define the customs
     customs = {"showfliers": False}
 
     # set the arguments
     plot_payload = {"plot": "boxplot", "data": data, "customs": customs}
 
-    # Overlay the boxplot
-    plot.overlay(plot_payload)
+    # Create new subplot and plot the boxplot
+    plot.new_subplot(plot_payload)
 
+    # Build and display the main figure
     plot()
 
-.. image:: https://chartly.s3.amazonaws.com/static/server/img/boxplot_eg.jpg
+.. image:: https://chartly.s3.amazonaws.com/static/img/boxplot_eg.jpg
     :alt: BoxPlotExample
     :align: center
+    :height: 500px
