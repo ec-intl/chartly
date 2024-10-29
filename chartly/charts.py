@@ -674,21 +674,13 @@ class Basemap(Plot, CustomizePlot):
             "hatch_customs": {},
             "mask": None,
             "contour_customs": {},
-            "annotation": False,
-            "annotation_customs": {},
+            "annotate": False,
+            "annotate_customs": {},
         }
 
     def __call__(self):
         """Plot a basemap."""
-        map_ = bmap(
-            projection=self.customs["proj"],
-            lat_0=0,
-            lon_0=0,
-            llcrnrlon=-180,
-            llcrnrlat=-60,  # Lower-left corner coordinates
-            urcrnrlon=180,
-            urcrnrlat=85,
-        )
+        map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
 
         basemap_methods = {
             "draw_coastlines": map_.drawcoastlines,
@@ -728,8 +720,9 @@ class Basemap(Plot, CustomizePlot):
             hatch()
 
         # Add Annotations
-        if self.customs.get("annotation"):
-            annotate = AnnotateBasemap(self.customs["annotation_customs"])
+        if self.customs.get("annotate"):
+            self.customs["annotate_customs"].update({"ax": self.ax, "map": map_})
+            annotate = AnnotateBasemap(self.customs["annotate_customs"])
             annotate()
 
         self.axes_labels["show_legend"] = False
@@ -752,6 +745,8 @@ class AnnotateBasemap(CustomizePlot):
 
     def defaults(self):
         return {
+            "ax": None,
+            "map": None,
             "text": None,
             "xy": None,
             "xytext": None,
@@ -764,16 +759,19 @@ class AnnotateBasemap(CustomizePlot):
         """Annotate a basemap."""
         assert self.customs["xy"] is not None, "xy positions must be provided"
 
+        map_ = self.customs["map"]
+        ax = self.customs["ax"]
+
         if self.customs["xytext"] is not None:
             assert len(self.customs["xy"]) == len(
                 self.customs["xytext"]
             ), "xy positions and xytext positions must be of the same length"
 
             for idx in range(len(self.customs["xy"])):
-                self.ax.annotate(
+                ax.annotate(
                     self.customs["text"][idx],
-                    xy=self.customs["xy"][idx],
-                    xytext=self.customs["xytext"][idx],
+                    xy=map_(*self.customs["xy"][idx]),
+                    xytext=map_(*self.customs["xytext"][idx]),
                     arrowprops=self.customs["arrowprops"],
                     fontsize=self.customs["fontsize"],
                     color=self.customs["color"],
@@ -781,9 +779,9 @@ class AnnotateBasemap(CustomizePlot):
 
         else:
             for idx in range(len(self.customs["xy"])):
-                self.ax.annotate(
+                ax.annotate(
                     self.customs["text"][idx],
-                    xy=self.customs["xy"][idx],
+                    xy=map_(*self.customs["xy"][idx]),
                     arrowprops=self.customs["arrowprops"],
                     fontsize=self.customs["fontsize"],
                     color=self.customs["color"],
