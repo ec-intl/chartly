@@ -674,11 +674,21 @@ class Basemap(Plot, CustomizePlot):
             "hatch_customs": {},
             "mask": None,
             "contour_customs": {},
+            "annotation": False,
+            "annotation_customs": {},
         }
 
     def __call__(self):
         """Plot a basemap."""
-        map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
+        map_ = bmap(
+            projection=self.customs["proj"],
+            lat_0=0,
+            lon_0=0,
+            llcrnrlon=-180,
+            llcrnrlat=-60,  # Lower-left corner coordinates
+            urcrnrlon=180,
+            urcrnrlat=85,
+        )
 
         basemap_methods = {
             "draw_coastlines": map_.drawcoastlines,
@@ -717,5 +727,64 @@ class Basemap(Plot, CustomizePlot):
             hatch = HatchArea(self.customs["hatch_customs"])
             hatch()
 
+        # Add Annotations
+        if self.customs.get("annotation"):
+            annotate = AnnotateBasemap(self.customs["annotation_customs"])
+            annotate()
+
         self.axes_labels["show_legend"] = False
         self.label_axes()
+
+
+class AnnotateBasemap(CustomizePlot):
+    """Class to annotate a basemap."""
+
+    def __init__(self, args):
+        """Initialize the AnnotateBasemap Class."""
+        # Get the basemap arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+
+        # Initialize the CustomizePlot Class
+        super().__init__(self.args)
+
+    def defaults(self):
+        return {
+            "text": None,
+            "xy": None,
+            "xytext": None,
+            "arrowprops": None,
+            "fontsize": 12,
+            "color": "black",
+        }
+
+    def __call__(self):
+        """Annotate a basemap."""
+        assert self.customs["xy"] is not None, "xy positions must be provided"
+
+        if self.customs["xytext"] is not None:
+            assert len(self.customs["xy"]) == len(
+                self.customs["xytext"]
+            ), "xy positions and xytext positions must be of the same length"
+
+            for idx in range(len(self.customs["xy"])):
+                self.ax.annotate(
+                    self.customs["text"][idx],
+                    xy=self.customs["xy"][idx],
+                    xytext=self.customs["xytext"][idx],
+                    arrowprops=self.customs["arrowprops"],
+                    fontsize=self.customs["fontsize"],
+                    color=self.customs["color"],
+                )
+
+        else:
+            for idx in range(len(self.customs["xy"])):
+                self.ax.annotate(
+                    self.customs["text"][idx],
+                    xy=self.customs["xy"][idx],
+                    arrowprops=self.customs["arrowprops"],
+                    fontsize=self.customs["fontsize"],
+                    color=self.customs["color"],
+                )
