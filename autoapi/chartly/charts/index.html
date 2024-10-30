@@ -144,6 +144,9 @@ private sector. ECI is based in St. Lucia, West Indies.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#chartly.charts.HatchArea" title="chartly.charts.HatchArea"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HatchArea</span></code></a></p></td>
 <td><p>Class to hatch the area between two points.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#chartly.charts.DotPlot" title="chartly.charts.DotPlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotPlot</span></code></a></p></td>
+<td><p>Class to plot a dot plot.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -530,6 +533,44 @@ required keys for this dict.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="chartly.charts.DotPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chartly.charts.</span></span><span class="sig-name descname"><span class="pre">DotPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.DotPlot" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/index.html#chartly.base.Plot" title="chartly.base.Plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.Plot</span></code></a>, <a class="reference internal" href="../base/index.html#chartly.base.CustomizePlot" title="chartly.base.CustomizePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chartly.base.CustomizePlot</span></code></a></p>
+<p>Class to plot a dot plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>dict</em>) – the master dictionary containing the required fields.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Required Keys</dt><dd><ul class="simple">
+<li><p>data: the data to plot</p></li>
+</ul>
+</dd>
+<dt>Optional Keys</dt><dd><ul class="simple">
+<li><p>customs: the plot’s customization</p></li>
+<li><p>axes_labels: the axes labels</p></li>
+</ul>
+</dd>
+<dt>Available Customizations</dt><dd><ul class="simple">
+<li><p>color: the color of the dot plot, default is “black”</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.DotPlot.defaults">
+<span class="sig-name descname"><span class="pre">defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.DotPlot.defaults" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chartly.charts.DotPlot.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#chartly.charts.DotPlot.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Plot a dot plot</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -589,6 +630,11 @@ required keys for this dict.</p>
 <li><a class="reference internal" href="#chartly.charts.HatchArea"><code class="docutils literal notranslate"><span class="pre">HatchArea</span></code></a><ul>
 <li><a class="reference internal" href="#chartly.charts.HatchArea.defaults"><code class="docutils literal notranslate"><span class="pre">HatchArea.defaults()</span></code></a></li>
 <li><a class="reference internal" href="#chartly.charts.HatchArea.__call__"><code class="docutils literal notranslate"><span class="pre">HatchArea.__call__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#chartly.charts.DotPlot"><code class="docutils literal notranslate"><span class="pre">DotPlot</span></code></a><ul>
+<li><a class="reference internal" href="#chartly.charts.DotPlot.defaults"><code class="docutils literal notranslate"><span class="pre">DotPlot.defaults()</span></code></a></li>
+<li><a class="reference internal" href="#chartly.charts.DotPlot.__call__"><code class="docutils literal notranslate"><span class="pre">DotPlot.__call__()</span></code></a></li>
 </ul>
 </li>
 </ul>
