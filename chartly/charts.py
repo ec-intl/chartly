@@ -28,6 +28,7 @@ import numpy as np
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
+from matplotlib.ticker import MaxNLocator
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot
@@ -614,3 +615,57 @@ class HatchArea(CustomizePlot):
                 hatches=[self.customs["pattern"]],
                 alpha=self.customs["alpha"],
             )
+
+
+class DotPlot(Plot, CustomizePlot):
+    """Class to plot a dot plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - color: the color of the dot plot, default is "black"
+    """
+
+    def __init__(self, args):
+        """Initialize the DotPlot Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {"color": "black", "num_bins": 10}
+
+    def __call__(self):
+        """Plot a dot plot"""
+        # Define x and y lists
+        x, y = [], []
+
+        # Get the number of dots for each column
+        nbins = self.customs["num_bins"]
+        counts, bins = np.histogram(self.data, bins=nbins)
+
+        # Create the x and y lists
+        for i in range(nbins):
+            x.extend([bins[i]] * counts[i])
+            y.extend(range(1, counts[i] + 1))
+
+        # Plot the dots
+        self.ax.scatter(x, y, color=self.customs["color"])
+
+        # Restrict the y ticks to only integers
+        self.ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
+        # label the axes
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
