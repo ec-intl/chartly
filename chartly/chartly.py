@@ -24,6 +24,7 @@ from .charts import (
     BoxPlot,
     Contour,
     Density,
+    DotPlot,
     Histogram,
     LinePlot,
     NormalCDF,
@@ -84,6 +85,7 @@ class Chart(Plot):
             "line_plot": LinePlot,
             "contour": Contour,
             "normal_cdf": NormalCDF,
+            "dotplot": DotPlot,
         }
 
         self.subplots = []
