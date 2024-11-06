@@ -413,7 +413,7 @@ class ProbabilityPlot(Plot, CustomizePlot):
             slope=sigma,
             color="black",
             linewidth=1,
-            label=f"slope={mu:.2f}, y-intercept={sigma:.2f}",
+            label=f"slope={sigma:.2f}, y-intercept={mu:.2f}",
         )
 
         # Create Axes Labels
