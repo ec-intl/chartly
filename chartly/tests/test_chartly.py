@@ -127,7 +127,15 @@ class TestPlotting(unittest.TestCase):
         customs = {"color": "pink"}
         args = {"data": self.data, "customs": customs, "display": False}
         plot_two = LinePlot(args)
-        expect = {"color": "pink", "linestyle": "solid"}
+        expect = {
+            "color": "pink",
+            "linestyle": "solid",
+            "marker": "",
+            "markersize": 5,
+            "markercolor": "navy",
+            "markeredgecolor": "navy",
+        }
+
         self.assertEqual(plot_two.customs, expect)
 
 
