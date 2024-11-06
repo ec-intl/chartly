@@ -123,7 +123,8 @@ chart()
 ![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_eg.jpg)
 
 
-From the normal probability plot, we see that the line of best fit produced fits the data i.e. most of the points lie on or very close to the line. This suggests that the data follows the normal distribution. This is supported by the dot plot, where the plot's shape resembles the bell curve shape distincitive to the normal distributin, and the normal CDF plot, where the CDF of the data falls very closely to the CDF we expect of a standard normal distribution.
+From the normal probability plot, we see that the line of best fit produced fits the data i.e. most of the points lie on or very close to the line. This suggests that the data has a normal distribution.
+This is supported by the dot plot, where the plot's shape resembles the bell curve shape distincitive to the normal distribution, and the normal CDF plot, where the CDF of the data falls very closely to the CDF we expect of a standard normal distribution.
 
 However, if we look closely, we see that the points on the negative end of the plot are very light, suggesting that the data is negatively skewed. This is confirmed by the density plot, where we see that the more positive end of the distribution is heavier that its more negative end.
 
