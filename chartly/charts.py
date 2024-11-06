@@ -68,31 +68,22 @@ class LinePlot(Plot, CustomizePlot):
             # Check that both x and y data are present and of equal length
             assert len(self.data) == 2, "Data must contain both x and y list"
             assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
+            data = self.data
 
-            self.ax.plot(
-                self.data[0],
-                self.data[1],
-                color=self.customs["color"],
-                linewidth=1.5,
-                linestyle=self.customs["linestyle"],
-                label=self.axes_labels["linelabel"],
-                marker=self.customs["marker"],
-                ms=self.customs["markersize"],
-                mec=self.customs["markeredgecolor"],
-                mfc=self.customs["markercolor"],
-            )
         else:
-            self.ax.plot(
-                self.data,
-                color=self.customs["color"],
-                linewidth=1.5,
-                linestyle=self.customs["linestyle"],
-                label=self.axes_labels["linelabel"],
-                marker=self.customs["marker"],
-                ms=self.customs["markersize"],
-                mec=self.customs["markeredgecolor"],
-                mfc=self.customs["markercolor"],
-            )
+            data = [self.data]
+
+        self.ax.plot(
+            *data,
+            color=self.customs["color"],
+            linewidth=1.5,
+            linestyle=self.customs["linestyle"],
+            label=self.axes_labels["linelabel"],
+            marker=self.customs["marker"],
+            ms=self.customs["markersize"],
+            mec=self.customs["markeredgecolor"],
+            mfc=self.customs["markercolor"],
+        )
         self.label_axes()
 
     def defaults(self):
