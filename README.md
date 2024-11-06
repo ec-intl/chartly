@@ -69,32 +69,34 @@ pip install chartly
 
 ## Example
 
-Here is an example on how to use chartly to plot.
+Here is an example on how to use chartly.
+
+Scenario: After collecting data from a sample, an investigator wants to visualize the spread of his data, and also determine
+whether the sample data fits a normal distribution. 
+
+Here is how Chartly can help the investigator meet his goals.
 
 ```python
-
-import chartly
+from chartly import chartly
 import numpy as np
 
-# 1. Define Some Data
-data = np.random.randn(100)
+# define main figure labels
+args = {"super_title": "Investigating a Dataset's Distribution", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
 
-# 2. Define the main figure labels
-super_axes_labels = {"super_title": "Simple Example", "super_xlabel": "X", "super_ylabel": "Y"}
+# initialize a main figure
+chart = chartly.Chart(args)
 
-# 3. Create a chart instance
-plot = chartly.Chart(super_axes_labels)
+# Define the sample data
+data =  np.random.randn(200)
 
-# 4. Customize the plot and the axes
-axes_labels = {"linelabel": "Example Line Label"}
-customs = {"linestyle": "dashdot", "color": "mediumslateblue"}
+# Plot names of the desired plots
+plots = ["probability_plot", "dotplot", "normal_cdf"]
 
-# 5. Plot the data
-payload = {"plot": "line_plot", "data": data, "axes_labels": axes_labels, "customs": customs}
-plot.new_subplot(payload)
+for plot in plots:
+    # Create a subplot
+    chart.new_subplot({"plot": plot, "data": data, "axes_labels": {"title": plot}})
 
-# 6. Render the main figure
-plot()
+chart()
 ```
 
-![Example Output](https://chartly.s3.amazonaws.com/static/img/plot_index_eg.jpg)
+![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_eg.jpg)
