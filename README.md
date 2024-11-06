@@ -78,23 +78,53 @@ Here is how Chartly can help the investigator meet his goals.
 from chartly import chartly
 import numpy as np
 
-# define main figure labels
-args = {"super_title": "Investigating a Dataset's Distribution", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+"""Scatter the data"""
 
-# initialize a main figure
+# 1.1 Initialize a figure to plot the scatter plot
+args = {"super_title": "Scatter of the Sample Data", "super_xlabel": "X", "super_ylabel": "Y"}
 chart = chartly.Chart(args)
 
-# Define the sample data
-data =  np.random.randn(200)
+# 1.2 Define data
+x_range = np.arange(200)
+sample_data =  np.random.randn(200)
 
-# Plot names of the desired plots
+# 1.3 Create Subplot and plot scatter plot
+customs = {"color": "royalblue", "size": 50, "marker": "o"}
+data = [x_range, sample_data]
+
+chart.new_subplot({"plot": "scatter", "data": data, "customs": customs})
+
+# 1.4 Display the figure
+chart()
+```
+
+![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_scatter_eg.jpg)
+
+
+```python
+"""Investigate the Distribution of the data using Chartly."""
+
+# 2.1 Define main figure labels
+args = {"super_title": "Investigating a Dataset's Distribution", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+
+# 2.2 initialize a new figure
+chart = chartly.Chart(args)
+
+# 2.3 Determine the distribution of the sample data using a dot plot, probability plot and a normal cdf plot.
 plots = ["probability_plot", "dotplot", "normal_cdf"]
 
 for plot in plots:
-    # Create a subplot
-    chart.new_subplot({"plot": plot, "data": data, "axes_labels": {"title": plot}})
+    chart.new_subplot({"plot": plot, "data": sample_data, "axes_labels": {"title": plot}})
 
+# 2.4 Display the figure
 chart()
 ```
 
 ![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_eg.jpg)
+
+
+From the normal probability plot, we see that the line of best fit produced fits the data i.e. most of the points lie on or very close to the line. Therefore, we can infer that the sample data does follow the normal distribution, and has a mean close to 1 and a standard deviation of 0.04. 
+
+The dot plot and the standard normal cdf plot further confirm this. From the dot plot, we see that the sample's data has a bell-curve shape, which is what we expect from a sample with a normal distribution. we also see the the sample data's CDF fits the standard normal CDF almost perfectly.
+
+Given this, the investigator can conclude that the sample has a normal distribution.
