@@ -76,6 +76,10 @@ class LinePlot(Plot, CustomizePlot):
                 linewidth=1.5,
                 linestyle=self.customs["linestyle"],
                 label=self.axes_labels["linelabel"],
+                marker=self.customs["marker"],
+                ms=self.customs["markersize"],
+                mec=self.customs["markeredgecolor"],
+                mfc=self.customs["markercolor"],
             )
         else:
             self.ax.plot(
@@ -84,12 +88,82 @@ class LinePlot(Plot, CustomizePlot):
                 linewidth=1.5,
                 linestyle=self.customs["linestyle"],
                 label=self.axes_labels["linelabel"],
+                marker=self.customs["marker"],
+                ms=self.customs["markersize"],
+                mec=self.customs["markeredgecolor"],
+                mfc=self.customs["markercolor"],
             )
         self.label_axes()
 
     def defaults(self):
         """Set the default plot."""
-        return {"color": "navy", "linestyle": "solid"}
+        return {
+            "color": "navy",
+            "linestyle": "solid",
+            "marker": "",
+            "markersize": 5,
+            "markercolor": "navy",
+            "markeredgecolor": "navy",
+        }
+
+
+class ScatterPlot(Plot, CustomizePlot):
+    """Class to plot a scatter plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - color: the color of the scatter plot, default is "navy"
+        - marker: the marker style, default is "o"
+        - size: the size of the markers, default is 5
+        - edgecolor: the edge color of the markers, default is "navy"
+        - alpha: the transparency of the markers, default is 1
+    """
+
+    def __init__(self, args):
+        """Initialize the ScatterPlot Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def __call__(self):
+        """Plot the scatter plot."""
+        assert len(self.data) == 2 and isinstance(
+            self.data[0], (list, np.ndarray)
+        ), "Data must be 2D"
+
+        self.ax.scatter(
+            self.data[0],
+            self.data[1],
+            color=self.customs["color"],
+            marker=self.customs["marker"],
+            s=self.customs["size"],
+            alpha=self.customs["alpha"],
+            label=self.customs["label"],
+        )
+
+        self.label_axes()
+
+    def defaults(self):
+        """Set the default plot."""
+        return {
+            "color": "navy",
+            "marker": "o",
+            "size": 5,
+            "alpha": 1,
+            "label": " ",
+        }
 
 
 class CDF(Plot, CustomizePlot):
