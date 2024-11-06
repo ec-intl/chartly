@@ -70,7 +70,7 @@ pip install chartly
 ## Example
 
 Scenario: After collecting data from a sample, an investigator wants to visualize the spread of his data, and also determine
-whether the sample data fits a normal distribution. 
+whether the sample data fits a normal distribution.
 
 Here is how Chartly can help the investigator meet his goals.
 
