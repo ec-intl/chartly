@@ -100,7 +100,7 @@ The following customization options are available for the Line Plot:
     customs = {"color": "navy", "linestyle": "--", "marker": "*", "markercolor": "red", "markersize": 15}
 
     # label the plot
-    super_axes_labels = {"super_ylabel": "Y", "super_title": "Generic Plot Example"}
+    super_axes_labels = {"super_ylabel": "Y", "super_title": "Line Plot with Markers Example"}
 
     # create a chart instance
     plot = chartly.Chart(super_axes_labels)
