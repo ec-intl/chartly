@@ -386,8 +386,6 @@ class ProbabilityPlot(Plot, CustomizePlot):
 
         # Data Stats
         n = len(sample_data)
-        sigma = np.std(sample_data)
-        mu = np.mean(sample_data)
 
         # Sort the data
         sample_data.sort()
@@ -406,6 +404,7 @@ class ProbabilityPlot(Plot, CustomizePlot):
             s=30,
             marker="x",
         )
+        sigma, mu = np.polyfit(z, sample_data, 1)
 
         # Plot Solid Line
         self.ax.axline(
