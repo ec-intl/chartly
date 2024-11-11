@@ -708,16 +708,24 @@ class DotPlot(Plot, CustomizePlot):
         CustomizePlot.__init__(self, customs_)
 
     def defaults(self):
-        return {"color": "black", "num_bins": 10}
+        return {"color": "black", "bins": 10}
 
     def __call__(self):
         """Plot a dot plot"""
+        assert isinstance(
+            self.customs["bins"], (list, np.ndarray, int)
+        ), "bins must be a sequence or an integer"
         # Define x and y lists
         x, y = [], []
 
         # Get the number of dots for each column
-        nbins = self.customs["num_bins"]
-        counts, bins = np.histogram(self.data, bins=nbins)
+        if isinstance(self.customs["bins"], int):
+            nbins = self.customs["bins"]
+
+        elif isinstance(self.customs["bins"], (list, np.ndarray)):
+            nbins = len(self.customs["bins"]) - 1
+
+        counts, bins = np.histogram(self.data, bins=self.customs["bins"])
 
         # Create the x and y lists
         for i in range(nbins):
