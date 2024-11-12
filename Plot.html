@@ -79,6 +79,10 @@
 <ul class="simple">
 <li><p><cite>color</cite> (str): The color of the line.</p></li>
 <li><p><cite>linestyle</cite> (str): The style of the line.</p></li>
+<li><p><cite>marker</cite> (str): The style of the markers.</p></li>
+<li><p><cite>markersize</cite> (int): The size of the markers.</p></li>
+<li><p><cite>markercolor</cite> (str): The color of the markers.</p></li>
+<li><p><cite>markeredgecolor</cite> (str): The edge color of the markers.</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -143,6 +147,75 @@
 </div>
 <a class="reference internal image-reference" href="https://chartly.s3.amazonaws.com/static/img/gen_plot_x_y.jpg"><img alt="GenericPlotXY" class="align-center" src="https://chartly.s3.amazonaws.com/static/img/gen_plot_x_y.jpg" style="height: 500px;" />
 </a>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># define data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;navy&quot;</span><span class="p">,</span> <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;markercolor&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;markersize&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+
+<span class="c1"># label the plot</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Line Plot with Markers Example&quot;</span><span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># set the arguments</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+    <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="https://chartly.s3.amazonaws.com/static/img/line_plot_with_scatter.jpg"><img alt="LinePlotWithScatter" class="align-center" src="https://chartly.s3.amazonaws.com/static/img/line_plot_with_scatter.jpg" style="height: 500px;" />
+</a>
+</section>
+<section id="scatter-plot">
+<h2>Scatter Plot<a class="headerlink" href="#scatter-plot" title="Link to this heading">¶</a></h2>
+<p>A scatter plot can be created using the <cite>scatter</cite> keyword. The following customization options are available for the scatter plot:</p>
+<ul class="simple">
+<li><p><cite>color</cite> (str): The color of the markers.</p></li>
+<li><p><cite>marker</cite> (str): The style of the markers.</p></li>
+<li><p><cite>size</cite> (int): The size of the markers.</p></li>
+<li><p><cite>alpha</cite> (float): The transparency of the markers.</p></li>
+<li><p><cite>label</cite> (str): The label of the markers.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># label the plot</span>
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Scatter Plot Example&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># create a chart instance</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># customize the plot</span>
+<span class="n">customs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">}</span>
+
+<span class="c1"># set the arguments</span>
+<span class="n">plot_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="s2">&quot;scatter&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;customs&quot;</span><span class="p">:</span> <span class="n">customs</span><span class="p">}</span>
+
+<span class="c1"># Create a subplot and plot the data</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">(</span><span class="n">plot_payload</span><span class="p">)</span>
+
+<span class="c1"># Build and display the main figure</span>
+<span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 <section id="histogram">
 <h2>Histogram<a class="headerlink" href="#histogram" title="Link to this heading">¶</a></h2>
@@ -410,6 +483,7 @@
     <ul>
 <li><a class="reference internal" href="#">Single Plot Charts with Chartly Examples</a><ul>
 <li><a class="reference internal" href="#line-plot">Line Plot</a></li>
+<li><a class="reference internal" href="#scatter-plot">Scatter Plot</a></li>
 <li><a class="reference internal" href="#histogram">Histogram</a></li>
 <li><a class="reference internal" href="#contour-plot">Contour Plot</a></li>
 <li><a class="reference internal" href="#normal-probability-plot">Normal Probability Plot</a></li>

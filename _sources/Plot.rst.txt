@@ -10,6 +10,10 @@ The following customization options are available for the Line Plot:
 
 - `color` (str): The color of the line.
 - `linestyle` (str): The style of the line.
+- `marker` (str): The style of the markers.
+- `markersize` (int): The size of the markers.
+- `markercolor` (str): The color of the markers.
+- `markeredgecolor` (str): The edge color of the markers.
 
 .. code-block:: python
 
@@ -80,6 +84,88 @@ The following customization options are available for the Line Plot:
 
 .. image:: https://chartly.s3.amazonaws.com/static/img/gen_plot_x_y.jpg
     :alt: GenericPlotXY
+    :align: center
+    :height: 500px
+
+
+.. code-block:: python
+
+    import chartly
+    import numpy as np
+
+    # define data
+    data = np.random.randn(100)
+
+    # customize the plot
+    customs = {"color": "navy", "linestyle": "--", "marker": "*", "markercolor": "red", "markersize": 15}
+
+    # label the plot
+    super_axes_labels = {"super_ylabel": "Y", "super_title": "Line Plot with Markers Example"}
+
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # set the arguments
+    plot_payload = {
+        "plot": "line_plot",
+        "data": data,
+        "customs": customs,
+    }
+
+    plot.new_subplot(plot_payload)
+
+    plot()
+
+.. image:: https://chartly.s3.amazonaws.com/static/img/line_plot_with_scatter.jpg
+    :alt: LinePlotWithScatter
+    :align: center
+    :height: 500px
+
+
+Scatter Plot
+~~~~~~~~~~~~
+
+A scatter plot can be created using the `scatter` keyword. The following customization options are available for the scatter plot:
+
+- `color` (str): The color of the markers.
+- `marker` (str): The style of the markers.
+- `size` (int): The size of the markers.
+- `alpha` (float): The transparency of the markers.
+- `label` (str): The label of the markers.
+
+.. code-block:: python
+
+    import chartly
+    import numpy as np
+
+    x = np.random.randn(100)
+    y = np.random.randn(100)
+
+    # label the plot
+    super_axes_labels = {
+        "super_ylabel": "Y",
+        "super_xlabel": "X",
+        "super_title": "Scatter Plot Example",
+    }
+
+    # create a chart instance
+    plot = chartly.Chart(super_axes_labels)
+
+    # customize the plot
+    customs = {"color": "blue", "marker": "o", "size": 50, "alpha": 0.5, "label": "data"}
+
+    # set the arguments
+    plot_payload = {"plot": "scatter", "data": [x, y], "customs": customs}
+
+    # Create a subplot and plot the data
+    plot.new_subplot(plot_payload)
+
+    # Build and display the main figure
+    plot()
+
+.. image:: https://chartly.s3.amazonaws.com/static/img/scatter_eg.jpg
+
+    :alt: ScatterExample
     :align: center
     :height: 500px
 
