@@ -708,7 +708,7 @@ class DotPlot(Plot, CustomizePlot):
         CustomizePlot.__init__(self, customs_)
 
     def defaults(self):
-        return {"color": "black", "bins": 10}
+        return {"color": "black", "bins": int(np.sqrt(len(self.data)))}
 
     def __call__(self):
         """Plot a dot plot"""
@@ -737,6 +737,13 @@ class DotPlot(Plot, CustomizePlot):
 
         # Restrict the y ticks to only integers
         self.ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
+        # Set the x ticks to the bin edges
+        self.ax.set_xticks(bins)
+
+        # Set the x tick labels
+        labels = [str(round(edge)) for edge in bins]
+        self.ax.set_xticklabels(labels)
 
         # label the axes
         self.axes_labels["show_legend"] = False
