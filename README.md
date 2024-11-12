@@ -69,32 +69,63 @@ pip install chartly
 
 ## Example
 
-Here is an example on how to use chartly to plot.
+Scenario: After collecting data from a sample, an investigator wants to visualize the spread of his data, and also determine
+whether the sample data fits a normal distribution.
+
+Here is how Chartly can help the investigator meet his goals.
 
 ```python
-
-import chartly
+from chartly import chartly
 import numpy as np
 
-# 1. Define Some Data
-data = np.random.randn(100)
+"""Scatter the data"""
 
-# 2. Define the main figure labels
-super_axes_labels = {"super_title": "Simple Example", "super_xlabel": "X", "super_ylabel": "Y"}
+# 1.1 Initialize a figure to plot the scatter plot
+args = {"super_title": "Scatter of the Sample Data", "super_xlabel": "X", "super_ylabel": "Y"}
+chart = chartly.Chart(args)
 
-# 3. Create a chart instance
-plot = chartly.Chart(super_axes_labels)
+# 1.2 Define data
+x_range = np.arange(200)
+sample_data =  np.random.randn(200)
 
-# 4. Customize the plot and the axes
-axes_labels = {"linelabel": "Example Line Label"}
-customs = {"linestyle": "dashdot", "color": "mediumslateblue"}
+# 1.3 Create Subplot and plot scatter plot
+customs = {"color": "royalblue", "size": 50, "marker": "o"}
+data = [x_range, sample_data]
 
-# 5. Plot the data
-payload = {"plot": "line_plot", "data": data, "axes_labels": axes_labels, "customs": customs}
-plot.new_subplot(payload)
+chart.new_subplot({"plot": "scatter", "data": data, "customs": customs})
 
-# 6. Render the main figure
-plot()
+# 1.4 Display the figure
+chart()
 ```
 
-![Example Output](https://chartly.s3.amazonaws.com/static/img/plot_index_eg.jpg)
+![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_scatter_eg.jpg)
+
+
+```python
+"""Investigate the Distribution of the data using Chartly."""
+
+# 2.1 Define main figure labels
+args = {"super_title": "Investigating a Dataset's Distribution", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+
+# 2.2 initialize a new figure
+chart = chartly.Chart(args)
+
+# 2.3 Determine the distribution of the sample data using a dot plot, probability plot and a normal cdf plot.
+plots = ["probability_plot", "dotplot", "normal_cdf"]
+
+for plot in plots:
+    chart.new_subplot({"plot": plot, "data": sample_data, "axes_labels": {"title": plot}})
+
+# 2.4 Display the figure
+chart()
+```
+
+![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_eg.jpg)
+
+
+From the normal probability plot, we see that the line of best fit produced fits the data i.e. most of the points lie on or very close to the line. This suggests that the data has a normal distribution.
+This is supported by the dot plot, where the plot's shape resembles the bell curve shape distincitive to the normal distribution, and the normal CDF plot, where the CDF of the data falls very closely to the CDF we expect of a standard normal distribution.
+
+However, if we look closely, we see that the points on the negative end of the plot are very light, suggesting that the data is negatively skewed. This is confirmed by the density plot, where we see that the more positive end of the distribution is heavier that its more negative end.
+
+Given this, the investigator can conclude that the sample has a negatively skewed normal distribution, with a mean of 0.03 and a standard deviation of 0.96.
