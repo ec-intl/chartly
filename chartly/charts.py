@@ -741,6 +741,10 @@ class DotPlot(Plot, CustomizePlot):
         # Set the x ticks to the bin edges
         self.ax.set_xticks(bins)
 
+        # Set the x tick labels
+        labels = [str(round(edge)) for edge in bins]
+        self.ax.set_xticklabels(labels)
+
         # label the axes
         self.axes_labels["show_legend"] = False
         self.label_axes()
