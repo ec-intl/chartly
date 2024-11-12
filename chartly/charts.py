@@ -68,28 +68,93 @@ class LinePlot(Plot, CustomizePlot):
             # Check that both x and y data are present and of equal length
             assert len(self.data) == 2, "Data must contain both x and y list"
             assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
+            data = self.data
 
-            self.ax.plot(
-                self.data[0],
-                self.data[1],
-                color=self.customs["color"],
-                linewidth=1.5,
-                linestyle=self.customs["linestyle"],
-                label=self.axes_labels["linelabel"],
-            )
         else:
-            self.ax.plot(
-                self.data,
-                color=self.customs["color"],
-                linewidth=1.5,
-                linestyle=self.customs["linestyle"],
-                label=self.axes_labels["linelabel"],
-            )
+            data = [self.data]
+
+        self.ax.plot(
+            *data,
+            color=self.customs["color"],
+            linewidth=1.5,
+            linestyle=self.customs["linestyle"],
+            label=self.axes_labels["linelabel"],
+            marker=self.customs["marker"],
+            ms=self.customs["markersize"],
+            mec=self.customs["markeredgecolor"],
+            mfc=self.customs["markercolor"],
+        )
         self.label_axes()
 
     def defaults(self):
         """Set the default plot."""
-        return {"color": "navy", "linestyle": "solid"}
+        return {
+            "color": "navy",
+            "linestyle": "solid",
+            "marker": "",
+            "markersize": 5,
+            "markercolor": "navy",
+            "markeredgecolor": "navy",
+        }
+
+
+class ScatterPlot(Plot, CustomizePlot):
+    """Class to plot a scatter plot.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations
+        - color: the color of the scatter plot, default is "navy"
+        - marker: the marker style, default is "o"
+        - size: the size of the markers, default is 5
+        - edgecolor: the edge color of the markers, default is "navy"
+        - alpha: the transparency of the markers, default is 1
+    """
+
+    def __init__(self, args):
+        """Initialize the ScatterPlot Class."""
+        # Get the arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+        super().__init__(self.args)
+        CustomizePlot.__init__(self, customs_)
+
+    def __call__(self):
+        """Plot the scatter plot."""
+        assert len(self.data) == 2 and isinstance(
+            self.data[0], (list, np.ndarray)
+        ), "Data must be 2D"
+
+        self.ax.scatter(
+            self.data[0],
+            self.data[1],
+            color=self.customs["color"],
+            marker=self.customs["marker"],
+            s=self.customs["size"],
+            alpha=self.customs["alpha"],
+            label=self.customs["label"],
+        )
+
+        self.label_axes()
+
+    def defaults(self):
+        """Set the default plot."""
+        return {
+            "color": "navy",
+            "marker": "o",
+            "size": 5,
+            "alpha": 1,
+            "label": " ",
+        }
 
 
 class CDF(Plot, CustomizePlot):
@@ -321,8 +386,6 @@ class ProbabilityPlot(Plot, CustomizePlot):
 
         # Data Stats
         n = len(sample_data)
-        sigma = np.std(sample_data)
-        mu = np.mean(sample_data)
 
         # Sort the data
         sample_data.sort()
@@ -341,6 +404,7 @@ class ProbabilityPlot(Plot, CustomizePlot):
             s=30,
             marker="x",
         )
+        sigma, mu = np.polyfit(z, sample_data, 1)
 
         # Plot Solid Line
         self.ax.axline(
@@ -348,7 +412,7 @@ class ProbabilityPlot(Plot, CustomizePlot):
             slope=sigma,
             color="black",
             linewidth=1,
-            label=f"slope={mu:.2f}, y-intercept={sigma:.2f}",
+            label=f"slope={sigma:.2f}, y-intercept={mu:.2f}",
         )
 
         # Create Axes Labels
@@ -644,16 +708,24 @@ class DotPlot(Plot, CustomizePlot):
         CustomizePlot.__init__(self, customs_)
 
     def defaults(self):
-        return {"color": "black", "num_bins": 10}
+        return {"color": "black", "bins": int(np.sqrt(len(self.data)))}
 
     def __call__(self):
         """Plot a dot plot"""
+        assert isinstance(
+            self.customs["bins"], (list, np.ndarray, int)
+        ), "bins must be a sequence or an integer"
         # Define x and y lists
         x, y = [], []
 
         # Get the number of dots for each column
-        nbins = self.customs["num_bins"]
-        counts, bins = np.histogram(self.data, bins=nbins)
+        if isinstance(self.customs["bins"], int):
+            nbins = self.customs["bins"]
+
+        elif isinstance(self.customs["bins"], (list, np.ndarray)):
+            nbins = len(self.customs["bins"]) - 1
+
+        counts, bins = np.histogram(self.data, bins=self.customs["bins"])
 
         # Create the x and y lists
         for i in range(nbins):
@@ -665,6 +737,13 @@ class DotPlot(Plot, CustomizePlot):
 
         # Restrict the y ticks to only integers
         self.ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
+        # Set the x ticks to the bin edges
+        self.ax.set_xticks(bins)
+
+        # Set the x tick labels
+        labels = [str(round(edge)) for edge in bins]
+        self.ax.set_xticklabels(labels)
 
         # label the axes
         self.axes_labels["show_legend"] = False

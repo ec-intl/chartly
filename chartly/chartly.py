@@ -29,6 +29,7 @@ from .charts import (
     LinePlot,
     NormalCDF,
     ProbabilityPlot,
+    ScatterPlot,
 )
 
 
@@ -85,6 +86,7 @@ class Chart(Plot):
             "line_plot": LinePlot,
             "contour": Contour,
             "normal_cdf": NormalCDF,
+            "scatter": ScatterPlot,
             "dotplot": DotPlot,
         }
 
