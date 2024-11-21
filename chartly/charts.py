@@ -29,6 +29,7 @@ import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import MaxNLocator
+from mpl_toolkits.basemap import Basemap as bmap
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot
@@ -748,3 +749,174 @@ class DotPlot(Plot, CustomizePlot):
         # label the axes
         self.axes_labels["show_legend"] = False
         self.label_axes()
+
+
+class Basemap(Plot, CustomizePlot):
+    """Class to plot a basemap.
+
+    :param dict args: the master dictionary containing the required fields.
+
+    Required Keys
+        - data: the data to plot
+
+    Optional Keys
+        - customs: the plot's customization
+        - axes_labels: the axes labels
+
+    Available Customizations:
+        - proj: the projection of the map, default is "ortho"
+        - draw_coastlines: whether to draw coastlines, default is True
+        - fillcontinents: whether to fill continents, default is False
+        - draw_countries: whether to draw countries, default is False
+        - draw_states: whether to draw states, default is False
+        - draw_rivers: whether to draw rivers, default is False
+        - bluemarble: whether to use the bluemarble map, default is False
+        - shaderelief: whether to use the shaded relief map, default is False
+        - draw_parallels: whether to draw parallels, default is False
+        - draw_meridians: whether to draw meridians, default is False
+    """
+
+    def __init__(self, args):
+        """Initialize the Basemap Class."""
+        # Get the basemap arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+
+        # Initialize the Plot Class
+        super().__init__(self.args)
+
+        # Initialize the CustomizePlot Class
+        CustomizePlot.__init__(self, customs_)
+
+    def defaults(self):
+        return {
+            "proj": "ortho",
+            "draw_coastlines": True,
+            "fillcontinents": False,
+            "draw_countries": False,
+            "draw_states": False,
+            "draw_rivers": False,
+            "bluemarble": False,
+            "shaderelief": False,
+            "draw_parallels": False,
+            "draw_meridians": False,
+            "contour": False,
+            "contourf": False,
+            "hatch": False,
+            "hatch_customs": {},
+            "mask": None,
+            "contour_customs": {},
+            "annotate": False,
+            "annotate_customs": {},
+        }
+
+    def __call__(self):
+        """Plot a basemap."""
+        map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
+
+        basemap_methods = {
+            "draw_coastlines": map_.drawcoastlines,
+            "fillcontinents": map_.fillcontinents,
+            "draw_countries": map_.drawcountries,
+            "draw_states": map_.drawstates,
+            "draw_rivers": map_.drawrivers,
+            "bluemarble": map_.bluemarble,
+            "shaderelief": map_.shadedrelief,
+            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
+            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
+        }
+
+        for key, method in basemap_methods.items():
+            if self.customs.get(key):
+                method()
+
+        # vAdd Contour or filled contour
+        for contour_type in ["contour", "contourf"]:
+            if self.customs.get(contour_type):
+                cs = getattr(map_, contour_type)(
+                    self.data[0],
+                    self.data[1],
+                    self.data[2],
+                )
+
+        # Add Contour Hatch
+        if self.customs.get("hatch"):
+            self.customs["hatch_customs"].update({"ax": map_})
+            if self.customs["hatch_customs"]["type"] == "mask":
+                self.customs["hatch_customs"]["data"] = [
+                    self.data[0],
+                    self.data[1],
+                    self.customs["mask"],
+                ]
+            hatch = HatchArea(self.customs["hatch_customs"])
+            hatch()
+
+        # Add Annotations
+        if self.customs.get("annotate"):
+            self.customs["annotate_customs"].update({"ax": self.ax, "map": map_})
+            annotate = AnnotateBasemap(self.customs["annotate_customs"])
+            annotate()
+
+        self.axes_labels["show_legend"] = False
+        self.label_axes()
+
+
+class AnnotateBasemap(CustomizePlot):
+    """Class to annotate a basemap."""
+
+    def __init__(self, args):
+        """Initialize the AnnotateBasemap Class."""
+        # Get the basemap arguments
+        self.args = args
+
+        # Extract the customs
+        customs_ = self.args.get("customs", {})
+
+        # Initialize the CustomizePlot Class
+        super().__init__(self.args)
+
+    def defaults(self):
+        return {
+            "ax": None,
+            "map": None,
+            "text": None,
+            "xy": None,
+            "xytext": None,
+            "arrowprops": None,
+            "fontsize": 12,
+            "color": "black",
+        }
+
+    def __call__(self):
+        """Annotate a basemap."""
+        assert self.customs["xy"] is not None, "xy positions must be provided"
+
+        map_ = self.customs["map"]
+        ax = self.customs["ax"]
+
+        if self.customs["xytext"] is not None:
+            assert len(self.customs["xy"]) == len(
+                self.customs["xytext"]
+            ), "xy positions and xytext positions must be of the same length"
+
+            for idx in range(len(self.customs["xy"])):
+                ax.annotate(
+                    self.customs["text"][idx],
+                    xy=map_(*self.customs["xy"][idx]),
+                    xytext=map_(*self.customs["xytext"][idx]),
+                    arrowprops=self.customs["arrowprops"],
+                    fontsize=self.customs["fontsize"],
+                    color=self.customs["color"],
+                )
+
+        else:
+            for idx in range(len(self.customs["xy"])):
+                ax.annotate(
+                    self.customs["text"][idx],
+                    xy=map_(*self.customs["xy"][idx]),
+                    arrowprops=self.customs["arrowprops"],
+                    fontsize=self.customs["fontsize"],
+                    color=self.customs["color"],
+                )
