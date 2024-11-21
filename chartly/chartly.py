@@ -25,10 +25,12 @@ from .charts import (
     BoxPlot,
     Contour,
     Density,
+    DotPlot,
     Histogram,
     LinePlot,
     NormalCDF,
     ProbabilityPlot,
+    ScatterPlot,
 )
 
 
@@ -86,6 +88,8 @@ class Chart(Plot):
             "contour": Contour,
             "normal_cdf": NormalCDF,
             "basemap": Basemap,
+            "scatter": ScatterPlot,
+            "dotplot": DotPlot,
         }
 
         self.subplots = []
