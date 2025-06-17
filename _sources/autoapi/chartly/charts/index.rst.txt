@@ -143,6 +143,9 @@ Module Contents
 
    .. py:method:: defaults()
 
+      Set the default plot.
+
+
 
    .. py:method:: __call__()
 
@@ -173,6 +176,9 @@ Module Contents
 
    .. py:method:: defaults()
 
+      Set the default plot.
+
+
 
    .. py:method:: __call__()
 
@@ -201,6 +207,9 @@ Module Contents
 
 
    .. py:method:: defaults()
+
+      Set the default plot.
+
 
 
    .. py:method:: __call__() -> None
@@ -233,6 +242,9 @@ Module Contents
 
    .. py:method:: defaults()
 
+      Set the default plot.
+
+
 
    .. py:method:: __call__()
 
@@ -262,6 +274,9 @@ Module Contents
 
    .. py:method:: defaults()
 
+      Set the default plot.
+
+
 
    .. py:method:: __call__()
 
@@ -288,6 +303,9 @@ Module Contents
 
 
    .. py:method:: defaults()
+
+      Set the default plot.
+
 
 
    .. py:method:: __call__()
@@ -326,6 +344,9 @@ Module Contents
 
    .. py:method:: defaults()
 
+      Set the default plot.
+
+
 
    .. py:method:: __call__()
 
@@ -342,7 +363,7 @@ Module Contents
 
 
 
-.. py:class:: HatchArea
+.. py:class:: HatchArea(customs)
 
    Bases: :py:obj:`chartly.base.CustomizePlot`
 
@@ -365,6 +386,9 @@ Module Contents
 
 
    .. py:method:: defaults()
+
+      Set the default plot.
+
 
 
    .. py:method:: __call__()
@@ -403,6 +427,9 @@ Module Contents
 
 
    .. py:method:: defaults()
+
+      Set the default plot.
+
 
 
    .. py:method:: __call__()

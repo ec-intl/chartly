@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Multiple Plot Charts with Chartly Examples &#8212; chartly  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -85,7 +85,7 @@
 <li><p><cite>axes_labels</cite>: A dictionary containing the labels of the subplot.</p></li>
 <li><p><cite>customs</cite>: A dictionary containing the customization options of the plot.</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chartly</span>
 
 <span class="c1"># define main figure labels</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Overlay Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
@@ -116,7 +116,7 @@
 <section id="subplots">
 <h2>Subplots<a class="headerlink" href="#subplots" title="Link to this heading">¶</a></h2>
 <p>The <cite>new_subplot</cite> method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Charts instance to render the figure.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chartly</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chartly</span>
 
 <span class="c1"># define main figure labels</span>
 <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Subplots Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
