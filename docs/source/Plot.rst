@@ -164,7 +164,6 @@ A scatter plot can be created using the `scatter` keyword. The following customi
     plot()
 
 .. image:: https://chartly.s3.amazonaws.com/static/img/scatter_eg.jpg
-
     :alt: ScatterExample
     :align: center
     :height: 500px
