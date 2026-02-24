@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath("../../"))
 
 # Configuration file for the Sphinx documentation builder.
@@ -17,6 +18,19 @@ author = "Elizabeth Consulting International Inc"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+# This prevents the "Unable to read file" error by mocking missing dependencies
+autodoc_mock_imports = [
+    "matplotlib",
+    "seaborn",
+    "numpy",
+    "scipy",
+    "pandas",
+    "cycler",
+    "kiwisolver",
+    "fonttools",
+    "contourpy",
+]
+
 extensions = [
     "sphinx.ext.duration",
     "sphinx.ext.doctest",
@@ -27,6 +41,18 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
     "autoapi.extension",
 ]
+
+autoapi_type = "python"
+autoapi_dirs = ["../../chartly"]
+autoapi_options = [
+    "members",
+    "undoc-members",
+    "show-inheritance",
+    "show-module-summary",
+    "special-members",
+    "imported-members",
+]
+
 
 templates_path = ["_templates"]
 exclude_patterns: list[str] = []
