@@ -5,11 +5,11 @@ sys.path.insert(0, os.path.abspath("../../chartly"))
 
 # Configuration file for the Sphinx documentation builder.
 #
-# This file only contains a selection of the most common options. For the full 
+# This file only contains a selection of the most common options. For the full
 # list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Path setup -------------------------------------------------------------- 
+# -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
