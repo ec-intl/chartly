@@ -63,7 +63,7 @@ The following customization options are available for the Line Plot:
     # define plot labels
     super_axes_labels = {
         "super_ylabel": "Y",
-        "super_xlabel": "X", 
+        "super_xlabel": "X",
         "super_title": "Generic Plot Example with X & Y",
     }
 
@@ -164,7 +164,6 @@ A scatter plot can be created using the `scatter` keyword. The following customi
     plot()
 
 .. image:: https://chartly.s3.amazonaws.com/static/img/scatter_eg.jpg
-
     :alt: ScatterExample
     :align: center
     :height: 500px
