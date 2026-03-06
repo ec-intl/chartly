@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 from .base import Plot
 from .charts import (
     CDF,
+    Basemap,
     BoxPlot,
     Contour,
     Density,
@@ -86,6 +87,7 @@ class Chart(Plot):
             "line_plot": LinePlot,
             "contour": Contour,
             "normal_cdf": NormalCDF,
+            "basemap": Basemap,
             "scatter": ScatterPlot,
             "dotplot": DotPlot,
         }
