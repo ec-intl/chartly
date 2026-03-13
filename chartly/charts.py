@@ -68,7 +68,9 @@ class LinePlot(Plot, CustomizePlot):
         if isinstance(self.data[0], (list, np.ndarray)):
             # Check that both x and y data are present and of equal length
             assert len(self.data) == 2, "Data must contain both x and y list"
-            assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
+            assert len(self.data[0]) == len(
+                self.data[1]
+            ), "Data lengths must be equal"
             data = self.data
 
         else:
@@ -202,7 +204,12 @@ class CDF(Plot, CustomizePlot):
         )
 
         for hline in (0.1, 0.5, 0.9):
-            self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
+            self.ax.axhline(
+                y=hline,
+                color="black",
+                linewidth=1,
+                linestyle="dashed"
+            )
 
         self.label_axes()
 
@@ -291,7 +298,9 @@ class BoxPlot(Plot, CustomizePlot):
         assert isinstance(
             self.data, (list, np.ndarray)
         ), "Data must be a list or a list of lists"
-        assert isinstance(self.customs["boxlabels"], list), "Box labels must be a list"
+        assert isinstance(
+            self.customs["boxlabels"], list
+        ), "Box labels must be a list"
         self.ax.boxplot(
             self.data,
             flierprops=dict(marker="o", markersize=1),
@@ -417,7 +426,12 @@ class ProbabilityPlot(Plot, CustomizePlot):
         )
 
         # Create Axes Labels
-        self.axes_labels.update({"xlabel": "z percentile", "ylabel": "Observations"})
+        self.axes_labels.update(
+            {
+                "xlabel": "z percentile",
+                "ylabel": "Observations"
+            }
+        )
 
         # label the axes
         self.label_axes()
@@ -452,11 +466,13 @@ class NormalCDF(Plot, CustomizePlot):
 
     def __call__(self):
         """Plot a standard normal distribution CDF against the CDF
-        of other datasets. This method uses the norm_cdf_args dict. There are no
-        required keys for this dict.
+        of other datasets. This method uses the norm_cdf_args dict.
+        There are no required keys for this dict.
         """
         data_list = (
-            self.data if isinstance(self.data[0], (list, np.ndarray)) else [self.data]
+            self.data
+            if isinstance(self.data[0], (list, np.ndarray))
+            else [self.data]
         )
 
         for idx, data in enumerate(data_list):
@@ -482,7 +498,7 @@ class NormalCDF(Plot, CustomizePlot):
         # Find the p values
         p_vals = [norm.cdf(z_) for z_ in z]
 
-        # Plot Stanfard Normal CDF
+        # Plot Standard Normal CDF
         self.ax.plot(
             z,
             p_vals,
@@ -812,6 +828,18 @@ class Basemap(Plot, CustomizePlot):
             "annotate_customs": {},
         }
 
+    def _apply_hatch(self, map_):
+        """Apply hatch overlay to the basemap."""
+        self.customs["hatch_customs"].update({"ax": map_})
+        if self.customs["hatch_customs"]["type"] == "mask":
+            self.customs["hatch_customs"]["data"] = [
+                self.data[0],
+                self.data[1],
+                self.customs["mask"],
+            ]
+        hatch = HatchArea(self.customs["hatch_customs"])
+        hatch()
+
     def __call__(self):
         """Plot a basemap."""
         map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
@@ -824,8 +852,12 @@ class Basemap(Plot, CustomizePlot):
             "draw_rivers": map_.drawrivers,
             "bluemarble": map_.bluemarble,
             "shaderelief": map_.shadedrelief,
-            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
-            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
+            "draw_parallels": lambda: map_.drawparallels(np.arange(
+                -90, 90, 30)
+            ),
+            "draw_meridians": lambda: map_.drawmeridians(np.arange(
+                0, 360, 60)
+            ),
         }
 
         for key, method in basemap_methods.items():
@@ -835,7 +867,7 @@ class Basemap(Plot, CustomizePlot):
         # vAdd Contour or filled contour
         for contour_type in ["contour", "contourf"]:
             if self.customs.get(contour_type):
-                cs = getattr(map_, contour_type)(
+                getattr(map_, contour_type)(
                     self.data[0],
                     self.data[1],
                     self.data[2],
@@ -843,19 +875,13 @@ class Basemap(Plot, CustomizePlot):
 
         # Add Contour Hatch
         if self.customs.get("hatch"):
-            self.customs["hatch_customs"].update({"ax": map_})
-            if self.customs["hatch_customs"]["type"] == "mask":
-                self.customs["hatch_customs"]["data"] = [
-                    self.data[0],
-                    self.data[1],
-                    self.customs["mask"],
-                ]
-            hatch = HatchArea(self.customs["hatch_customs"])
-            hatch()
+            self._apply_hatch(map_)
 
         # Add Annotations
         if self.customs.get("annotate"):
-            self.customs["annotate_customs"].update({"ax": self.ax, "map": map_})
+            self.customs["annotate_customs"].update(
+                {"ax": self.ax, "map": map_}
+            )
             annotate = AnnotateBasemap(self.customs["annotate_customs"])
             annotate()
 
@@ -870,9 +896,6 @@ class AnnotateBasemap(CustomizePlot):
         """Initialize the AnnotateBasemap Class."""
         # Get the basemap arguments
         self.args = args
-
-        # Extract the customs
-        customs_ = self.args.get("customs", {})
 
         # Initialize the CustomizePlot Class
         super().__init__(self.args)
@@ -893,7 +916,7 @@ class AnnotateBasemap(CustomizePlot):
         """Annotate a basemap."""
         assert self.customs["xy"] is not None, "xy positions must be provided"
 
-        map_ = self.customs["map"]
+        project = self.customs["map"].__call__
         ax = self.customs["ax"]
 
         if self.customs["xytext"] is not None:
@@ -902,10 +925,18 @@ class AnnotateBasemap(CustomizePlot):
             ), "xy positions and xytext positions must be of the same length"
 
             for idx in range(len(self.customs["xy"])):
+                x, y = project(
+                    self.customs["xy"][idx][0],
+                    self.customs["xy"][idx][1],
+                )
+                xt, yt = project(
+                    self.customs["xytext"][idx][0],
+                    self.customs["xytext"][idx][1],
+                )
                 ax.annotate(
                     self.customs["text"][idx],
-                    xy=map_(*self.customs["xy"][idx]),
-                    xytext=map_(*self.customs["xytext"][idx]),
+                    xy=(x, y),
+                    xytext=(xt, yt),
                     arrowprops=self.customs["arrowprops"],
                     fontsize=self.customs["fontsize"],
                     color=self.customs["color"],
@@ -913,9 +944,13 @@ class AnnotateBasemap(CustomizePlot):
 
         else:
             for idx in range(len(self.customs["xy"])):
+                x, y = project(
+                    self.customs["xy"][idx][0],
+                    self.customs["xy"][idx][1],
+                )
                 ax.annotate(
                     self.customs["text"][idx],
-                    xy=map_(*self.customs["xy"][idx]),
+                    xy=(x, y),
                     arrowprops=self.customs["arrowprops"],
                     fontsize=self.customs["fontsize"],
                     color=self.customs["color"],
