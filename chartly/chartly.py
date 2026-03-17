@@ -34,7 +34,7 @@ from .charts import (
 )
 
 
-#pylint: disable=too-many-instance-attributes,too-many-branches
+# pylint: disable=too-many-instance-attributes,too-many-branches
 class Chart(Plot):
     """Class to plot multiple subplots on the same graph.
 
