@@ -68,9 +68,7 @@ class LinePlot(Plot, CustomizePlot):
         if isinstance(self.data[0], (list, np.ndarray)):
             # Check that both x and y data are present and of equal length
             assert len(self.data) == 2, "Data must contain both x and y list"
-            assert len(self.data[0]) == len(
-                self.data[1]
-            ), "Data lengths must be equal"
+            assert len(self.data[0]) == len(self.data[1]), "Data lengths must be equal"
             data = self.data
 
         else:
@@ -204,12 +202,7 @@ class CDF(Plot, CustomizePlot):
         )
 
         for hline in (0.1, 0.5, 0.9):
-            self.ax.axhline(
-                y=hline,
-                color="black",
-                linewidth=1,
-                linestyle="dashed"
-            )
+            self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
 
         self.label_axes()
 
@@ -298,16 +291,14 @@ class BoxPlot(Plot, CustomizePlot):
         assert isinstance(
             self.data, (list, np.ndarray)
         ), "Data must be a list or a list of lists"
-        assert isinstance(
-            self.customs["boxlabels"], list
-        ), "Box labels must be a list"
+        assert isinstance(self.customs["boxlabels"], list), "Box labels must be a list"
         self.ax.boxplot(
             self.data,
-            flierprops=dict(marker="o", markersize=1),
-            medianprops=dict(color="red"),
-            boxprops=dict(color="navy"),
-            whiskerprops=dict(color="blue"),
-            capprops=dict(color="red"),
+            flierprops={"marker": "o", "markersize": 1},
+            medianprops={"color": "red"},
+            boxprops={"color": "navy"},
+            whiskerprops={"color": "blue"},
+            capprops={"color": "red"},
             labels=self.customs["boxlabels"],
             showfliers=self.customs["showfliers"],
         )
@@ -426,12 +417,7 @@ class ProbabilityPlot(Plot, CustomizePlot):
         )
 
         # Create Axes Labels
-        self.axes_labels.update(
-            {
-                "xlabel": "z percentile",
-                "ylabel": "Observations"
-            }
-        )
+        self.axes_labels.update({"xlabel": "z percentile", "ylabel": "Observations"})
 
         # label the axes
         self.label_axes()
@@ -470,9 +456,7 @@ class NormalCDF(Plot, CustomizePlot):
         There are no required keys for this dict.
         """
         data_list = (
-            self.data
-            if isinstance(self.data[0], (list, np.ndarray))
-            else [self.data]
+            self.data if isinstance(self.data[0], (list, np.ndarray)) else [self.data]
         )
 
         for idx, data in enumerate(data_list):
@@ -569,14 +553,14 @@ class Contour(Plot, CustomizePlot):
         for data_ in self.data:
             assert data_.ndim == 2, "Data must be a 2D numpy array"
 
-        CS = func(
+        cs = func(
             self.data[0],
             self.data[1],
             self.data[2],
             colors=color,
             cmap=self.customs["colormap"],
         )
-        contour = CS
+        contour = cs
 
         if self.customs["filled?"]:
             dark_cmap = self.darker_cmap()
@@ -588,7 +572,7 @@ class Contour(Plot, CustomizePlot):
                 linewidths=0.5,
             )
             _ = self.fig.colorbar(
-                CS, ax=self.ax, location="right", fraction=0.1, pad=0.02
+                cs, ax=self.ax, location="right", fraction=0.1, pad=0.02
             )
             contour = edge_contours
 
@@ -738,9 +722,10 @@ class DotPlot(Plot, CustomizePlot):
         # Get the number of dots for each column
         if isinstance(self.customs["bins"], int):
             nbins = self.customs["bins"]
-
         elif isinstance(self.customs["bins"], (list, np.ndarray)):
             nbins = len(self.customs["bins"]) - 1
+        else:
+            raise TypeError("bins must be a sequence or an integer")
 
         counts, bins = np.histogram(self.data, bins=self.customs["bins"])
 
@@ -852,12 +837,8 @@ class Basemap(Plot, CustomizePlot):
             "draw_rivers": map_.drawrivers,
             "bluemarble": map_.bluemarble,
             "shaderelief": map_.shadedrelief,
-            "draw_parallels": lambda: map_.drawparallels(np.arange(
-                -90, 90, 30)
-            ),
-            "draw_meridians": lambda: map_.drawmeridians(np.arange(
-                0, 360, 60)
-            ),
+            "draw_parallels": lambda: map_.drawparallels(np.arange(-90, 90, 30)),
+            "draw_meridians": lambda: map_.drawmeridians(np.arange(0, 360, 60)),
         }
 
         for key, method in basemap_methods.items():
@@ -879,9 +860,7 @@ class Basemap(Plot, CustomizePlot):
 
         # Add Annotations
         if self.customs.get("annotate"):
-            self.customs["annotate_customs"].update(
-                {"ax": self.ax, "map": map_}
-            )
+            self.customs["annotate_customs"].update({"ax": self.ax, "map": map_})
             annotate = AnnotateBasemap(self.customs["annotate_customs"])
             annotate()
 

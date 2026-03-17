@@ -1,4 +1,5 @@
 """Utilities module for the Chartly package."""
+
 import math
 
 import numpy as np
