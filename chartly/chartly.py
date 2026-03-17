@@ -34,6 +34,7 @@ from .charts import (
 )
 
 
+#pylint: disable=too-many-instance-attributes, too-many-branches
 class Chart(Plot):
     """Class to plot multiple subplots on the same graph.
 
@@ -59,8 +60,10 @@ class Chart(Plot):
     False
     """
 
-    def __init__(self, args={}):
+    def __init__(self, args=None):
         """Initialize the Multiplot Class."""
+        args = {} if args is None else args
+
         # Turn off interactive mode
         plt.ioff()
 
@@ -68,9 +71,9 @@ class Chart(Plot):
         super().__init__({"data": [], "display": False})
 
         # Extract Graph labels
-        self.super_title = args.get("super_title", " ")
-        self.super_xlabel = args.get("super_xlabel", " ")
-        self.super_ylabel = args.get("super_ylabel", " ")
+        self.super_title = args.get("super_title", "")
+        self.super_xlabel = args.get("super_xlabel", "")
+        self.super_ylabel = args.get("super_ylabel", "")
         self.share_axes = args.get("share_axes", True)
         self.show = args.get("show", True)
 
@@ -115,7 +118,7 @@ class Chart(Plot):
 
         self.current_subplot.append([plot, data, axes_labels, customs])
 
-    def new_subplot(self, args={}):
+    def new_subplot(self, args=None):
         """Create new subplot with current overlays
 
         :param dict args: Optional. Master dictionary of all inputs to plot a graph.
@@ -128,6 +131,8 @@ class Chart(Plot):
             - axes_labels: The axes labels for the subplot.
             - customs: The plot's customization.
         """
+        args = {} if args is None else args
+
         # Increment the number of subplots already plotted
         self.subplot_count += 1
         if len(self.current_subplot) > 0:
@@ -169,6 +174,7 @@ class Chart(Plot):
         Plot._fig = plt.figure(figsize=(20, 8))
         rows, cols = self.util.tiling(self.subplot_count)
         ax1 = None
+        has_basemap = False
 
         # Add subplots
         for idx, subplot in enumerate(self.subplots):
@@ -180,8 +186,13 @@ class Chart(Plot):
                     ax = Plot._fig.add_subplot(rows, cols, idx + 1, sharey=ax1)
                 else:
                     ax = Plot._fig.add_subplot(rows, cols, idx + 1)
+
+            subplot_has_basemap = any(overlay[0] == "basemap" for overlay in subplot)
+
             for overlay in subplot:
                 plot_name = overlay[0]
+                if plot_name == "basemap":
+                    has_basemap = True
                 Plot._ax = ax
 
                 # Prepare payload
@@ -201,11 +212,25 @@ class Chart(Plot):
                     self.clear_axis()
                     raise
 
+                if subplot_has_basemap:
+                    ax.set_anchor("C")
+                    ax.set_aspect("equal", adjustable="box")
+
         # Add super titles
-        self.fig.suptitle(self.super_title)
-        self.fig.supxlabel(self.super_xlabel)
-        self.fig.supylabel(self.super_ylabel)
-        self.fig.tight_layout()
+        if self.super_title.strip():
+            self.fig.suptitle(self.super_title)
+
+        if self.super_xlabel.strip():
+            self.fig.supxlabel(self.super_xlabel)
+
+        if self.super_ylabel.strip():
+            self.fig.supylabel(self.super_ylabel)
+
+        if has_basemap:
+            self.fig.subplots_adjust(left=0.12, right=0.88, top=0.88, bottom=0.12)
+        else:
+            self.fig.tight_layout()
+
         if self.show:
             self.display_plot()
 
