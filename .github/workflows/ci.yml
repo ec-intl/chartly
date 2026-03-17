@@ -42,10 +42,9 @@ jobs:
 
       - name: Build and upload to Test PyPI
         if: >
-        ${{ vars.STAGE_TO_PYPI == 'yes'
-            && contains(env.BRANCH, 'staging')
-            && env.EVENT == 'merge_group' }}
-
+          ${{ vars.STAGE_TO_PYPI == 'yes'
+              && contains(env.BRANCH, 'staging')
+              && env.EVENT == 'merge_group' }}
         env:
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_KEY }}
         run: |
