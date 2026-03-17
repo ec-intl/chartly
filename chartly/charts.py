@@ -35,6 +35,19 @@ from scipy.stats import norm
 from .base import CustomizePlot, Plot
 
 
+def apply_hatch(customs, data, mask, ax):
+    """Apply hatch overlay to a contour or basemap plot."""
+    customs["hatch_customs"].update({"ax": ax})
+    if customs["hatch_customs"]["type"] == "mask":
+        customs["hatch_customs"]["data"] = [
+            data[0],
+            data[1],
+            mask,
+        ]
+    hatch = HatchArea(customs["hatch_customs"])
+    hatch()
+
+
 class LinePlot(Plot, CustomizePlot):
     """Class to plot a line plot.
 
@@ -202,7 +215,12 @@ class CDF(Plot, CustomizePlot):
         )
 
         for hline in (0.1, 0.5, 0.9):
-            self.ax.axhline(y=hline, color="black", linewidth=1, linestyle="dashed")
+            self.ax.axhline(
+                y=hline,
+                color="black",
+                linewidth=1,
+                linestyle="dashed",
+            )
 
         self.label_axes()
 
@@ -585,15 +603,7 @@ class Contour(Plot, CustomizePlot):
 
         # Hatch the area
         if self.customs["hatch?"]:
-            self.customs["hatch_customs"].update({"ax": self.ax})
-            if self.customs["hatch_customs"]["type"] == "mask":
-                self.customs["hatch_customs"]["data"] = [
-                    self.data[0],
-                    self.data[1],
-                    self.customs["mask"],
-                ]
-            hatch = HatchArea(self.customs["hatch_customs"])
-            hatch()
+            apply_hatch(self.customs, self.data, self.customs["mask"], self.ax)
 
         self.axes_labels["show_legend"] = False
         self.label_axes()
@@ -813,18 +823,6 @@ class Basemap(Plot, CustomizePlot):
             "annotate_customs": {},
         }
 
-    def _apply_hatch(self, map_):
-        """Apply hatch overlay to the basemap."""
-        self.customs["hatch_customs"].update({"ax": map_})
-        if self.customs["hatch_customs"]["type"] == "mask":
-            self.customs["hatch_customs"]["data"] = [
-                self.data[0],
-                self.data[1],
-                self.customs["mask"],
-            ]
-        hatch = HatchArea(self.customs["hatch_customs"])
-        hatch()
-
     def __call__(self):
         """Plot a basemap."""
         map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
@@ -856,7 +854,7 @@ class Basemap(Plot, CustomizePlot):
 
         # Add Contour Hatch
         if self.customs.get("hatch"):
-            self._apply_hatch(map_)
+            apply_hatch(self.customs, self.data, self.customs["mask"], map_)
 
         # Add Annotations
         if self.customs.get("annotate"):
