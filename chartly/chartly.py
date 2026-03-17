@@ -212,9 +212,9 @@ class Chart(Plot):
                     self.clear_axis()
                     raise
 
-                if subplot_has_basemap:
-                    ax.set_anchor("C")
-                    ax.set_aspect("equal", adjustable="box")
+            if subplot_has_basemap:
+                ax.set_anchor("C")
+                ax.set_aspect("equal", adjustable="box")
 
         # Add super titles
         if self.super_title.strip():
