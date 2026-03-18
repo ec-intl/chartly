@@ -29,43 +29,57 @@ import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import MaxNLocator
+from scipy.stats import norm
+from .base import CustomizePlot, Plot
+
 try:
     from mpl_toolkits.basemap import Basemap as _Basemap
 
-    def bmap(*args, **kwargs):
-        """Thin wrapper around mpl_toolkits.basemap.Basemap."""
-        return _Basemap(*args, **kwargs)
-except ImportError as _basemap_error:
+    _BASEMAP_IMPORT_ERROR = None
 
-    def bmap(*args, **kwargs):
-        """Fallback when Basemap is not available.
+except ImportError as exc:
+    _Basemap = None
+    _BASEMAP_IMPORT_ERROR = exc
 
-        This is called only when Basemap-based plotting is actually invoked.
-        """
+
+def bmap(*args, **kwargs):
+    """Thin wrapper around mpl_toolkits.basemap.Basemap."""
+    if _Basemap is None:
         raise ImportError(
-            "Basemap is required for Basemap-based plots but could not be imported. "
-            "Install 'mpl_toolkits.basemap' (Basemap) to use these features."
-        ) from _basemap_error
-from scipy.stats import norm
-
-from .base import CustomizePlot, Plot
+            "Basemap is required for Basemap-based plots but could not be "
+            "imported. Install 'mpl_toolkits.basemap' (Basemap) to use "
+            "these features."
+        ) from _BASEMAP_IMPORT_ERROR
+    return _Basemap(*args, **kwargs)
 
 
 def apply_hatch(customs, data, mask, ax):
     """Apply hatch overlay to a contour or basemap plot."""
-    # Ensure hatch_customs exists and is a dict
+
     hatch_customs = customs.setdefault("hatch_customs", {})
-    # Attach the axis to hatch customization
-    hatch_customs.update({"ax": ax})
-    # Default hatch type to "mask" if not explicitly provided
+
+    # Default hatch type
     hatch_type = hatch_customs.get("type", "mask")
     hatch_customs["type"] = hatch_type
+
+    # Use correct axis (Basemap vs matplotlib Axes)
+    if hatch_type == "grid" and hasattr(ax, "ax"):
+        target_ax = ax.ax
+    else:
+        target_ax = ax
+
+    hatch_customs["ax"] = target_ax
+
     if hatch_type == "mask":
+        if mask is None:
+            raise ValueError("Hatching type 'mask' requires a non-None mask array")
+
         hatch_customs["data"] = [
             data[0],
             data[1],
             mask,
         ]
+
     hatch = HatchArea(hatch_customs)
     hatch()
 
@@ -985,11 +999,11 @@ class AnnotateBasemap(CustomizePlot):
         try:
             n_text = len(text)
         except TypeError as exc:
-            raise TypeError("text must be a sequence with the same length as xy") from exc
+            raise TypeError(
+                "text must be a sequence with the same length as xy"
+            ) from exc
 
-        assert (
-            n_text == n_xy
-        ), "xy positions and text labels must be of the same length"
+        assert n_text == n_xy, "xy positions and text labels must be of the same length"
 
         project = self.customs["map"].__call__
         ax = self.customs["ax"]
@@ -1003,9 +1017,9 @@ class AnnotateBasemap(CustomizePlot):
                 raise TypeError(
                     "xytext must be a sequence of coordinate pairs when provided"
                 ) from exc
-            assert n_xy == n_xytext, (
-                "xy positions and xytext positions must be of the same length"
-            )
+            assert (
+                n_xy == n_xytext
+            ), "xy positions and xytext positions must be of the same length"
 
             for idx in range(n_xy):
                 x, y = project(
