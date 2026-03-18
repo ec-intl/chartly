@@ -30,6 +30,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import MaxNLocator
 from scipy.stats import norm
+
 from .base import CustomizePlot, Plot
 
 try:
