@@ -29,7 +29,23 @@ import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import MaxNLocator
-from mpl_toolkits.basemap import Basemap as bmap
+try:
+    from mpl_toolkits.basemap import Basemap as _Basemap
+
+    def bmap(*args, **kwargs):
+        """Thin wrapper around mpl_toolkits.basemap.Basemap."""
+        return _Basemap(*args, **kwargs)
+except ImportError as _basemap_error:
+
+    def bmap(*args, **kwargs):
+        """Fallback when Basemap is not available.
+
+        This is called only when Basemap-based plotting is actually invoked.
+        """
+        raise ImportError(
+            "Basemap is required for Basemap-based plots but could not be imported. "
+            "Install 'mpl_toolkits.basemap' (Basemap) to use these features."
+        ) from _basemap_error
 from scipy.stats import norm
 
 from .base import CustomizePlot, Plot
@@ -37,14 +53,20 @@ from .base import CustomizePlot, Plot
 
 def apply_hatch(customs, data, mask, ax):
     """Apply hatch overlay to a contour or basemap plot."""
-    customs["hatch_customs"].update({"ax": ax})
-    if customs["hatch_customs"]["type"] == "mask":
-        customs["hatch_customs"]["data"] = [
+    # Ensure hatch_customs exists and is a dict
+    hatch_customs = customs.setdefault("hatch_customs", {})
+    # Attach the axis to hatch customization
+    hatch_customs.update({"ax": ax})
+    # Default hatch type to "mask" if not explicitly provided
+    hatch_type = hatch_customs.get("type", "mask")
+    hatch_customs["type"] = hatch_type
+    if hatch_type == "mask":
+        hatch_customs["data"] = [
             data[0],
             data[1],
             mask,
         ]
-    hatch = HatchArea(customs["hatch_customs"])
+    hatch = HatchArea(hatch_customs)
     hatch()
 
 
@@ -785,6 +807,52 @@ class Basemap(Plot, CustomizePlot):
         - shaderelief: whether to use the shaded relief map, default is False
         - draw_parallels: whether to draw parallels, default is False
         - draw_meridians: whether to draw meridians, default is False
+
+    Examples
+    --------
+    The example below shows how to instantiate and call a :class:`Basemap`
+    instance with ``display=False`` while exercising some of the available
+    customization branches (drawing features and basic annotation). This
+    example is intended for use as a doctest and as a reference for unit
+    tests.
+
+    >>> import numpy as np
+    >>> from chartly.charts import Basemap, AnnotateBasemap
+    >>> # Create a small dummy data grid over a lat/lon domain
+    >>> lats = np.linspace(-10.0, 10.0, 5)
+    >>> lons = np.linspace(-20.0, 20.0, 5)
+    >>> lon2d, lat2d = np.meshgrid(lons, lats)
+    >>> data = np.sin(np.deg2rad(lat2d)) * np.cos(np.deg2rad(lon2d))
+    >>> # Instantiate the Basemap plot with display disabled
+    >>> args = {
+    ...     "data": data,
+    ...     "customs": {
+    ...         "display": False,
+    ...         "proj": "ortho",
+    ...         "draw_coastlines": True,
+    ...         "fillcontinents": True,
+    ...         "draw_countries": True,
+    ...         "draw_states": False,
+    ...         "draw_rivers": False,
+    ...         "bluemarble": False,
+    ...         "shaderelief": False,
+    ...         "draw_parallels": True,
+    ...         "draw_meridians": True,
+    ...     },
+    ... }
+    >>> bm = Basemap(args)
+    >>> # Calling the instance should create the plot without displaying it
+    >>> _ = bm()  # doctest: +ELLIPSIS
+    >>> # Basic annotation usage on an existing basemap
+    >>> ann_args = {
+    ...     "map": bm,
+    ...     "ax": bm.ax if hasattr(bm, "ax") else None,
+    ...     "text": ["Center"],
+    ...     "xy": [(0.0, 0.0)],
+    ...     "xytext": None,
+    ...     "arrowprops": {"arrowstyle": "->"},
+    ... }
+    >>> _ = AnnotateBasemap(ann_args)()  # doctest: +ELLIPSIS
     """
 
     def __init__(self, args):
@@ -825,7 +893,12 @@ class Basemap(Plot, CustomizePlot):
 
     def __call__(self):
         """Plot a basemap."""
-        map_ = bmap(projection=self.customs["proj"], lat_0=0, lon_0=0)
+        map_ = bmap(
+            projection=self.customs["proj"],
+            lat_0=0,
+            lon_0=0,
+            ax=self.ax,
+        )
 
         basemap_methods = {
             "draw_coastlines": map_.drawcoastlines,
@@ -843,13 +916,18 @@ class Basemap(Plot, CustomizePlot):
             if self.customs.get(key):
                 method()
 
-        # vAdd Contour or filled contour
+        # Add contour or filled contour
         for contour_type in ["contour", "contourf"]:
             if self.customs.get(contour_type):
+                contour_kwargs = {}
+                contour_customs = self.customs.get("contour_customs")
+                if isinstance(contour_customs, dict):
+                    contour_kwargs = contour_customs
                 getattr(map_, contour_type)(
                     self.data[0],
                     self.data[1],
                     self.data[2],
+                    **contour_kwargs,
                 )
 
         # Add Contour Hatch
@@ -893,25 +971,53 @@ class AnnotateBasemap(CustomizePlot):
         """Annotate a basemap."""
         assert self.customs["xy"] is not None, "xy positions must be provided"
 
+        xy = self.customs["xy"]
+        # Validate that text is provided and matches xy
+        if "text" not in self.customs or self.customs["text"] is None:
+            raise ValueError("text must be provided when annotating a basemap")
+
+        text = self.customs["text"]
+        try:
+            n_xy = len(xy)
+        except TypeError as exc:
+            raise TypeError("xy must be a sequence of coordinate pairs") from exc
+
+        try:
+            n_text = len(text)
+        except TypeError as exc:
+            raise TypeError("text must be a sequence with the same length as xy") from exc
+
+        assert (
+            n_text == n_xy
+        ), "xy positions and text labels must be of the same length"
+
         project = self.customs["map"].__call__
         ax = self.customs["ax"]
+        xytext = self.customs["xytext"]
 
-        if self.customs["xytext"] is not None:
-            assert len(self.customs["xy"]) == len(
-                self.customs["xytext"]
-            ), "xy positions and xytext positions must be of the same length"
+        if xytext is not None:
+            # Ensure xytext is a sequence and matches xy length
+            try:
+                n_xytext = len(xytext)
+            except TypeError as exc:
+                raise TypeError(
+                    "xytext must be a sequence of coordinate pairs when provided"
+                ) from exc
+            assert n_xy == n_xytext, (
+                "xy positions and xytext positions must be of the same length"
+            )
 
-            for idx in range(len(self.customs["xy"])):
+            for idx in range(n_xy):
                 x, y = project(
-                    self.customs["xy"][idx][0],
-                    self.customs["xy"][idx][1],
+                    xy[idx][0],
+                    xy[idx][1],
                 )
                 xt, yt = project(
-                    self.customs["xytext"][idx][0],
-                    self.customs["xytext"][idx][1],
+                    xytext[idx][0],
+                    xytext[idx][1],
                 )
                 ax.annotate(
-                    self.customs["text"][idx],
+                    text[idx],
                     xy=(x, y),
                     xytext=(xt, yt),
                     arrowprops=self.customs["arrowprops"],
@@ -920,13 +1026,13 @@ class AnnotateBasemap(CustomizePlot):
                 )
 
         else:
-            for idx in range(len(self.customs["xy"])):
+            for idx in range(n_xy):
                 x, y = project(
-                    self.customs["xy"][idx][0],
-                    self.customs["xy"][idx][1],
+                    xy[idx][0],
+                    xy[idx][1],
                 )
                 ax.annotate(
-                    self.customs["text"][idx],
+                    text[idx],
                     xy=(x, y),
                     arrowprops=self.customs["arrowprops"],
                     fontsize=self.customs["fontsize"],
