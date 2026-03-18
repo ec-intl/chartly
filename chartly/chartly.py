@@ -144,6 +144,38 @@ class Chart(Plot):
         if args:
             self.overlay(args)
 
+    def render(self):
+        """Render the chart."""
+        return self()
+
+    def add_subplot(self, plot, data, axes_labels=None, customs=None):
+        """Add a new subplot with a single plot."""
+        axes_labels = {} if axes_labels is None else axes_labels
+        customs = {} if customs is None else customs
+
+        self.new_subplot(
+            {
+                "plot": plot,
+                "data": data,
+                "axes_labels": axes_labels,
+                "customs": customs,
+            }
+        )
+
+    def add_overlay(self, plot, data, axes_labels=None, customs=None):
+        """Overlay a plot onto the current subplot."""
+        axes_labels = {} if axes_labels is None else axes_labels
+        customs = {} if customs is None else customs
+
+        self.overlay(
+            {
+                "plot": plot,
+                "data": data,
+                "axes_labels": axes_labels,
+                "customs": customs,
+            }
+        )
+
     def __call__(self):
         """Build the main figure, label its axes and display the result.
 
