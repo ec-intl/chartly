@@ -31,6 +31,7 @@ from .charts import (
     NormalCDF,
     ProbabilityPlot,
     ScatterPlot,
+    bmap,
 )
 
 
@@ -174,6 +175,32 @@ class Chart(Plot):
                 "axes_labels": axes_labels,
                 "customs": customs,
             }
+        )
+
+    def add_basemap(self, lon, lat, values, customs=None):
+        """Add a basemap subplot from raw longitude, latitude, and value grids."""
+        customs = {} if customs is None else customs
+
+        map_projection = bmap(
+            projection=customs.get("proj", "ortho"),
+            lat_0=customs.get("lat_0", 0),
+            lon_0=customs.get("lon_0", 0),
+        )
+
+        lon_shifted, values_shifted = map_projection.shiftdata(
+            lon,
+            datain=values,
+            lon_0=customs.get("lon_0", 0),
+        )
+        x, y = map_projection(lon_shifted, lat)
+
+        basemap_customs = dict(customs)
+        basemap_customs["proj"] = customs.get("proj", "ortho")
+
+        self.add_subplot(
+            "basemap",
+            [x, y, values_shifted],
+            customs=basemap_customs,
         )
 
     def __call__(self):
