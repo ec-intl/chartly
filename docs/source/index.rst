@@ -49,7 +49,7 @@ The Chartly package currently has eight (8) available scientific plots that can 
 - Density Plot
 - Box Plot
 
-Chartly allows users to build plots by first creating a main figure and then adding subplots to the figure. To initialize a main figure, users can create a `Chart` instance. Users can also label and customize the main figure my passing an optional dictionary. The dictionary should contain the following keys:
+Chartly allows users to build plots by first creating a main figure and then adding subplots to the figure. To initialize a main figure, users can create a `Chart` instance. Users can also label and customize the main figure by passing an optional dictionary. The dictionary should contain the following keys:
 
 - `super_title` (str): The title of the main figure.
 - `super_xlabel` (str): The x-axis label of the main figure.
@@ -68,15 +68,10 @@ Chartly allows users to build plots by first creating a main figure and then add
    plot = chartly.Chart(super_axes_labels)
 
 
-To create a plot, a user must create a subplot by calling the `new_subplot` method and passing it an optional dictionary of arguments. The dictionary should contain the following keys:
-
-- `data`: The data that will be plotted.
-- `plot`: The type of plot to be created.
-
-Users can also customize and label the plots by including the following keys in the dictionary:
-
-- `axes_labels`: A dictionary containing the labels of the subplot.
-- `customs`: A dictionary containing the customization options of the plot.
+To create a plot, users can directly add a subplot with ``add_subplot(...)``.
+Additional plots can be added to the same subplot with ``add_overlay(...)``.
+This keeps the public interface simpler by avoiding manual payload
+dictionaries.
 
 
 .. code-block:: python
@@ -84,44 +79,26 @@ Users can also customize and label the plots by including the following keys in 
    # 3. Define Some Data
    data = np.random.randn(100)
 
-   # 4. Build the plot dictionary
-   plot_payload = {
-       "plot": "histogram",
-       "data": data,
-   }
-
-   # 5. Plot the data
-   plot.new_subplot(plot_payload)
+   # 4. Add a subplot directly
+   plot.add_subplot("histogram", data)
 
 
-To overlay a new plot onto the current subplot, a user can call the `overlay` method and pass it a dictionary of arguments, similar to what is shown above: 
-
+To overlay a new plot onto the current subplot, users can call
+``add_overlay(...)`` and pass the plot type and data directly.
 
 .. code-block:: python
 
-   # 6. build the overlay plot dictionary
-   plot_payload = {
-       "plot": "density",
-       "data": data,
-   }
-
-   # 7. Overlay the plot
-   plot.overlay(plot_payload)
+   # 5. Overlay another plot
+   plot.add_overlay("density", data)
 
 
-To add a new subplot, users can call the `new_subplot` method again and pass it a dictionary of arguments.
-
+To add another subplot, users can call ``add_subplot(...)`` again with the
+new plot type and data.
 
 .. code-block:: python
 
-   # 8. build the plot dictionary
-   plot_payload = {
-       "plot": "boxplot",
-       "data": data,
-   }
-
-   # 9. Plot data onto new subplot
-   plot.new_subplot(plot_payload)
+   # 6. Add another subplot
+   plot.add_subplot("boxplot", data)
 
 
 Users can also customize the axes of each subplot. 
@@ -131,37 +108,33 @@ Users can also customize the axes of each subplot.
 
 .. code-block:: python
 
-   # 10. Define a random exponential function
+   # 7. Define a random exponential function
    exp_func = lambda x: np.e ** (-500 * x + 2)
 
    x = np.linspace(0, 1, num=100)
    y = list(map(exp_func, x))
    
-   # 11. build the plot dictionary
-   plot_payload = {
-       "plot": "line_plot",
-       "data": y,
-       "axes_labels": {"scale": "semilogy", "base": 10, "linelabel": "Semilogy Line"},
-   }
-
-   # 12. Plot exponential function
-   plot.new_subplot(plot_payload)
+   # 8. Add customized subplot
+   plot.add_subplot(
+      "line_plot",
+      y,
+      axes_labels={"scale": "semilogy", "base": 10, "linelabel": "Semilogy Line"},
+   )
 
 
-Finally, the figure can be rendered by calling the `Chart` instance.
-
+Finally, the figure can be rendered by calling ``render()``.
 
 .. code-block:: python
 
-   # 13. Render the main figure
-   plot()
+   # 9. Render the main figure
+   plot.render()
 
 To save the figure that was rendered, users can call the `save` method. The default file format is `eps` and the default file name is `chartly_plot`. To change the file format and name, update the plot's properties.
 
 
 .. code-block:: python
 
-   # 14. Save the figure with a different file format and name
+   # 10. Save the figure with a different file format and name
    plot.format = "jpg"
    plot.fname = "my_plot"
    plot.save()
