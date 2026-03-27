@@ -48,6 +48,7 @@ class TestPlotting(unittest.TestCase):
             "super_title": " Test Title",
             "super_x_label": "Test X Label",
             "super_y_label": "Test Y Label",
+            "show": False,
         }
         # Create a multiplot object
         self.multiplot = Chart(args)
@@ -102,6 +103,58 @@ class TestPlotting(unittest.TestCase):
 
         # Test that the subplot count is now 0
         self.assertEqual(self.multiplot.subplot_count, 0)
+
+    def test_add_subplots_shared_data(self):
+        """Test that add_subplots can add multiple subplots with shared data."""
+        plots = ["histogram", "boxplot"]
+
+        self.multiplot.add_subplots(plots, self.dataset_one)
+
+        self.assertEqual(self.multiplot.subplot_count, 2)
+        self.assertEqual(len(self.multiplot.subplots), 1)
+        self.assertEqual(len(self.multiplot.current_subplot), 1)
+
+        self.multiplot.render()
+        self.assertEqual(self.multiplot.subplot_count, 0)
+
+    def test_add_subplots_per_plot_data(self):
+        """Test that add_subplots can use a separate dataset for each plot."""
+        plots = ["line_plot", "normal_cdf"]
+        data = [
+            [self.dataset_one, self.dataset_two],
+            self.dataset_one,
+        ]
+
+        self.multiplot.add_subplots(plots, data)
+
+        self.assertEqual(self.multiplot.subplot_count, 2)
+        self.assertEqual(self.multiplot.subplots[0][0][0], "line_plot")
+        self.assertEqual(self.multiplot.current_subplot[0][0], "normal_cdf")
+
+        self.multiplot.render()
+        self.assertEqual(self.multiplot.subplot_count, 0)
+
+    def test_add_subplots_axes_labels_length_validation(self):
+        """Test that add_subplots validates axes_labels_list length."""
+        plots = ["histogram", "boxplot"]
+
+        with self.assertRaises(ValueError):
+            self.multiplot.add_subplots(
+                plots,
+                self.dataset_one,
+                axes_labels_list=[{"title": "histogram"}],
+            )
+
+    def test_add_subplots_customs_length_validation(self):
+        """Test that add_subplots validates customs_list length."""
+        plots = ["histogram", "boxplot"]
+
+        with self.assertRaises(ValueError):
+            self.multiplot.add_subplots(
+                plots,
+                self.dataset_one,
+                customs_list=[{"color": "navy"}],
+            )
 
     def test_contour_data_length(self):
         """Test that the contour plot throws an error if the data lengths are unequal."""

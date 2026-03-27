@@ -185,8 +185,15 @@ class Chart(Plot):
         :param list axes_labels_list: Optional list of axes_labels dicts
         :param list customs_list: Optional list of customs dicts
         """
-        axes_labels_list = axes_labels_list or [{}] * len(plots)
-        customs_list = customs_list or [{}] * len(plots)
+        if axes_labels_list is None:
+            axes_labels_list = [{} for _ in plots]
+        if customs_list is None:
+            customs_list = [{} for _ in plots]
+
+        if len(axes_labels_list) != len(plots):
+            raise ValueError("axes_labels_list must have the same length as plots")
+        if len(customs_list) != len(plots):
+            raise ValueError("customs_list must have the same length as plots")
 
         for i, plot in enumerate(plots):
             if isinstance(data, list) and len(data) == len(plots):
