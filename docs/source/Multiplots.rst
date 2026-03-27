@@ -1,7 +1,14 @@
 Multiple Plot Charts with Chartly Examples
 ==========================================
 
-Chartly allows users to create multiple plots on the same figure using a simplified interface with `add_subplot(...)`, `add_overlay(...)`, and `render()`. The `add_subplot(...)` method allows users to create a new subplot on the figure. The `add_overlay(...)` method allows users to overlay additional plots on the current subplot. The `render()` method is used to display the final figure once all plots have been added.
+Chartly allows users to create multiple plots on the same figure using a
+simplified interface with ``add_subplot(...)``, ``add_subplots(...)``,
+``add_overlay(...)``, and ``render()``. The ``add_subplot(...)`` method
+allows users to create a new subplot on the figure. The
+``add_subplots(...)`` method allows users to create multiple subplots in a
+single call. The ``add_overlay(...)`` method allows users to overlay
+additional plots on the current subplot. The ``render()`` method is used to
+display the final figure once all plots have been added.
 
 Overlay Plots
 ~~~~~~~~~~~~~

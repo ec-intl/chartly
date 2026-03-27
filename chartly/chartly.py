@@ -177,35 +177,50 @@ class Chart(Plot):
             }
         )
 
-    def add_subplots(self, plots, data, axes_labels_list=None, customs_list=None):
+    # pylint: disable=too-many-arguments,too-many-positional-arguments
+    def add_subplots(
+        self,
+        plots,
+        data=None,
+        data_list=None,
+        axes_labels_list=None,
+        customs_list=None,
+    ):
         """Add multiple subplots in a single call.
 
-        :param list plots: List of plot names
-        :param data: Shared data for all plots, or a list of datasets
-        :param list axes_labels_list: Optional list of axes_labels dicts
-        :param list customs_list: Optional list of customs dicts
+        :param list plots: List of plot names.
+        :param data: Shared data for all plots.
+        :param list data_list: Optional list of datasets, one per plot.
+        :param list axes_labels_list: Optional list of axes_labels dicts.
+        :param list customs_list: Optional list of customs dicts.
         """
-        if axes_labels_list is None:
-            axes_labels_list = [{} for _ in plots]
-        if customs_list is None:
-            customs_list = [{} for _ in plots]
+        if data is None and data_list is None:
+            raise ValueError("Either 'data' or 'data_list' must be provided.")
 
-        if len(axes_labels_list) != len(plots):
-            raise ValueError("axes_labels_list must have the same length as plots")
-        if len(customs_list) != len(plots):
-            raise ValueError("customs_list must have the same length as plots")
+        if data is not None and data_list is not None:
+            raise ValueError("Provide only one of 'data' or 'data_list'.")
 
-        for i, plot in enumerate(plots):
-            if isinstance(data, list) and len(data) == len(plots):
-                plot_data = data[i]
-            else:
-                plot_data = data
+        if data_list is not None and len(data_list) != len(plots):
+            raise ValueError("'data_list' must have the same length as 'plots'.")
+
+        if axes_labels_list is not None and len(axes_labels_list) != len(plots):
+            raise ValueError("'axes_labels_list' must have the same length as 'plots'.")
+
+        if customs_list is not None and len(customs_list) != len(plots):
+            raise ValueError("'customs_list' must have the same length as 'plots'.")
+
+        for idx, plot_name in enumerate(plots):
+            plot_data = data_list[idx] if data_list is not None else data
+            axes_labels = (
+                axes_labels_list[idx] if axes_labels_list is not None else None
+            )
+            customs = customs_list[idx] if customs_list is not None else None
 
             self.add_subplot(
-                plot,
+                plot_name,
                 plot_data,
-                axes_labels=axes_labels_list[i],
-                customs=customs_list[i],
+                axes_labels=axes_labels,
+                customs=customs,
             )
 
     def add_basemap(self, lon, lat, values, customs=None):
