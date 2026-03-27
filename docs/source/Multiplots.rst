@@ -1,47 +1,45 @@
 Multiple Plot Charts with Chartly Examples
 ==========================================
 
-Chartly allows users to create multiple plots on the same figure using the `overlay` and `new_subplot` methods. The `overlay` method allows users to overlay multiple plots on a single subplot. The `new_subplot` method allows users to create a new subplot on the figure.
-
+Chartly allows users to create multiple plots on the same figure using a
+simplified interface with ``add_subplot(...)``, ``add_subplots(...)``,
+``add_overlay(...)``, and ``render()``. The ``add_subplot(...)`` method
+allows users to create a new subplot on the figure. The
+``add_subplots(...)`` method allows users to create multiple subplots in a
+single call. The ``add_overlay(...)`` method allows users to overlay
+additional plots on the current subplot. The ``render()`` method is used to
+display the final figure once all plots have been added.
 
 Overlay Plots
 ~~~~~~~~~~~~~
 
-The `overlay` method allows users to overlay multiple plots on a single subplot. The overlay method requires a dictionary of arguments to be passed to the method. The dictionary should contain the following
-
-- `data`: The data that will be plotted.
-- `plot`: The type of plot to be created.
-
-Users can also customize and label the plots by including the following keys in the dictionary:
-
-- `axes_labels`: A dictionary containing the labels of the subplot.
-- `customs`: A dictionary containing the customization options of the plot.
+To overlay multiple plots on a single subplot, first add the subplot with
+``add_subplot(...)`` and then add additional plots to that same subplot with
+``add_overlay(...)``.
 
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     # define main figure labels
-    args = {"super_title": "Overlay Example", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+    args = {
+        "super_title": "Overlay Example",
+        "super_xlabel": "X",
+        "super_ylabel": "Y",
+        "share_axes": False,
+    }
 
     multi = chartly.Chart(args)
 
     # Define Some Data
     data = np.random.normal(loc=2, scale=1, size=1000)
 
-    # Create a subplot
-    multi.new_subplot()
+    # Add a subplot and overlay a second plot
+    multi.add_subplot("histogram", data)
+    multi.add_overlay("density", data)
 
-    plots = ["histogram", "density"]
-
-    for plot in plots:
-        # set up overlay payload
-        overlay_payload = {"plot": plot, "data": data, "axes_labels": {}}
-
-        # Overlay a histogram
-        multi.overlay(overlay_payload)
-
-    multi()
+    multi.render()
 
 
 .. image:: https://chartly.s3.amazonaws.com/static/img/overlay_hetero_eg.jpg
@@ -53,35 +51,53 @@ Users can also customize and label the plots by including the following keys in 
 Subplots
 ~~~~~~~~
 
-The `new_subplot` method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Charts instance to render the figure.
-
+To create multiple subplots on the same figure, add each subplot directly
+with ``add_subplot(...)`` and render the figure with ``render()`` once all
+subplots have been added.
 
 .. code-block:: python
 
     import chartly
+    import numpy as np
 
     # define main figure labels
-    args = {"super_title": "Subplots Example", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+    args = {
+        "super_title": "Subplots Example",
+        "super_xlabel": "X",
+        "super_ylabel": "Y",
+        "share_axes": False,
+    }
 
     multi = chartly.Chart(args)
 
     # Define Some Data
     data = np.random.normal(loc=0.8, scale=2, size=50)
 
-    # Define Plots
-    plots = ["histogram", "density", "probability_plot", "line_plot", "normal_cdf"]
+    # Define plots
+    plots = [
+        "histogram",
+        "density",
+        "probability_plot",
+        "line_plot",
+        "normal_cdf",
+    ]
 
-    for plot in plots:
-        # Create a subplot
-        multi.new_subplot()
-        axes_labels = {"xlabel": " ", "ylabel": " ", "title": plot}
+    axes_labels_list = [
+        {"title": "histogram"},
+        {"title": "density"},
+        {"title": "prob_plot"},
+        {"title": "gen_plot"},
+        {"title": "norm_cdf"},
+    ]
 
-        overlay_payload = {"plot": plot, "data": data, "axes_labels": axes_labels}
-        multi.overlay(overlay_payload)
+    # Add all subplots in one call
+    multi.add_subplots(
+        plots,
+        data,
+        axes_labels_list=axes_labels_list,
+    )
 
-    multi.overlay(overlay_payload)
-
-    multi()
+    multi.render()
 
 .. image:: https://chartly.s3.amazonaws.com/static/img/subplots_eg.jpg
     :alt: SubplotsExample
