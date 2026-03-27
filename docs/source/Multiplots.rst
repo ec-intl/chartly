@@ -78,9 +78,9 @@ subplots have been added.
     axes_labels_list = [
         {"title": "histogram"},
         {"title": "density"},
-        {"title": "probability_plot"},
-        {"title": "line_plot"},
-        {"title": "normal_cdf"},
+        {"title": "prob_plot"},
+        {"title": "gen_plot"},
+        {"title": "norm_cdf"},
     ]
 
     # Add all subplots in one call
