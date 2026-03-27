@@ -66,16 +66,29 @@ subplots have been added.
     # Define Some Data
     data = np.random.normal(loc=0.8, scale=2, size=50)
 
-    # Add subplots directly
-    multi.add_subplot("histogram", data, axes_labels={"title": "histogram"})
-    multi.add_subplot("density", data, axes_labels={"title": "density"})
-    multi.add_subplot(
+    # Define plots
+    plots = [
+        "histogram",
+        "density",
         "probability_plot",
+        "line_plot",
+        "normal_cdf",
+    ]
+
+    axes_labels_list = [
+        {"title": "histogram"},
+        {"title": "density"},
+        {"title": "probability_plot"},
+        {"title": "line_plot"},
+        {"title": "normal_cdf"},
+    ]
+
+    # Add all subplots in one call
+    multi.add_subplots(
+        plots,
         data,
-        axes_labels={"title": "probability_plot"},
+        axes_labels_list=axes_labels_list,
     )
-    multi.add_subplot("line_plot", data, axes_labels={"title": "line_plot"})
-    multi.add_subplot("normal_cdf", data, axes_labels={"title": "normal_cdf"})
 
     multi.render()
 

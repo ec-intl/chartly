@@ -177,6 +177,30 @@ class Chart(Plot):
             }
         )
 
+    def add_subplots(self, plots, data, axes_labels_list=None, customs_list=None):
+        """Add multiple subplots in a single call.
+
+        :param list plots: List of plot names
+        :param data: Shared data for all plots, or a list of datasets
+        :param list axes_labels_list: Optional list of axes_labels dicts
+        :param list customs_list: Optional list of customs dicts
+        """
+        axes_labels_list = axes_labels_list or [{}] * len(plots)
+        customs_list = customs_list or [{}] * len(plots)
+
+        for i, plot in enumerate(plots):
+            if isinstance(data, list) and len(data) == len(plots):
+                plot_data = data[i]
+            else:
+                plot_data = data
+
+            self.add_subplot(
+                plot,
+                plot_data,
+                axes_labels=axes_labels_list[i],
+                customs=customs_list[i],
+            )
+
     def add_basemap(self, lon, lat, values, customs=None):
         """Add a basemap subplot from raw longitude, latitude, and value grids."""
         customs = {} if customs is None else customs

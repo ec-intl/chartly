@@ -92,13 +92,15 @@ To overlay a new plot onto the current subplot, users can call
    plot.add_overlay("density", data)
 
 
-To add another subplot, users can call ``add_subplot(...)`` again with the
-new plot type and data.
+To add multiple subplots at once, users can call ``add_subplots(...)``.
 
 .. code-block:: python
 
-   # 6. Add another subplot
-   plot.add_subplot("boxplot", data)
+   # 6. Add multiple subplots at once
+   plot.add_subplots(
+      ["boxplot", "normal_cdf"],
+      data
+   )
 
 
 Users can also customize the axes of each subplot. 
