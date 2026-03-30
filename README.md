@@ -12,36 +12,40 @@
 ![GitHub stars](https://img.shields.io/github/stars/ec-intl/chartly)
 ![GitHub watchers](https://img.shields.io/github/watchers/ec-intl/chartly)
 
-`chartly` is a lightweight scientific plotting library designed to simplify the process of building visualizations. It provides a clean and intuitive interface for generating statistical plots, overlays, and multi-plot figures without requiring complex setup or boilerplate code.
+`chartly` is a lightweight scientific plotting library designed to
+simplify the process of building visualizations. It provides a clean and
+intuitive interface for generating statistical plots, overlays, and
+multi-plot figures without requiring complex setup or boilerplate code.
 
-Whether you are exploring distributions, comparing datasets, or building composite visualizations, Chartly enables you to move from data to insight with minimal effort.
+Whether you are exploring distributions, comparing datasets, or building
+composite visualizations, Chartly enables you to move from data to
+insight with minimal effort.
 
-Chartly’s interface is built around a few core methods:
+Chartly's interface is built around a few core methods:
 
-- `add_subplot(...)` → create a new subplot  
-- `add_subplots(...)` → create multiple subplots at once  
-- `add_overlay(...)` → add additional plots to an existing subplot  
-- `render()` → display the final figure  
-
+- `add_subplot(...)` -> create a new subplot
+- `add_subplots(...)` -> create multiple subplots at once
+- `add_overlay(...)` -> add additional plots to an existing subplot
+- `render()` -> display the final figure
 
 ## Project Status
 
 Here's the current status of our workflows:
 
-| Workflow                | Status |
-|-------------------------|--------|
-| Testing Suite  | [![Continuous-Integration](https://github.com/ec-intl/chartly/actions/workflows/ci.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/ci.yml) |
-| Deployment Suite | [![Continuous-Deployment](https://github.com/ec-intl/chartly/actions/workflows/cd.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/cd.yml)|
-| Sphinx Documentation | [![Sphinx-docs](https://github.com/ec-intl/chartly/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/docs.yml) |
-| Guard Main Branch | [![Guard Main Branch](https://github.com/ec-intl/chartly/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/guard.yml) |
-| Code Quality Checker | [![Lint Codebase](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml) |
-
+<!-- markdownlint-disable MD013 -->
+| Workflow                | Status                                                                                                                                                                     |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Testing Suite           | [![Continuous-Integration](https://github.com/ec-intl/chartly/actions/workflows/ci.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/ci.yml)            |
+| Deployment Suite        | [![Continuous-Deployment](https://github.com/ec-intl/chartly/actions/workflows/cd.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/cd.yml)             |
+| Sphinx Documentation    | [![Sphinx-docs](https://github.com/ec-intl/chartly/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/docs.yml)                   |
+| Guard Main Branch       | [![Guard Main Branch](https://github.com/ec-intl/chartly/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/guard.yml)           |
+| Code Quality Checker    | [![Lint Codebase](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml) |
 
 ## Components
 
 The Chartly codebase is organized as follows:
 
-```plaintext  
+```plaintext
 .
 ├── chartly/
 │   ├── base.py
@@ -70,16 +74,14 @@ The Chartly codebase is organized as follows:
 └── VERSION
 ```
 
-
 ## Requirements
 
 Chartly depends on the following core scientific Python libraries:
 
-- matplotlib >= 3.8  
-- numpy >= 2.0  
-- scipy >= 1.14  
-- seaborn >= 0.13  
-
+- matplotlib >= 3.8
+- numpy >= 2.0
+- scipy >= 1.14
+- seaborn >= 0.13
 
 ## Installation
 
@@ -89,12 +91,14 @@ Install Chartly directly from PyPI:
 pip install chartly
 ```
 
-
 ## Examples
 
-The following examples demonstrate how to use Chartly for common visualization tasks, from simple plots to more advanced multi-plot configurations.
+The following examples demonstrate how to use Chartly for common
+visualization tasks, from simple plots to more advanced multi-plot
+configurations.
 
 ---
+
 ### Single Plot
 
 The following example generates a scatter plot with custom styling.
@@ -125,7 +129,8 @@ chart.add_subplot(
 chart.render()
 ```
 
-This visualization highlights how Chartly supports customization while maintaining a simple interface.
+This visualization highlights how Chartly supports customization while
+maintaining a simple interface.
 
 ![Scatter Plot Example](https://github.com/user-attachments/assets/5cd441c8-7576-4763-8147-207acb4d804d)
 
@@ -133,7 +138,8 @@ This visualization highlights how Chartly supports customization while maintaini
 
 ### Multiple Subplots
 
-Chartly simplifies the process of generating multiple related plots within a single figure.
+Chartly simplifies the process of generating multiple related plots
+within a single figure.
 
 ```python
 """Distribution Analysis Using Multiple Subplots"""
@@ -160,7 +166,8 @@ chart.add_subplots(
 chart.render()
 ```
 
-This example produces multiple statistical views of the same dataset without requiring loops or manual payload construction.
+This example produces multiple statistical views of the same dataset
+without requiring loops or manual payload construction.
 
 ![Multiple Subplots Example](https://github.com/user-attachments/assets/8622b05d-0d67-4640-8c24-eb36f64b4318)
 
@@ -168,7 +175,8 @@ This example produces multiple statistical views of the same dataset without req
 
 ### Overlay Example
 
-Chartly also supports overlaying multiple plots within the same subplot for richer analysis.
+Chartly also supports overlaying multiple plots within the same subplot
+for richer analysis.
 
 ```python
 """Overlaying Density on a Histogram"""
@@ -192,7 +200,8 @@ chart.add_overlay("density", data)
 chart.render()
 ```
 
-In this example, a density curve is layered on top of a histogram, allowing both distribution and frequency to be visualized together.
+In this example, a density curve is layered on top of a histogram,
+allowing both distribution and frequency to be visualized together.
 
 ![Overlay Example](https://github.com/user-attachments/assets/e3e094ee-5f68-4e99-bc38-ef487a6df6dc)
 
@@ -202,4 +211,4 @@ In this example, a density curve is layered on top of a histogram, allowing both
 
 Full documentation is available via Sphinx:
 
-https://ec-intl.github.io/chartly/
+[https://ec-intl.github.io/chartly/](https://ec-intl.github.io/chartly/)
