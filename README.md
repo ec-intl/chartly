@@ -127,7 +127,7 @@ chart.render()
 
 This visualization highlights how Chartly supports customization while maintaining a simple interface.
 
-<img width="1964" height="795" alt="image" src="https://github.com/user-attachments/assets/5cd441c8-7576-4763-8147-207acb4d804d" />
+![Scatter Plot Example](https://github.com/user-attachments/assets/5cd441c8-7576-4763-8147-207acb4d804d)
 
 ---
 
@@ -162,7 +162,7 @@ chart.render()
 
 This example produces multiple statistical views of the same dataset without requiring loops or manual payload construction.
 
-<img width="1965" height="795" alt="image" src="https://github.com/user-attachments/assets/8622b05d-0d67-4640-8c24-eb36f64b4318" />
+![Multiple Subplots Example](https://github.com/user-attachments/assets/8622b05d-0d67-4640-8c24-eb36f64b4318)
 
 ---
 
@@ -194,7 +194,7 @@ chart.render()
 
 In this example, a density curve is layered on top of a histogram, allowing both distribution and frequency to be visualized together.
 
-<img width="1965" height="795" alt="image" src="https://github.com/user-attachments/assets/e3e094ee-5f68-4e99-bc38-ef487a6df6dc" />
+![Overlay Example](https://github.com/user-attachments/assets/e3e094ee-5f68-4e99-bc38-ef487a6df6dc)
 
 ---
 
