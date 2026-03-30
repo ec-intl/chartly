@@ -13,19 +13,22 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/ec-intl/chartly)
 
 `chartly` is a lightweight scientific plotting library designed to
-simplify the process of building visualizations. It provides a clean and
-intuitive interface for generating statistical plots, overlays, and
-multi-plot figures without requiring complex setup or boilerplate code.
+simplify the process of building visualisations. It provides a clean and
+intuitive interface for generating statistical plots, geographic
+visualisations, overlays, and multi-plot figures without requiring complex
+setup or boilerplate code.
 
-Whether you are exploring distributions, comparing datasets, or building
-composite visualizations, Chartly enables you to move from data to
-insight with minimal effort.
+Whether you are exploring distributions, comparing datasets, visualising
+geographic data, or building composite visualisations, Chartly enables you
+to move from data to insight with minimal effort.
 
-Chartly's interface is built around a few core methods:
+Chartly provides a small set of high-level methods that simplify the
+plotting workflow:
 
 - `add_subplot(...)` -> create a new subplot
 - `add_subplots(...)` -> create multiple subplots at once
 - `add_overlay(...)` -> add additional plots to an existing subplot
+- `add_basemap(...)` -> create geographic visualisations using map projections
 - `render()` -> display the final figure
 
 ## Project Status
@@ -40,14 +43,16 @@ Here's the current status of our workflows:
 | Sphinx Documentation    | [![Sphinx-docs](https://github.com/ec-intl/chartly/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/docs.yml)                   |
 | Guard Main Branch       | [![Guard Main Branch](https://github.com/ec-intl/chartly/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/guard.yml)           |
 | Code Quality Checker    | [![Lint Codebase](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml) |
+<!-- markdownlint-disable MD013 -->
 
 ## Components
 
-The Chartly codebase is organized as follows:
+The Chartly codebase is organised as follows:
 
 ```plaintext
 .
 ├── chartly/
+│   ├── __init__.py
 │   ├── base.py
 │   ├── chartly.py
 │   ├── charts.py
@@ -61,27 +66,20 @@ The Chartly codebase is organized as follows:
 │   │   ├── conf.py
 │   │   ├── index.rst
 │   │   ├── Plot.rst
-│   │   └── Multiplots.rst
+│   │   ├── Multiplots.rst
+│   │   └── Basemap.rst
 ├── requirements/
 │   ├── testing.txt
 │   ├── staging.txt
 │   └── production.txt
+├── .gitignore
 ├── LICENSE
 ├── MANIFEST.in
 ├── README.md
+├── VERSION
 ├── requirements.txt
-├── setup.py
-└── VERSION
+└── setup.py
 ```
-
-## Requirements
-
-Chartly depends on the following core scientific Python libraries:
-
-- matplotlib >= 3.8
-- numpy >= 2.0
-- scipy >= 1.14
-- seaborn >= 0.13
 
 ## Installation
 
@@ -94,7 +92,7 @@ pip install chartly
 ## Examples
 
 The following examples demonstrate how to use Chartly for common
-visualization tasks, from simple plots to more advanced multi-plot
+visualisation tasks, from simple plots to more advanced multi-plot
 configurations.
 
 ---
@@ -129,7 +127,7 @@ chart.add_subplot(
 chart.render()
 ```
 
-This visualization highlights how Chartly supports customization while
+This visualisation highlights how Chartly supports customisation while
 maintaining a simple interface.
 
 ![Scatter Plot Example](https://github.com/user-attachments/assets/5cd441c8-7576-4763-8147-207acb4d804d)
@@ -201,9 +199,64 @@ chart.render()
 ```
 
 In this example, a density curve is layered on top of a histogram,
-allowing both distribution and frequency to be visualized together.
+allowing both distribution and frequency to be visualised together.
 
 ![Overlay Example](https://github.com/user-attachments/assets/e3e094ee-5f68-4e99-bc38-ef487a6df6dc)
+
+---
+
+### Basemap
+
+Chartly also supports geographic visualisations with basemaps, making
+it possible to overlay contour data on map projections using the same
+simplified plotting interface.
+
+```python
+"""Simple Basemap Example"""
+
+import chartly
+import numpy as np
+
+super_axes_labels = {
+    "super_title": "Simple Usage Of Basemap Example",
+    "share_axes": False,
+}
+
+plot = chartly.Chart(super_axes_labels)
+
+nlats, nlons = 73, 145
+delta = 2.0 * np.pi / (nlons - 1)
+lats = 0.5 * np.pi - delta * np.indices((nlats, nlons))[0, :, :]
+lons = delta * np.indices((nlats, nlons))[1, :, :]
+wave = 0.75 * (np.sin(2.0 * lats) ** 8 * np.cos(4.0 * lons))
+mean = 0.5 * np.cos(2.0 * lats) * ((np.sin(2.0 * lats)) ** 2 + 2.0)
+z = wave + mean
+
+plot.add_basemap(
+    lon=lons * 180.0 / np.pi,
+    lat=lats * 180.0 / np.pi,
+    values=z,
+    customs={
+        "proj": "eck4",
+        "lon_0": 0,
+        "draw_countries": True,
+        "draw_parallels": True,
+        "draw_meridians": True,
+        "mask": z < 0,
+        "contour": True,
+        "hatch": True,
+        "hatch_customs": {"type": "mask"},
+    },
+)
+
+plot.render()
+```
+
+This example demonstrates how Chartly can plot contour data on a global
+map projection while keeping the user-facing interface minimal and
+readable.
+
+![Basemap Example](https://github.com/user-attachments/assets/dcd003f0-b5d6-42b6-a5e5-0386357adef6)
 
 ---
 
