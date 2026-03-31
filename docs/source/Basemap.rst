@@ -16,14 +16,14 @@ The following customization options can be passed through the ``customs``
 dictionary when creating a basemap plot:
 
 - ``proj`` (str): Map projection type (e.g., "eck4")
-- ``lon_0`` (int): Central longitude of the projection
+- ``lon_0`` (int): Central longitude used during the basemap projection step
 - ``draw_countries`` (bool): Draw country borders
 - ``draw_parallels`` (bool): Draw latitude lines
 - ``draw_meridians`` (bool): Draw longitude lines
-- ``mask`` (array): Boolean mask applied to values
+- ``mask`` (array-like of bool): Boolean mask used to control hatched regions; required when ``hatch`` is enabled and ``hatch_customs.get("type") == "mask"``.
 - ``contour`` (bool): Enable contour plotting
-- ``hatch`` (bool): Apply hatching to masked regions
-- ``hatch_customs`` (dict): Customisation for hatching
+- ``hatch`` (bool): Enable hatching; when ``hatch_customs["type"] == "mask"``, hatched regions are determined by ``mask``.
+- ``hatch_customs`` (dict): Customisation options for hatching (for example, ``{"type": "mask"}``).
 
 .. code-block:: python
 
@@ -76,7 +76,7 @@ onto a global map. Masking and hatching are applied to highlight
 specific regions of the dataset, improving the visual distinction of
 key areas.
 
-.. image:: https://github.com/user-attachments/assets/dcd003f0-b5d6-42b6-a5e5-0386357adef6
+.. image:: _static/basemap_plot_example.png
     :alt: Basemap Plot Example
     :align: center
     :height: 500px

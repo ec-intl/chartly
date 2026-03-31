@@ -57,7 +57,7 @@ The Chartly package currently supports the following scientific plots:
 Chartly allows users to build plots by first creating a main figure and
 then adding subplots to the figure. To initialize a main figure, users
 can create a ``Chart`` instance and optionally pass a dictionary to
-customise the figure. The dictionary supports the following keys:
+customize the figure. The dictionary supports the following keys:
 
 - ``super_title`` (str): Title of the main figure
 - ``super_xlabel`` (str): X-axis label
@@ -141,7 +141,7 @@ longitude, latitude, and value grids.
       },
    )
 
-Users can also customise subplot axes.
+Users can also customize subplot axes.
 
 - Axes can be scaled (e.g., linear → log)
 - The base of the log scale can be changed
@@ -155,7 +155,7 @@ Users can also customise subplot axes.
    x = np.linspace(0, 1, num=100)
    y = list(map(exp_func, x))
 
-   # 10. Add customised subplot
+   # 10. Add customized subplot
    plot.add_subplot(
        "line_plot",
        y,
@@ -178,7 +178,7 @@ To save the figure, use the ``save()`` method.
    plot.fname = "my_plot"
    plot.save()
 
-.. image:: https://github.com/user-attachments/assets/972c34c0-daec-42b5-adcd-a6798ae5ecbd
+.. image:: _static/simple_usage_example.png
     :alt: SimpleUsageOfChartlyExample
     :align: center
     :height: 500px
