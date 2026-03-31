@@ -23,7 +23,7 @@ dictionary when creating a basemap plot:
 - ``mask`` (array-like of bool): Boolean mask used to control hatched regions; required when ``hatch`` is enabled and ``hatch_customs.get("type") == "mask"``.
 - ``contour`` (bool): Enable contour plotting
 - ``hatch`` (bool): Enable hatching; when ``hatch_customs["type"] == "mask"``, hatched regions are determined by ``mask``.
-- ``hatch_customs`` (dict): Customisation options for hatching (for example, ``{"type": "mask"}``).
+- ``hatch_customs`` (dict): Customization options for hatching (for example, ``{"type": "mask"}``).
 
 .. code-block:: python
 

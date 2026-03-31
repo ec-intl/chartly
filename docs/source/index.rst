@@ -20,10 +20,10 @@ Requirements
 
 The chartly package requires the following packages:
 
-- `matplotlib` >= 3.9.1
-- `numpy` >= 1.26.4
+- `matplotlib` >= 3.8.4
+- `numpy` >= 2.2.6
 - `scipy` >= 1.14.0
-- `seaborn` >= 0.11.0
+- `seaborn` >= 0.13.2
 
 For geographic visualisation using basemaps, the following additional
 dependency is required:
