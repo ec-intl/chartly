@@ -12,120 +12,256 @@
 ![GitHub stars](https://img.shields.io/github/stars/ec-intl/chartly)
 ![GitHub watchers](https://img.shields.io/github/watchers/ec-intl/chartly)
 
-`chartly` is a simple plotting tool designed to help users create scientific plots with ease. Whether you want to test a distribution for normality or to plot contours onto a map of the globe, chartly can help you achieve your scientific plot with minimal effort. Chartly also allows users to plot multiple overlays and subplots onto the same figure.
+`chartly` is a lightweight scientific plotting library designed to
+simplify the process of building visualisations. It provides a clean and
+intuitive interface for generating statistical plots, geographic
+visualisations, overlays, and multi-plot figures without requiring complex
+setup or boilerplate code.
+
+Whether you are exploring distributions, comparing datasets, visualising
+geographic data, or building composite visualisations, Chartly enables you
+to move from data to insight with minimal effort.
+
+Chartly provides a small set of high-level methods that simplify the
+plotting workflow:
+
+- `add_subplot(...)` -> create a new subplot
+- `add_subplots(...)` -> create multiple subplots at once
+- `add_overlay(...)` -> add additional plots to an existing subplot
+- `add_basemap(...)` -> create geographic visualisations using map projections
+- `render()` -> display the final figure
 
 ## Project Status
 
 Here's the current status of our workflows:
 
-| Workflow                | Status |
-|-------------------------|--------|
-| Testing Suite  | [![Continuous-Integration](https://github.com/ec-intl/chartly/actions/workflows/ci.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/ci.yml) |
-| Deployment Suite | [![Continuous-Deployment](https://github.com/ec-intl/chartly/actions/workflows/cd.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/cd.yml)|
-| Sphinx Documentation           | [![Sphinx-docs](https://github.com/ec-intl/chartly/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/docs.yml) |
-| Guard Main Branch       | [![Guard Main Branch](https://github.com/ec-intl/chartly/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/guard.yml) |
+<!-- markdownlint-disable MD013 -->
+| Workflow                | Status                                                                                                                                                                     |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Testing Suite           | [![Continuous-Integration](https://github.com/ec-intl/chartly/actions/workflows/ci.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/ci.yml)            |
+| Deployment Suite        | [![Continuous-Deployment](https://github.com/ec-intl/chartly/actions/workflows/cd.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/cd.yml)             |
+| Sphinx Documentation    | [![Sphinx-docs](https://github.com/ec-intl/chartly/actions/workflows/docs.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/docs.yml)                   |
+| Guard Main Branch       | [![Guard Main Branch](https://github.com/ec-intl/chartly/actions/workflows/guard.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/guard.yml)           |
 | Code Quality Checker    | [![Lint Codebase](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ec-intl/chartly/actions/workflows/super-linter.yml) |
+<!-- markdownlint-disable MD013 -->
 
 ## Components
 
-The chartly's codebase structure is as shown below:
+The Chartly codebase is organised as follows:
 
 ```plaintext
 .
 ├── chartly/
+│   ├── __init__.py
 │   ├── base.py
 │   ├── chartly.py
 │   ├── charts.py
-│   └── utilities.py
+│   ├── utilities.py
 │   └── tests/
-│   │   ├── __init__.py
-│   │   └── test_chartly.py
+│       ├── __init__.py
+│       └── test_chartly.py
 ├── docs/
-│   ├── __init__.py
-│   ├── source/
-|   │   ├── conf.py
-|   │   ├── index.rst
-|   │   ├── Plot.rst
-|   │   └── Multiplots.rst
+│   ├── __init__.py
+│   ├── source/
+│   │   ├── conf.py
+│   │   ├── index.rst
+│   │   ├── Plot.rst
+│   │   ├── Multiplots.rst
+│   │   └── Basemap.rst
 ├── requirements/
-│   ├── testing.txt
+│   ├── testing.txt
 │   ├── staging.txt
 │   └── production.txt
+├── .gitignore
 ├── LICENSE
 ├── MANIFEST.in
 ├── README.md
+├── VERSION
 ├── requirements.txt
-├── setup.py
-└── VERSION
+└── setup.py
 ```
 
 ## Installation
 
-To install `chartly`, run this command in your command line:
+Install Chartly directly from PyPI:
 
-```shell
+```bash
 pip install chartly
 ```
 
-## Example
+## Examples
 
-Scenario: After collecting data from a sample, an investigator wants to visualize the spread of his data, and also determine
-whether the sample data fits a normal distribution.
+The following examples demonstrate how to use Chartly for common
+visualisation tasks, from simple plots to more advanced multi-plot
+configurations.
 
-Here is how Chartly can help the investigator meet his goals.
+---
+
+### Single Plot
+
+The following example generates a scatter plot with custom styling.
 
 ```python
-from chartly import chartly
+"""Scatter Plot of Sample Data"""
+
+import chartly
 import numpy as np
 
-"""Scatter the data"""
+args = {
+    "super_title": "Scatter of the Sample Data",
+    "super_xlabel": "X",
+    "super_ylabel": "Y",
+}
 
-# 1.1 Initialize a figure to plot the scatter plot
-args = {"super_title": "Scatter of the Sample Data", "super_xlabel": "X", "super_ylabel": "Y"}
 chart = chartly.Chart(args)
 
-# 1.2 Define data
 x_range = np.arange(200)
-sample_data =  np.random.randn(200)
+sample_data = np.random.randn(200)
 
-# 1.3 Create Subplot and plot scatter plot
-customs = {"color": "royalblue", "size": 50, "marker": "o"}
-data = [x_range, sample_data]
+chart.add_subplot(
+    "scatter",
+    [x_range, sample_data],
+    customs={"color": "royalblue", "size": 50, "marker": "o"},
+)
 
-chart.new_subplot({"plot": "scatter", "data": data, "customs": customs})
-
-# 1.4 Display the figure
-chart()
+chart.render()
 ```
 
-![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_scatter_eg.jpg)
+This visualisation highlights how Chartly supports customisation while
+maintaining a simple interface.
 
+![Scatter Plot Example](https://github.com/user-attachments/assets/5cd441c8-7576-4763-8147-207acb4d804d)
+
+---
+
+### Multiple Subplots
+
+Chartly simplifies the process of generating multiple related plots
+within a single figure.
 
 ```python
-"""Investigate the Distribution of the data using Chartly."""
+"""Distribution Analysis Using Multiple Subplots"""
 
-# 2.1 Define main figure labels
-args = {"super_title": "Investigating a Dataset's Distribution", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+import chartly
+import numpy as np
 
-# 2.2 initialize a new figure
+args = {
+    "super_title": "Distribution Analysis",
+    "super_xlabel": "X",
+    "super_ylabel": "Y",
+    "share_axes": False,
+}
+
 chart = chartly.Chart(args)
 
-# 2.3 Determine the distribution of the sample data using a dot plot, probability plot and a normal cdf plot.
-plots = ["probability_plot", "dotplot", "normal_cdf"]
+data = np.random.randn(200)
 
-for plot in plots:
-    chart.new_subplot({"plot": plot, "data": sample_data, "axes_labels": {"title": plot}})
+chart.add_subplots(
+    ["probability_plot", "dotplot", "normal_cdf"],
+    data=data,
+)
 
-# 2.4 Display the figure
-chart()
+chart.render()
 ```
 
-![Example Output](https://chartly.s3.amazonaws.com/static/img/readme_eg.jpg)
+This example produces multiple statistical views of the same dataset
+without requiring loops or manual payload construction.
 
+![Multiple Subplots Example](https://github.com/user-attachments/assets/8622b05d-0d67-4640-8c24-eb36f64b4318)
 
-From the normal probability plot, we see that the line of best fit produced fits the data i.e. most of the points lie on or very close to the line. This suggests that the data has a normal distribution.
-This is supported by the dot plot, where the plot's shape resembles the bell curve shape distincitive to the normal distribution, and the normal CDF plot, where the CDF of the data falls very closely to the CDF we expect of a standard normal distribution.
+---
 
-However, if we look closely, we see that the points on the negative end of the plot are very light, suggesting that the data is negatively skewed. This is confirmed by the density plot, where we see that the more positive end of the distribution is heavier that its more negative end.
+### Overlay Example
 
-Given this, the investigator can conclude that the sample has a negatively skewed normal distribution, with a mean of 0.03 and a standard deviation of 0.96.
+Chartly also supports overlaying multiple plots within the same subplot
+for richer analysis.
+
+```python
+"""Overlaying Density on a Histogram"""
+
+import chartly
+import numpy as np
+
+args = {
+    "super_title": "Overlay Example",
+    "super_xlabel": "X",
+    "super_ylabel": "Y",
+}
+
+chart = chartly.Chart(args)
+
+data = np.random.randn(1000)
+
+chart.add_subplot("histogram", data)
+chart.add_overlay("density", data)
+
+chart.render()
+```
+
+In this example, a density curve is layered on top of a histogram,
+allowing both distribution and frequency to be visualised together.
+
+![Overlay Example](https://github.com/user-attachments/assets/e3e094ee-5f68-4e99-bc38-ef487a6df6dc)
+
+---
+
+### Basemap
+
+Chartly also supports geographic visualisations with basemaps, making
+it possible to overlay contour data on map projections using the same
+simplified plotting interface.
+
+```python
+"""Simple Basemap Example"""
+
+import chartly
+import numpy as np
+
+super_axes_labels = {
+    "super_title": "Simple Usage Of Basemap Example",
+    "share_axes": False,
+}
+
+plot = chartly.Chart(super_axes_labels)
+
+nlats, nlons = 73, 145
+delta = 2.0 * np.pi / (nlons - 1)
+lats = 0.5 * np.pi - delta * np.indices((nlats, nlons))[0, :, :]
+lons = delta * np.indices((nlats, nlons))[1, :, :]
+wave = 0.75 * (np.sin(2.0 * lats) ** 8 * np.cos(4.0 * lons))
+mean = 0.5 * np.cos(2.0 * lats) * ((np.sin(2.0 * lats)) ** 2 + 2.0)
+z = wave + mean
+
+plot.add_basemap(
+    lon=lons * 180.0 / np.pi,
+    lat=lats * 180.0 / np.pi,
+    values=z,
+    customs={
+        "proj": "eck4",
+        "lon_0": 0,
+        "draw_countries": True,
+        "draw_parallels": True,
+        "draw_meridians": True,
+        "mask": z < 0,
+        "contour": True,
+        "hatch": True,
+        "hatch_customs": {"type": "mask"},
+    },
+)
+
+plot.render()
+```
+
+This example demonstrates how Chartly can plot contour data on a global
+map projection while keeping the user-facing interface minimal and
+readable.
+
+![Basemap Example](https://github.com/user-attachments/assets/dcd003f0-b5d6-42b6-a5e5-0386357adef6)
+
+---
+
+## Documentation
+
+Full documentation is available via Sphinx:
+
+[https://ec-intl.github.io/chartly/](https://ec-intl.github.io/chartly/)
