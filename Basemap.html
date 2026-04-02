@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Basemap Plot with Chartly &#8212; chartly 0.0.4 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/cloud.css?v=f9ae72be" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script src="_static/documentation_options.js?v=8c5712d9"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+
+    
+    
+     
+        <script src="_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Multiple Plot Charts with Chartly Examples" href="Multiplots.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Multiplots.html" title="Multiple Plot Charts with Chartly Examples"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">chartly 0.0.4 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Basemap Plot with Chartly</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="basemap-plot-with-chartly">
+<h1>Basemap Plot with Chartly<a class="headerlink" href="#basemap-plot-with-chartly" title="Link to this heading">¶</a></h1>
+<p>Chartly supports geographic visualisation through basemap plotting
+using the <code class="docutils literal notranslate"><span class="pre">add_basemap(...)</span></code> method. Users can display projected
+contour data on a world map while keeping the plotting interface
+simple and consistent with the rest of the package.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p>The example below generates contour data, projects it onto a basemap,
+and visualises the result using Chartly’s high-level interface.</p>
+<p>The following customization options can be passed through the <code class="docutils literal notranslate"><span class="pre">customs</span></code>
+dictionary when creating a basemap plot:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">proj</span></code> (str): Map projection type (e.g., “eck4”)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lon_0</span></code> (int): Central longitude used during the basemap projection step</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draw_countries</span></code> (bool): Draw country borders</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draw_parallels</span></code> (bool): Draw latitude lines</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draw_meridians</span></code> (bool): Draw longitude lines</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mask</span></code> (array-like of bool): Boolean mask used to control hatched regions; required when <code class="docutils literal notranslate"><span class="pre">hatch</span></code> is enabled and <code class="docutils literal notranslate"><span class="pre">hatch_customs.get(&quot;type&quot;)</span> <span class="pre">==</span> <span class="pre">&quot;mask&quot;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contour</span></code> (bool): Enable contour plotting</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hatch</span></code> (bool): Enable hatching; when <code class="docutils literal notranslate"><span class="pre">hatch_customs[&quot;type&quot;]</span> <span class="pre">==</span> <span class="pre">&quot;mask&quot;</span></code>, hatched regions are determined by <code class="docutils literal notranslate"><span class="pre">mask</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hatch_customs</span></code> (dict): Customization options for hatching (for example, <code class="docutils literal notranslate"><span class="pre">{&quot;type&quot;:</span> <span class="pre">&quot;mask&quot;}</span></code>).</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chartly</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">super_axes_labels</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Simple Usage Of Basemap Example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">super_axes_labels</span><span class="p">)</span>
+
+<span class="c1"># Define grid size (latitude x longitude)</span>
+<span class="n">nlats</span><span class="p">,</span> <span class="n">nlons</span> <span class="o">=</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">145</span>
+
+<span class="c1"># Create latitude and longitude grids</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="p">(</span><span class="n">nlons</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">lats</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="n">nlats</span><span class="p">,</span> <span class="n">nlons</span><span class="p">))[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+<span class="n">lons</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="n">nlats</span><span class="p">,</span> <span class="n">nlons</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+
+<span class="c1"># Generate sample data over the grid</span>
+<span class="n">wave</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">lats</span><span class="p">)</span> <span class="o">**</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">lons</span><span class="p">))</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">lats</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">lats</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span>
+
+<span class="c1"># Combine into final dataset for plotting</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">wave</span> <span class="o">+</span> <span class="n">mean</span>
+
+<span class="n">plot</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span>
+    <span class="n">lon</span><span class="o">=</span><span class="n">lons</span> <span class="o">*</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+    <span class="n">lat</span><span class="o">=</span><span class="n">lats</span> <span class="o">*</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="n">z</span><span class="p">,</span>
+    <span class="n">customs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;proj&quot;</span><span class="p">:</span> <span class="s2">&quot;eck4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lon_0&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;draw_countries&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;draw_parallels&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;draw_meridians&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;mask&quot;</span><span class="p">:</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;contour&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;hatch&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;hatch_customs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mask&quot;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">plot</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This example uses the Eckert IV projection and overlays contour data
+onto a global map. Masking and hatching are applied to highlight
+specific regions of the dataset, improving the visual distinction of
+key areas.</p>
+<a class="reference internal image-reference" href="_images/basemap_plot_example.png"><img alt="Basemap Plot Example" class="align-center" src="_images/basemap_plot_example.png" style="height: 500px;" />
+</a>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Basemap Plot with Chartly</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div class="sphinxprev">
+    <h4>Previous page</h4>
+    <p class="topless"><a href="Multiplots.html"
+                          title="Previous page">&larr; Multiple Plot Charts with Chartly Examples</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Basemap.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Multiplots.html" title="Multiple Plot Charts with Chartly Examples"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">chartly 0.0.4 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Basemap Plot with Chartly</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Elizabeth Consulting International Inc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

@@ -9,22 +9,26 @@ Chartly
 Overview
 --------
 
-**Chartly** is a simple plotting tool designed to help users create scientific plots with ease. Whether you want to test a distribution for normality or to plot contours onto a map of the globe, chartly can help you achieve your scientific plot with minimal effort. Chartly also allows users to plot multiple overlays and subplots onto the same figure.
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+**Chartly** is a simple plotting tool designed to help users create
+scientific plots with ease. Whether you want to test a distribution for
+normality or plot contours using a map of the globe, Chartly enables you
+to generate visualisations with minimal effort. Chartly also allows users
+to create multiple overlays and subplots on the same figure.
 
 Requirements
 ------------
 
 The chartly package requires the following packages:
 
-- `matplotlib` >= 3.9.1
-- `numpy` >= 1.26.4
+- `matplotlib` >= 3.8.4
+- `numpy` >= 2.2.6
 - `scipy` >= 1.14.0
-- `seaborn` >= 0.11.0
+- `seaborn` >= 0.13.2
+
+For geographic visualisation using basemaps, the following additional
+dependency is required:
+
+- `basemap` >= 2.0.0
 
 Installation
 ------------
@@ -38,7 +42,7 @@ To install the chartly package, run the following command:
 Usage
 -----
 
-The Chartly package currently has eight (8) available scientific plots that can be created, namely:
+The Chartly package currently supports the following scientific plots:
 
 - Line Plot
 - Histogram
@@ -48,13 +52,17 @@ The Chartly package currently has eight (8) available scientific plots that can 
 - Normal Cumulative Distribution Function Plot
 - Density Plot
 - Box Plot
+- Basemap Plot
 
-Chartly allows users to build plots by first creating a main figure and then adding subplots to the figure. To initialize a main figure, users can create a `Chart` instance. Users can also label and customize the main figure my passing an optional dictionary. The dictionary should contain the following keys:
+Chartly allows users to build plots by first creating a main figure and
+then adding subplots to the figure. To initialize a main figure, users
+can create a ``Chart`` instance and optionally pass a dictionary to
+customize the figure. The dictionary supports the following keys:
 
-- `super_title` (str): The title of the main figure.
-- `super_xlabel` (str): The x-axis label of the main figure.
-- `super_ylabel` (str): The y-axis label of the main figure.
-- `share_axes` (bool): Whether to share the y-axes across all subplots. Default is True.
+- ``super_title`` (str): Title of the main figure
+- ``super_xlabel`` (str): X-axis label
+- ``super_ylabel`` (str): Y-axis label
+- ``share_axes`` (bool): Share axes across subplots (default: True)
 
 .. code-block:: python
 
@@ -62,124 +70,127 @@ Chartly allows users to build plots by first creating a main figure and then add
    import numpy as np
 
    # 1. Define the main figure labels
-   super_axes_labels = {"super_title": "Usage Of Chartly Example", "super_xlabel": "X", "super_ylabel": "Y", "share_axes": False}
+   super_axes_labels = {
+       "super_title": "Usage Of Chartly Example",
+       "super_xlabel": "X",
+       "super_ylabel": "Y",
+       "share_axes": False,
+   }
 
-   # 2. Initialize a main figure by creating a chart instance
+   # 2. Initialize the chart
    plot = chartly.Chart(super_axes_labels)
 
-
-To create a plot, a user must create a subplot by calling the `new_subplot` method and passing it an optional dictionary of arguments. The dictionary should contain the following keys:
-
-- `data`: The data that will be plotted.
-- `plot`: The type of plot to be created.
-
-Users can also customize and label the plots by including the following keys in the dictionary:
-
-- `axes_labels`: A dictionary containing the labels of the subplot.
-- `customs`: A dictionary containing the customization options of the plot.
-
+To create a plot, users can directly add a subplot with
+``add_subplot(...)``. Additional plots can be added to the same subplot
+with ``add_overlay(...)``.
 
 .. code-block:: python
 
-   # 3. Define Some Data
+   # 3. Define some data
    data = np.random.randn(100)
 
-   # 4. Build the plot dictionary
-   plot_payload = {
-       "plot": "histogram",
-       "data": data,
-   }
+   # 4. Add a subplot
+   plot.add_subplot("histogram", data)
 
-   # 5. Plot the data
-   plot.new_subplot(plot_payload)
-
-
-To overlay a new plot onto the current subplot, a user can call the `overlay` method and pass it a dictionary of arguments, similar to what is shown above: 
-
+To overlay a new plot onto the current subplot, use ``add_overlay(...)``.
 
 .. code-block:: python
 
-   # 6. build the overlay plot dictionary
-   plot_payload = {
-       "plot": "density",
-       "data": data,
-   }
+   # 5. Overlay another plot
+   plot.add_overlay("density", data)
 
-   # 7. Overlay the plot
-   plot.overlay(plot_payload)
-
-
-To add a new subplot, users can call the `new_subplot` method again and pass it a dictionary of arguments.
-
+To add multiple subplots at once, users can call ``add_subplots(...)``.
 
 .. code-block:: python
 
-   # 8. build the plot dictionary
-   plot_payload = {
-       "plot": "boxplot",
-       "data": data,
-   }
+   # 6. Add multiple subplots
+   plot.add_subplots(
+       ["boxplot", "normal_cdf"],
+       data,
+   )
 
-   # 9. Plot data onto new subplot
-   plot.new_subplot(plot_payload)
-
-
-Users can also customize the axes of each subplot. 
-
-- Users can change the scale of the x and y axes from linear to log. They can also change the base of the log scale. If the base is changed, ensure that the subplots are not sharing axes.
-
+To create a basemap plot, users can call ``add_basemap(...)`` and pass
+longitude, latitude, and value grids.
 
 .. code-block:: python
 
-   # 10. Define a random exponential function
+   # 7. Define basemap data
+   nlats, nlons = 73, 145
+   delta = 2.0 * np.pi / (nlons - 1)
+   lats = 0.5 * np.pi - delta * np.indices((nlats, nlons))[0, :, :]
+   lons = delta * np.indices((nlats, nlons))[1, :, :]
+   wave = 0.75 * (np.sin(2.0 * lats) ** 8 * np.cos(4.0 * lons))
+   mean = 0.5 * np.cos(2.0 * lats) * ((np.sin(2.0 * lats)) ** 2 + 2.0)
+   z = wave + mean
+
+   # 8. Add a basemap plot
+   plot.add_basemap(
+      lon=lons * 180.0 / np.pi,
+      lat=lats * 180.0 / np.pi,
+      values=z,
+      customs={
+         "proj": "eck4",
+         "lon_0": 0,
+         "draw_countries": True,
+         "draw_parallels": True,
+         "draw_meridians": True,
+         "mask": z < 0,
+         "contour": True,
+         "hatch": True,
+         "hatch_customs": {"type": "mask"},
+      },
+   )
+
+Users can also customize subplot axes.
+
+- Axes can be scaled (e.g., linear → log)
+- The base of the log scale can be changed
+- Ensure axes are not shared when modifying scales
+
+.. code-block:: python
+
+   # 9. Define a custom function
    exp_func = lambda x: np.e ** (-500 * x + 2)
 
    x = np.linspace(0, 1, num=100)
    y = list(map(exp_func, x))
-   
-   # 11. build the plot dictionary
-   plot_payload = {
-       "plot": "line_plot",
-       "data": y,
-       "axes_labels": {"scale": "semilogy", "base": 10, "linelabel": "Semilogy Line"},
-   }
 
-   # 12. Plot exponential function
-   plot.new_subplot(plot_payload)
+   # 10. Add customized subplot
+   plot.add_subplot(
+       "line_plot",
+       y,
+       axes_labels={"scale": "semilogy", "base": 10, "linelabel": "Semilogy Line"},
+   )
 
-
-Finally, the figure can be rendered by calling the `Chart` instance.
-
+Finally, render the figure using ``render()``.
 
 .. code-block:: python
 
-   # 13. Render the main figure
-   plot()
+   # 11. Render the figure
+   plot.render()
 
-To save the figure that was rendered, users can call the `save` method. The default file format is `eps` and the default file name is `chartly_plot`. To change the file format and name, update the plot's properties.
-
+To save the figure, use the ``save()`` method.
 
 .. code-block:: python
 
-   # 14. Save the figure with a different file format and name
+   # 12. Save the figure
    plot.format = "jpg"
    plot.fname = "my_plot"
    plot.save()
 
-.. image:: https://chartly.s3.amazonaws.com/static/img/my_plot.jpg
+.. image:: _static/simple_usage_example.png
     :alt: SimpleUsageOfChartlyExample
     :align: center
     :height: 500px
 
+
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
    Plot
-
-.. toctree::
-   :maxdepth: 2
-
    Multiplots
+   Basemap
 
 
 Indices and tables

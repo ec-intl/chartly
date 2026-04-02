@@ -34,6 +34,7 @@
 
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Basemap Plot with Chartly" href="Basemap.html" />
     <link rel="prev" title="Single Plot Charts with Chartly Examples" href="Plot.html" /> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
@@ -45,6 +46,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Basemap.html" title="Basemap Plot with Chartly"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
         <li class="right" >
           <a href="Plot.html" title="Single Plot Charts with Chartly Examples"
              accesskey="P">previous</a> &nbsp; &nbsp;</li>
@@ -63,42 +67,40 @@
             
   <section id="multiple-plot-charts-with-chartly-examples">
 <h1>Multiple Plot Charts with Chartly Examples<a class="headerlink" href="#multiple-plot-charts-with-chartly-examples" title="Link to this heading">¶</a></h1>
-<p>Chartly allows users to create multiple plots on the same figure using the <cite>overlay</cite> and <cite>new_subplot</cite> methods. The <cite>overlay</cite> method allows users to overlay multiple plots on a single subplot. The <cite>new_subplot</cite> method allows users to create a new subplot on the figure.</p>
+<p>Chartly allows users to create multiple plots on the same figure using a
+simplified interface with <code class="docutils literal notranslate"><span class="pre">add_subplot(...)</span></code>, <code class="docutils literal notranslate"><span class="pre">add_subplots(...)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">add_overlay(...)</span></code>, and <code class="docutils literal notranslate"><span class="pre">render()</span></code>. The <code class="docutils literal notranslate"><span class="pre">add_subplot(...)</span></code> method
+allows users to create a new subplot on the figure. The
+<code class="docutils literal notranslate"><span class="pre">add_subplots(...)</span></code> method allows users to create multiple subplots in a
+single call. The <code class="docutils literal notranslate"><span class="pre">add_overlay(...)</span></code> method allows users to overlay
+additional plots on the current subplot. The <code class="docutils literal notranslate"><span class="pre">render()</span></code> method is used to
+display the final figure once all plots have been added.</p>
 <section id="overlay-plots">
 <h2>Overlay Plots<a class="headerlink" href="#overlay-plots" title="Link to this heading">¶</a></h2>
-<p>The <cite>overlay</cite> method allows users to overlay multiple plots on a single subplot. The overlay method requires a dictionary of arguments to be passed to the method. The dictionary should contain the following</p>
-<ul class="simple">
-<li><p><cite>data</cite>: The data that will be plotted.</p></li>
-<li><p><cite>plot</cite>: The type of plot to be created.</p></li>
-</ul>
-<p>Users can also customize and label the plots by including the following keys in the dictionary:</p>
-<ul class="simple">
-<li><p><cite>axes_labels</cite>: A dictionary containing the labels of the subplot.</p></li>
-<li><p><cite>customs</cite>: A dictionary containing the customization options of the plot.</p></li>
-</ul>
+<p>To overlay multiple plots on a single subplot, first add the subplot with
+<code class="docutils literal notranslate"><span class="pre">add_subplot(...)</span></code> and then add additional plots to that same subplot with
+<code class="docutils literal notranslate"><span class="pre">add_overlay(...)</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chartly</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># define main figure labels</span>
-<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Overlay Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Overlay Example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="n">multi</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="c1"># Define Some Data</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
-<span class="c1"># Create a subplot</span>
-<span class="n">multi</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
+<span class="c1"># Add a subplot and overlay a second plot</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">add_overlay</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
-<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">]</span>
-
-<span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
-    <span class="c1"># set up overlay payload</span>
-    <span class="n">overlay_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="p">{}}</span>
-
-    <span class="c1"># Overlay a histogram</span>
-    <span class="n">multi</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">overlay_payload</span><span class="p">)</span>
-
-<span class="n">multi</span><span class="p">()</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="https://chartly.s3.amazonaws.com/static/img/overlay_hetero_eg.jpg"><img alt="OverlayHeteroExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/img/overlay_hetero_eg.jpg" style="height: 500px;" />
@@ -106,31 +108,50 @@
 </section>
 <section id="subplots">
 <h2>Subplots<a class="headerlink" href="#subplots" title="Link to this heading">¶</a></h2>
-<p>The <cite>new_subplot</cite> method allows users to create a new subplot on the figure. The new_subplot method requires no arguments to be passed to the method. When a user is finished creating subplots, they can call the Charts instance to render the figure.</p>
+<p>To create multiple subplots on the same figure, add each subplot directly
+with <code class="docutils literal notranslate"><span class="pre">add_subplot(...)</span></code> and render the figure with <code class="docutils literal notranslate"><span class="pre">render()</span></code> once all
+subplots have been added.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chartly</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># define main figure labels</span>
-<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Subplots Example&quot;</span><span class="p">,</span> <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;super_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Subplots Example&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;super_ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;share_axes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="n">multi</span> <span class="o">=</span> <span class="n">chartly</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="c1"># Define Some Data</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 
-<span class="c1"># Define Plots</span>
-<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;probability_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;normal_cdf&quot;</span><span class="p">]</span>
+<span class="c1"># Define plots</span>
+<span class="n">plots</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;probability_plot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;line_plot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;normal_cdf&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
-<span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
-    <span class="c1"># Create a subplot</span>
-    <span class="n">multi</span><span class="o">.</span><span class="n">new_subplot</span><span class="p">()</span>
-    <span class="n">axes_labels</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">plot</span><span class="p">}</span>
+<span class="n">axes_labels_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;histogram&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;prob_plot&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;gen_plot&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;norm_cdf&quot;</span><span class="p">},</span>
+<span class="p">]</span>
 
-    <span class="n">overlay_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;plot&quot;</span><span class="p">:</span> <span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;axes_labels&quot;</span><span class="p">:</span> <span class="n">axes_labels</span><span class="p">}</span>
-    <span class="n">multi</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">overlay_payload</span><span class="p">)</span>
+<span class="c1"># Add all subplots in one call</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">add_subplots</span><span class="p">(</span>
+    <span class="n">plots</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">axes_labels_list</span><span class="o">=</span><span class="n">axes_labels_list</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">multi</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">overlay_payload</span><span class="p">)</span>
-
-<span class="n">multi</span><span class="p">()</span>
+<span class="n">multi</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="https://chartly.s3.amazonaws.com/static/img/subplots_eg.jpg"><img alt="SubplotsExample" class="align-center" src="https://chartly.s3.amazonaws.com/static/img/subplots_eg.jpg" style="height: 500px;" />
@@ -159,6 +180,11 @@
     <h4>Previous page</h4>
     <p class="topless"><a href="Plot.html"
                           title="Previous page">&larr; Single Plot Charts with Chartly Examples</a></p>
+  </div>
+  <div class="sphinxnext">
+    <h4>Next page</h4>
+    <p class="topless"><a href="Basemap.html"
+                          title="Next page">&rarr; Basemap Plot with Chartly</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -206,6 +232,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="Basemap.html" title="Basemap Plot with Chartly"
+             >next</a> &nbsp; &nbsp;</li>
         <li class="right" >
           <a href="Plot.html" title="Single Plot Charts with Chartly Examples"
              >previous</a> &nbsp; &nbsp;</li>
