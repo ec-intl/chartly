@@ -19,7 +19,7 @@
             echo "🎉 A $EVENT triggered a ${{ runner.os }} job."
             echo "🔎 The branch is $BRANCH in $REPO."
         - name: Check out repository code
-          uses: actions/checkout@v4
+          uses: actions/checkout@v6
         - name: Guard the main branch
           if: ${{ env.HEAD != 'staging' && env.HEAD != ''}}
           run: |
