@@ -41,7 +41,7 @@ jobs:
           pytest -v --cov ./chartly/tests/
 
       - name: Build and upload to Test PyPI
-        if: >
+        if: >-
           ${{ vars.STAGE_TO_PYPI == 'yes'
               && contains(env.BRANCH, 'staging')
               && env.EVENT == 'merge_group' }}
