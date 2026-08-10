@@ -8,5 +8,5 @@ scipy==1.17.1
 seaborn==0.13.2
 sphinx==7.3.7
 sphinx-autoapi==3.1.2
-setuptools==82.0.1
+setuptools==84.0.0
 twine==6.2.0
