@@ -1,1 +1,2 @@
-- #2: Set Up Repository    (by @Azendae-Popo)
+- dependency: Update setuptools and align pytest environments.
+- release: Install package upload tooling and validate distributions.
