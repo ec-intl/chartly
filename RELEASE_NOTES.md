@@ -4,7 +4,10 @@ Prepared from staging for human review on 2026-11-19. No tag, release, or deploy
 
 ## Included change record
 
-The accumulated release log is stale. This candidate preserves current main history and adds the staged setuptools/pytest updates and packaging repairs. Reconcile the release log before publication.
+- dependency: Update setuptools and align pytest environments.
+- release: Install package upload tooling and validate distributions.
+
+These candidate notes are prepared on the release branch for review before promotion. The prior log is preserved in release-log-archive-2026-11-19.txt.
 
 ## Net change inventory
 
