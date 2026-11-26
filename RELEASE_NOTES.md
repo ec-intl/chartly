@@ -24,7 +24,7 @@ Prepared from staging for human review on 2026-11-19. No tag, release, or deploy
 - dependency: Update setuptools and align pytest environments.
 - release: Install package upload tooling and validate distributions.
 
-These candidate notes are prepared on the release branch for review before promotion. The prior log is preserved in release-log-archive-2026-11-19.txt.
+These candidate notes are prepared on the release branch for review before promotion. The prior log is preserved in the [release-branch archive](https://github.com/ec-intl/chartly/blob/0ff0003721deec13dce6df28e592256d03cf3ce6/release-log-archive-2026-11-19.txt).
 
 ## Net change inventory
 
