@@ -4,6 +4,10 @@ name: Docs
 on:
   pull_request:
     types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
       - auto_merge_enabled
     branches:
       - staging
